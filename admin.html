@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Avera Atelier — Ultimate Admin Panel</title>
+<title>Avera Atelier — Enterprise Admin</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600&family=Nunito+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -28,7 +28,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Nunito Sans', sa
 .nav-item:hover, .nav-item.active { background: rgba(255,255,255,0.05); color: #fff; border-left: 3px solid var(--accent); }
 
 /* MAIN */
-.main-content { flex: 1; margin-left: var(--sidebar-w); padding: 2rem; }
+.main-content { flex: 1; margin-left: var(--sidebar-w); padding: 2rem; width: calc(100% - var(--sidebar-w));}
 .header-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; background: var(--white); padding: 1rem 2rem; border-radius: var(--radius); box-shadow: var(--shadow); }
 .page { display: none; animation: fadeIn 0.4s ease; }
 .page.active { display: block; }
@@ -56,15 +56,12 @@ th { text-align: left; padding: 1rem; font-size: 0.7rem; text-transform: upperca
 td { padding: 1rem; border-bottom: 1px solid var(--bg); vertical-align: middle; }
 .data-img { width: 45px; height: 60px; object-fit: cover; border-radius: 4px; background: var(--bg); }
 .badge { padding: 4px 8px; border-radius: 20px; font-size: 0.65rem; font-weight: bold; background: var(--bg); color: var(--primary); }
-.badge.green { background: #dcfce7; color: #166534; }
-.badge.red { background: #fee2e2; color: #991b1b; }
 
-/* FORMS & TABS */
+/* FORMS */
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
 .form-group { margin-bottom: 1.2rem; }
 .label { display: block; font-size: 0.75rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--muted); text-transform: uppercase; }
 .input, .textarea, .select { width: 100%; padding: 0.8rem; border: 1.5px solid var(--border); border-radius: 6px; outline: none; font-family: var(--body); }
-.input:focus { border-color: var(--accent); }
 
 .form-tabs { display: flex; gap: 5px; margin-bottom: 1rem; border-bottom: 2px solid var(--border); }
 .form-tab { padding: 0.5rem 1.5rem; background: none; border: none; cursor: pointer; font-weight: 600; color: var(--muted); border-bottom: 2px solid transparent; margin-bottom: -2px; }
@@ -80,7 +77,7 @@ td { padding: 1rem; border-bottom: 1px solid var(--bg); vertical-align: middle; 
 .preview-box img { width: 100%; height: 100%; object-fit: cover; }
 .remove-img { position: absolute; top: 2px; right: 2px; background: rgba(220,38,38,0.9); color: #fff; border: none; border-radius: 50%; width: 20px; height: 20px; cursor: pointer; }
 
-/* MODAL */
+/* MODALS */
 .modal-wrap { position: fixed; inset: 0; z-index: 2000; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; }
 .modal-wrap.active { display: flex; }
 .modal-content { background: var(--white); width: 95%; max-width: 850px; max-height: 90vh; overflow-y: auto; border-radius: var(--radius); }
@@ -107,19 +104,15 @@ td { padding: 1rem; border-bottom: 1px solid var(--bg); vertical-align: middle; 
   <nav class="nav-group">
     <div class="nav-label">Əsas</div>
     <button class="nav-item active" onclick="navTo('dashboard', this)">Dashboard</button>
-    
     <div class="nav-label">Kataloq</div>
     <button class="nav-item" onclick="navTo('products', this)">Məhsullar</button>
     <button class="nav-item" onclick="navTo('collections', this)">Kolleksiyalar</button>
-    
     <div class="nav-label">Satış & Əlaqə</div>
     <button class="nav-item" onclick="navTo('orders', this)">Sifarişlər</button>
     <button class="nav-item" onclick="navTo('messages', this)">Mesajlar</button>
-
     <div class="nav-label">Sayt (CMS)</div>
     <button class="nav-item" onclick="navTo('cms-hero', this)">Ana Səhifə (Hero)</button>
     <button class="nav-item" onclick="navTo('cms-about', this)">Haqqımızda</button>
-    
     <div class="nav-label">Ayarlar</div>
     <button class="nav-item" onclick="navTo('settings', this)">Sistem & Əlaqə</button>
   </nav>
@@ -133,22 +126,10 @@ td { padding: 1rem; border-bottom: 1px solid var(--bg); vertical-align: middle; 
 
   <div class="page active" id="page-dashboard">
     <div class="stats-grid">
-      <div class="stat-card">
-        <div class="stat-title">Aktiv Məhsullar</div>
-        <div class="stat-val" id="stProd">0</div>
-      </div>
-      <div class="stat-card" style="border-left-color:#3b82f6">
-        <div class="stat-title">Kolleksiyalar</div>
-        <div class="stat-val" id="stColl">0</div>
-      </div>
-      <div class="stat-card" style="border-left-color:#eab308">
-        <div class="stat-title">Gözləyən Sifarişlər</div>
-        <div class="stat-val">0</div>
-      </div>
-      <div class="stat-card" style="border-left-color:#ef4444">
-        <div class="stat-title">Oxunmamış Mesajlar</div>
-        <div class="stat-val">0</div>
-      </div>
+      <div class="stat-card"><div class="stat-title">Məhsullar</div><div class="stat-val" id="stProd">0</div></div>
+      <div class="stat-card" style="border-left-color:#3b82f6"><div class="stat-title">Kolleksiyalar</div><div class="stat-val" id="stColl">0</div></div>
+      <div class="stat-card" style="border-left-color:#eab308"><div class="stat-title">Sifarişlər</div><div class="stat-val">0</div></div>
+      <div class="stat-card" style="border-left-color:#ef4444"><div class="stat-title">Mesajlar</div><div class="stat-val">0</div></div>
     </div>
     <div class="card">
       <div class="card-header"><h3 style="font-family:var(--heading)">Son Əlavə Olunanlar</h3></div>
@@ -177,90 +158,56 @@ td { padding: 1rem; border-bottom: 1px solid var(--bg); vertical-align: middle; 
   </div>
 
   <div class="page" id="page-orders">
-    <div class="card">
-      <div class="card-header"><h3 style="font-family:var(--heading)">Sifarişlər (Saytdan gələnlər)</h3></div>
-      <p style="color:var(--muted); text-align:center; padding: 2rem;">Sifarişlər paneli aktivdir. (Tezliklə sayt üzərindən forma göndərildikdə burada görünəcək).</p>
-    </div>
+    <div class="card"><div class="card-header"><h3 style="font-family:var(--heading)">Sifarişlər</h3></div><p style="text-align:center; padding:2rem;">Tezliklə inteqrasiya olunacaq.</p></div>
   </div>
-
   <div class="page" id="page-messages">
-    <div class="card">
-      <div class="card-header"><h3 style="font-family:var(--heading)">Gələn Mesajlar</h3></div>
-      <p style="color:var(--muted); text-align:center; padding: 2rem;">Mesajlar paneli aktivdir. (Tezliklə kontakt formasından gələn mesajlar burada görünəcək).</p>
-    </div>
+    <div class="card"><div class="card-header"><h3 style="font-family:var(--heading)">Mesajlar</h3></div><p style="text-align:center; padding:2rem;">Tezliklə inteqrasiya olunacaq.</p></div>
   </div>
 
   <div class="page" id="page-cms-hero">
     <div class="card">
-      <div class="form-group">
-        <label class="label">Ana Başlıq (Hero Title)</label>
-        <input class="input" id="heroTitle" placeholder="Məs: Avera Atelier">
-      </div>
-      <div class="form-group">
-        <label class="label">Alt Başlıq (Hero Subtitle)</label>
-        <input class="input" id="heroSub" placeholder="Məs: Fashion & Style">
-      </div>
+      <div class="form-group"><label class="label">Ana Başlıq (Hero Title)</label><input class="input" id="heroTitle"></div>
+      <div class="form-group"><label class="label">Alt Başlıq (Hero Subtitle)</label><input class="input" id="heroSub"></div>
       <button class="btn btn-primary" onclick="updateCMS()">Dizaynı Yenilə</button>
     </div>
   </div>
-
   <div class="page" id="page-cms-about">
     <div class="card">
-      <div class="form-group">
-        <label class="label">Bölmə Başlığı</label>
-        <input class="input" id="aboutTitle" placeholder="Məs: Zamansız Zəriflik">
-      </div>
-      <div class="form-group">
-        <label class="label">Geniş Mətn (Haqqımızda)</label>
-        <textarea class="textarea" id="aboutText" style="height:250px;"></textarea>
-      </div>
-      <button class="btn btn-primary" onclick="updateCMS()">Məlumatları Saxla</button>
+      <div class="form-group"><label class="label">Bölmə Başlığı</label><input class="input" id="aboutTitle"></div>
+      <div class="form-group"><label class="label">Geniş Mətn</label><textarea class="textarea" id="aboutText" style="height:150px;"></textarea></div>
+      <button class="btn btn-primary" onclick="updateCMS()">Yadda Saxla</button>
     </div>
   </div>
 
   <div class="page" id="page-settings">
     <div class="card">
       <div class="form-grid">
-        <div class="form-group">
-          <label class="label">WhatsApp Nömrəsi (Link üçün)</label>
-          <input class="input" id="setWa" placeholder="Məs: 994551234567">
-        </div>
-        <div class="form-group">
-          <label class="label">Instagram Linki</label>
-          <input class="input" id="setInsta">
-        </div>
+        <div class="form-group"><label class="label">WhatsApp Nömrəsi</label><input class="input" id="setWa"></div>
+        <div class="form-group"><label class="label">Admin Şifrəsi</label><input type="password" class="input" id="setPass" placeholder="Yeni şifrə"></div>
       </div>
-      <div class="form-grid">
-        <div class="form-group">
-          <label class="label">Fiziki Ünvan</label>
-          <input class="input" id="setAddress">
-        </div>
-        <div class="form-group">
-          <label class="label">Admin Paneli Şifrəsi</label>
-          <input type="password" class="input" id="setPass" placeholder="Dəyişmək istəmirsinizsə boş qoyun">
-        </div>
-      </div>
-      <button class="btn btn-primary" onclick="saveSettings()">Sistemi Yenilə</button>
+      <button class="btn btn-primary" onclick="saveSettings()">Yenilə</button>
     </div>
   </div>
 </main>
 
 <div class="modal-wrap" id="productModal">
   <div class="modal-content">
-    <div class="modal-header">
-      <h3 id="mTitle" style="font-family:var(--heading)">Məhsul Yarat</h3>
-      <button onclick="closeModal('productModal')" style="background:none; border:none; font-size:1.5rem; cursor:pointer;">&times;</button>
-    </div>
+    <div class="modal-header"><h3 id="mTitle" style="font-family:var(--heading)">Məhsul Yarat</h3><button onclick="closeModal('productModal')" class="btn-outline" style="border:none;font-size:1.5rem;">&times;</button></div>
     <div class="modal-body">
       <input type="hidden" id="editId">
       
       <div class="form-group">
-        <label class="label">Məhsul Şəkilləri</label>
+        <label class="label">Məhsul Şəkilləri (Karusel üçün bir neçə seçin)</label>
         <div class="image-upload-box">
-          <p style="font-weight:600; color:var(--muted)">Şəkilləri seçin və ya bura dartın (Max 5MB)</p>
+          <p>Şəkilləri seçin və ya bura dartın</p>
           <input type="file" multiple accept="image/*" onchange="processUploads(event)">
         </div>
         <div class="preview-grid" id="previewGrid"></div>
+      </div>
+
+      <div class="form-grid">
+        <div class="form-group"><label class="label">Brend / Dizayner</label><input class="input" id="pBrand" placeholder="Məs: CULT GAIA"></div>
+        <div class="form-group"><label class="label">Etiket (Badge)</label><input class="input" id="pTags" placeholder="Məs: TRENDING, NEW SEASON"></div>
       </div>
 
       <div class="form-tabs">
@@ -283,35 +230,17 @@ td { padding: 1rem; border-bottom: 1px solid var(--bg); vertical-align: middle; 
       </div>
 
       <div class="form-grid">
-        <div class="form-group"><label class="label">Satış Qiyməti (₼)</label><input type="number" class="input" id="pPrice"></div>
-        <div class="form-group"><label class="label">Endirimli/Kirayə Qiyməti (₼)</label><input type="number" class="input" id="pSalePrice" placeholder="Kirayə və ya endirim üçün"></div>
+        <div class="form-group"><label class="label">Kirayə Qiyməti (Rent from ₼)</label><input type="number" class="input" id="pRentPrice"></div>
+        <div class="form-group"><label class="label">Orijinal Qiymət (RRP ₼)</label><input type="number" class="input" id="pPrice"></div>
       </div>
 
       <div class="form-grid">
         <div class="form-group">
-          <label class="label">Kateqoriya</label>
-          <select class="select" id="pType">
-            <option value="couture">Couture</option>
-            <option value="rental">Kirayə</option>
-          </select>
+          <label class="label">Kolleksiya</label>
+          <select class="select" id="pColl"></select>
         </div>
-        <div class="form-group">
-          <label class="label">Sayt Kateqoriyası</label>
-          <select class="select" id="pFeat">
-            <option value="">Adi</option>
-            <option value="featured">★ Seçilmiş (Hero)</option>
-            <option value="new">🆕 Yeni Kolleksiya</option>
-            <option value="sale">💰 Endirim</option>
-          </select>
-        </div>
+        <div class="form-group"><label class="label">Ölçülər (Vergüllə ayır: UK 6, UK 8)</label><input class="input" id="pSizes"></div>
       </div>
-
-      <div class="form-grid">
-        <div class="form-group"><label class="label">Ölçülər (vergüllə)</label><input class="input" id="pSizes" placeholder="XS, S, M, L"></div>
-        <div class="form-group"><label class="label">Parça / Material</label><input class="input" id="pFabric" placeholder="Məs: İpək, Atlas"></div>
-      </div>
-      <div class="form-group"><label class="label">Rəng</label><input class="input" id="pColor" placeholder="Məs: Qırmızı, #FF0000"></div>
-
     </div>
     <div class="modal-footer">
       <button class="btn btn-outline" onclick="closeModal('productModal')">Ləğv et</button>
@@ -321,45 +250,20 @@ td { padding: 1rem; border-bottom: 1px solid var(--bg); vertical-align: middle; 
 </div>
 
 <div class="modal-wrap" id="collModal">
-  <div class="modal-content" style="max-width: 600px;">
-    <div class="modal-header">
-      <h3 id="cTitle" style="font-family:var(--heading)">Kolleksiya Yarat</h3>
-      <button onclick="closeModal('collModal')" style="background:none; border:none; font-size:1.5rem; cursor:pointer;">&times;</button>
-    </div>
+  <div class="modal-content" style="max-width:500px;">
+    <div class="modal-header"><h3 id="cTitle" style="font-family:var(--heading)">Kolleksiya Yarat</h3><button onclick="closeModal('collModal')" class="btn-outline" style="border:none;font-size:1.5rem;">&times;</button></div>
     <div class="modal-body">
       <input type="hidden" id="editCollId">
-      
       <div class="form-tabs">
         <button class="form-tab active" onclick="switchCollTab('az', this)">AZ</button>
         <button class="form-tab" onclick="switchCollTab('ru', this)">RU</button>
         <button class="form-tab" onclick="switchCollTab('en', this)">EN</button>
       </div>
-
-      <div class="lang-content-coll active" id="clang-az">
-        <div class="form-group"><label class="label">Kolleksiya Adı (AZ)</label><input class="input" id="cNameAZ"></div>
-        <div class="form-group"><label class="label">Təsvir (AZ)</label><textarea class="textarea" id="cDescAZ"></textarea></div>
-      </div>
-      <div class="lang-content-coll" id="clang-ru">
-        <div class="form-group"><label class="label">Kolleksiya Adı (RU)</label><input class="input" id="cNameRU"></div>
-        <div class="form-group"><label class="label">Təsvir (RU)</label><textarea class="textarea" id="cDescRU"></textarea></div>
-      </div>
-      <div class="lang-content-coll" id="clang-en">
-        <div class="form-group"><label class="label">Kolleksiya Adı (EN)</label><input class="input" id="cNameEN"></div>
-        <div class="form-group"><label class="label">Təsvir (EN)</label><textarea class="textarea" id="cDescEN"></textarea></div>
-      </div>
-
-      <div class="form-group">
-        <label class="label">Status</label>
-        <select class="select" id="cStatus">
-          <option value="active">Aktiv</option>
-          <option value="draft">Qaralama</option>
-        </select>
-      </div>
+      <div class="lang-content-coll active" id="clang-az"><div class="form-group"><label class="label">Ad (AZ)</label><input class="input" id="cNameAZ"></div></div>
+      <div class="lang-content-coll" id="clang-ru"><div class="form-group"><label class="label">Ad (RU)</label><input class="input" id="cNameRU"></div></div>
+      <div class="lang-content-coll" id="clang-en"><div class="form-group"><label class="label">Ad (EN)</label><input class="input" id="cNameEN"></div></div>
     </div>
-    <div class="modal-footer">
-      <button class="btn btn-outline" onclick="closeModal('collModal')">Ləğv et</button>
-      <button class="btn btn-primary" id="saveCollBtn" onclick="commitCollection()">Yadda Saxla</button>
-    </div>
+    <div class="modal-footer"><button class="btn btn-primary" onclick="commitCollection()">Yadda Saxla</button></div>
   </div>
 </div>
 
@@ -367,291 +271,148 @@ td { padding: 1rem; border-bottom: 1px solid var(--bg); vertical-align: middle; 
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-// --- CONFIG ---
 const supa = supabase.createClient('https://ijljnzqigtfonvqlkhkr.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlqbGpuenFpZ3Rmb252cWxraGtyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUxMjY5NzAsImV4cCI6MjA5MDcwMjk3MH0.KDnvL1F-Zwae5fyEzEyGNAT7QYT0L7KKy1g84LQTLDU');
-const CLOUD_URL = 'https://api.cloudinary.com/v1_1/dxigokm01/image/upload';
-const CLOUD_PRESET = 'avera_preset';
+const CLOUD_URL = 'https://api.cloudinary.com/v1_1/dxigokm01/image/upload'; const CLOUD_PRESET = 'avera_preset';
 
-let state = { products: [], collections: [], images: [], currentCms: null };
+let state = { products: [], collections: [], images: [] };
 
-// --- AUTH & INIT ---
 function login() {
   const p = document.getElementById('adminPass').value;
-  const saved = localStorage.getItem('avera_secure_p') || 'avera2026';
-  if(p === saved) { document.getElementById('authScreen').classList.add('hidden'); init(); }
+  if(p === (localStorage.getItem('avera_secure_p') || 'avera2026')) { document.getElementById('authScreen').classList.add('hidden'); init(); }
   else alert('Yanlış şifrə');
 }
 
 async function init() {
-  updateClock(); setInterval(updateClock, 1000);
-  // Əvvəlcə kolleksiyaları yükləyirik ki, məhsul pəncərəsində seçmək olsun
-  await loadCollections();
-  await Promise.all([loadProducts(), loadCMS()]);
+  setInterval(() => document.getElementById('liveClock').textContent = new Date().toLocaleTimeString('az-AZ'), 1000);
+  await loadCollections(); await Promise.all([loadProducts(), loadCMS()]);
+  updateDashboard();
 }
-function updateClock() { document.getElementById('liveClock').textContent = new Date().toLocaleTimeString('az-AZ'); }
 
 function navTo(id, btn) {
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById('page-'+id).classList.add('active');
   document.querySelectorAll('.sidebar-link').forEach(l=>l.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById('pageTitle').textContent = btn.textContent;
+  btn.classList.add('active'); document.getElementById('pageTitle').textContent = btn.textContent;
 }
 
-// --- CMS & SETTINGS ---
+function updateDashboard() {
+  document.getElementById('stProd').textContent = state.products.length;
+  document.getElementById('stColl').textContent = state.collections.length;
+}
+
+// --- CMS ---
 async function loadCMS() {
-  const { data } = await supa.from('app_settings').select('*').eq('id', 1).single();
+  const {data} = await supa.from('app_settings').select('*').eq('id', 1).single();
   if(data) {
     document.getElementById('heroTitle').value = data.hero_title || '';
     document.getElementById('heroSub').value = data.hero_sub || '';
     document.getElementById('aboutTitle').value = data.about_title || '';
     document.getElementById('aboutText').value = data.about_text || '';
     document.getElementById('setWa').value = data.whatsapp || '';
-    document.getElementById('setInsta').value = data.instagram || '';
-    document.getElementById('setAddress').value = data.address || '';
   }
 }
-
 async function updateCMS() {
-  await supa.from('app_settings').upsert({
-    id: 1,
-    hero_title: document.getElementById('heroTitle').value,
-    hero_sub: document.getElementById('heroSub').value,
-    about_title: document.getElementById('aboutTitle').value,
-    about_text: document.getElementById('aboutText').value
-  });
-  notify('Sayt məlumatları yeniləndi');
+  await supa.from('app_settings').upsert({ id: 1, hero_title: document.getElementById('heroTitle').value, hero_sub: document.getElementById('heroSub').value, about_title: document.getElementById('aboutTitle').value, about_text: document.getElementById('aboutText').value });
+  notify('Yeniləndi');
 }
-
 async function saveSettings() {
-  const pass = document.getElementById('setPass').value;
-  if(pass) localStorage.setItem('avera_secure_p', pass);
-  await supa.from('app_settings').upsert({
-    id: 1, 
-    whatsapp: document.getElementById('setWa').value.replace(/[^0-9]/g, ''), 
-    instagram: document.getElementById('setInsta').value,
-    address: document.getElementById('setAddress').value
-  });
-  notify('Sistem ayarları saxlanıldı');
+  const p = document.getElementById('setPass').value; if(p) localStorage.setItem('avera_secure_p', p);
+  await supa.from('app_settings').upsert({ id: 1, whatsapp: document.getElementById('setWa').value.replace(/[^0-9]/g, '') });
+  notify('Ayarlar saxlanıldı');
 }
 
-// --- COLLECTIONS (Bazada Yükləmə) ---
+// --- COLLECTIONS ---
 async function loadCollections() {
   const {data} = await supa.from('collections').select('*').order('created_at', {ascending:false});
   state.collections = data || [];
-  document.getElementById('stColl').textContent = state.collections.length;
-  
-  // Məhsul modalındakı "Kolleksiya" siyahısını yeniləyirik
-  const collSelect = document.getElementById('pFeat');
-  collSelect.innerHTML = `<option value="">— Heç biri —</option>` + 
-    state.collections.filter(c => c.status === 'active').map(c => `<option value="${c.id}">${c.name.az || 'Adsız Kolleksiya'}</option>`).join('');
-
-  let html = `<table><thead><tr><th>Kolleksiya Adı (AZ)</th><th>Status</th><th></th></tr></thead><tbody>`;
-  state.collections.forEach(c => {
-    html += `<tr>
-      <td><strong>${c.name?.az || c.name || 'Adsız'}</strong></td>
-      <td><span class="badge ${c.status==='active'?'green':'red'}">${c.status}</span></td>
-      <td>
-        <button class="btn btn-sm btn-outline" onclick="editColl('${c.id}')">Düzəliş</button>
-        <button class="btn btn-sm btn-danger" onclick="deleteColl('${c.id}')">Sil</button>
-      </td>
-    </tr>`;
-  });
-  html += `</tbody></table>`;
-  document.getElementById('collectionsTableContainer').innerHTML = html;
+  document.getElementById('pColl').innerHTML = `<option value="">-- Kateqoriya Seçin --</option>` + state.collections.map(c => `<option value="${c.id}">${c.name.az||'Adsız'}</option>`).join('');
+  document.getElementById('collectionsTableContainer').innerHTML = `<table><thead><tr><th>Kolleksiya</th><th>Status</th><th>Əməliyyat</th></tr></thead><tbody>` + state.collections.map(c=>`<tr><td><strong>${c.name.az}</strong></td><td>${c.status}</td><td><button class="btn btn-sm btn-outline" onclick="editColl('${c.id}')">Redaktə</button> <button class="btn btn-sm btn-danger" onclick="delColl('${c.id}')">Sil</button></td></tr>`).join('') + `</tbody></table>`;
+  updateDashboard();
 }
-
-function switchCollTab(lang, btn) {
-  document.querySelectorAll('#collModal .form-tab').forEach(t=>t.classList.remove('active'));
-  btn.classList.add('active');
-  document.querySelectorAll('.lang-content-coll').forEach(c=>c.classList.remove('active'));
-  document.getElementById(`clang-${lang}`).classList.add('active');
-}
-
-function openCollModal() {
-  document.getElementById('editCollId').value = '';
-  document.getElementById('cTitle').textContent = 'Yeni Kolleksiya';
-  ['cNameAZ','cNameRU','cNameEN','cDescAZ','cDescRU','cDescEN'].forEach(id => document.getElementById(id).value = '');
-  document.getElementById('cStatus').value = 'active';
-  switchCollTab('az', document.querySelector('#collModal .form-tab'));
-  openModal('collModal');
-}
-
+function openCollModal() { document.getElementById('editCollId').value=''; ['cNameAZ','cNameRU','cNameEN'].forEach(id=>document.getElementById(id).value=''); openModal('collModal'); }
 function editColl(id) {
-  const c = state.collections.find(x => x.id === id);
-  if(!c) return;
+  const c = state.collections.find(x=>x.id===id); if(!c) return;
   document.getElementById('editCollId').value = c.id;
-  document.getElementById('cTitle').textContent = 'Kolleksiyanı Yenilə';
-  
-  document.getElementById('cNameAZ').value = c.name?.az || c.name || '';
-  document.getElementById('cNameRU').value = c.name?.ru || '';
-  document.getElementById('cNameEN').value = c.name?.en || '';
-  document.getElementById('cDescAZ').value = c.description?.az || c.description || '';
-  document.getElementById('cDescRU').value = c.description?.ru || '';
-  document.getElementById('cDescEN').value = c.description?.en || '';
-  document.getElementById('cStatus').value = c.status || 'active';
-  
-  switchCollTab('az', document.querySelector('#collModal .form-tab'));
+  document.getElementById('cNameAZ').value = c.name.az||''; document.getElementById('cNameRU').value = c.name.ru||''; document.getElementById('cNameEN').value = c.name.en||'';
   openModal('collModal');
 }
-
 async function commitCollection() {
   const id = document.getElementById('editCollId').value;
-  const btn = document.getElementById('saveCollBtn');
-  btn.disabled = true; btn.textContent = 'Saxlanılır...';
-
   const azN = document.getElementById('cNameAZ').value;
-  const azD = document.getElementById('cDescAZ').value;
-
-  const payload = {
-    name: { az: azN, ru: document.getElementById('cNameRU').value || azN, en: document.getElementById('cNameEN').value || azN },
-    description: { az: azD, ru: document.getElementById('cDescRU').value || azD, en: document.getElementById('cDescEN').value || azD },
-    status: document.getElementById('cStatus').value
-  };
-
-  if(id) await supa.from('collections').update(payload).eq('id', id);
-  else await supa.from('collections').insert([payload]);
-
-  btn.disabled = false; btn.textContent = 'Yadda Saxla';
-  closeModal('collModal');
-  await loadCollections(); // Kolleksiyalar yenilənəndə Dropdown da yenilənəcək
-  notify('Kolleksiya bazaya yazıldı');
+  const p = { name: {az: azN, ru: document.getElementById('cNameRU').value||azN, en: document.getElementById('cNameEN').value||azN}, status: 'active' };
+  if(id) await supa.from('collections').update(p).eq('id',id); else await supa.from('collections').insert([p]);
+  closeModal('collModal'); await loadCollections(); notify('Kolleksiya yazıldı');
 }
-
-async function deleteColl(id) {
-  if(confirm('Əminsiniz?')) { await supa.from('collections').delete().eq('id', id); await loadCollections(); notify('Kolleksiya silindi'); }
-}
-
+async function delColl(id) { if(confirm('Əminsən?')) { await supa.from('collections').delete().eq('id',id); loadCollections(); } }
 
 // --- PRODUCTS ---
 async function loadProducts() {
   const {data} = await supa.from('products').select('*').order('created_at', {ascending:false});
   state.products = data || [];
-  document.getElementById('stProd').textContent = state.products.length;
-
-  const buildTable = (arr) => {
-    let html = `<table><thead><tr><th>Şəkil</th><th>Ad (AZ)</th><th>Kolleksiya</th><th>Növ</th><th>Qiymət</th><th>Status</th><th></th></tr></thead><tbody>`;
-    arr.forEach(p => {
-      // Məhsulun bağlandığı kolleksiyanın adını tapırıq
-      const collName = state.collections.find(c => c.id === p.collection_id)?.name?.az || '—';
-      html += `<tr>
-        <td><img src="${p.images?.[0] || ''}" class="data-img"></td>
-        <td><strong>${p.name?.az || p.name || 'Adsız'}</strong></td>
-        <td><span class="badge" style="background:#eee;color:#333;">${collName}</span></td>
-        <td><span class="badge ${p.type==='couture'?'':'green'}">${p.type}</span></td>
-        <td>${p.price} ₼</td>
-        <td><span class="badge ${p.status==='active'?'green':'red'}">${p.status}</span></td>
-        <td>
-          <button class="btn btn-sm btn-outline" onclick="editProd('${p.id}')">Düzəliş</button>
-          <button class="btn btn-sm btn-danger" onclick="deleteProd('${p.id}')">Sil</button>
-        </td>
-      </tr>`;
-    });
-    return html + `</tbody></table>`;
-  };
-
-  document.getElementById('productsTableContainer').innerHTML = buildTable(state.products);
-  document.getElementById('recentProductsTable').innerHTML = buildTable(state.products.slice(0, 4));
-}
-
-function switchTab(lang, btn) {
-  document.querySelectorAll('#productModal .form-tab').forEach(t=>t.classList.remove('active'));
-  btn.classList.add('active');
-  document.querySelectorAll('.lang-content').forEach(c=>c.classList.remove('active'));
-  document.getElementById(`lang-${lang}`).classList.add('active');
+  const buildTbl = (arr) => `<table><thead><tr><th>Şəkil</th><th>Brend</th><th>Ad</th><th>Kirayə</th><th>RRP</th><th>Kolleksiya</th><th>Əməliyyat</th></tr></thead><tbody>` + arr.map(p => {
+    const cName = state.collections.find(c=>c.id===p.collection_id)?.name?.az || '—';
+    return `<tr><td><img src="${p.images?.[0]||''}" class="data-img"></td><td>${p.brand||'—'}</td><td><strong>${p.name.az}</strong></td><td>${p.rental_price||p.price} ₼</td><td>${p.price} ₼</td><td>${cName}</td><td><button class="btn btn-sm btn-outline" onclick="editProd('${p.id}')">Redaktə</button> <button class="btn btn-sm btn-danger" onclick="delProd('${p.id}')">Sil</button></td></tr>`;
+  }).join('') + `</tbody></table>`;
+  document.getElementById('productsTableContainer').innerHTML = buildTbl(state.products);
+  document.getElementById('recentProductsTable').innerHTML = buildTbl(state.products.slice(0, 3));
+  updateDashboard();
 }
 
 function openProductModal() {
-  document.getElementById('editId').value = '';
-  document.getElementById('mTitle').textContent = 'Yeni Məhsul';
-  ['pNameAZ','pNameRU','pNameEN','pDescAZ','pDescRU','pDescEN','pPrice','pSalePrice','pSizes','pFabric','pColor'].forEach(id => document.getElementById(id).value = '');
-  document.getElementById('pFeat').value = ''; // Kolleksiya seçimi sıfırlanır
-  state.images = []; renderPreviews();
-  switchTab('az', document.querySelector('#productModal .form-tab'));
-  openModal('productModal');
+  document.getElementById('editId').value = ''; document.getElementById('mTitle').textContent = 'Yeni Məhsul';
+  ['pNameAZ','pNameRU','pNameEN','pDescAZ','pDescRU','pDescEN','pPrice','pRentPrice','pSizes','pBrand','pTags'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('pColl').value = ''; state.images = []; renderPreviews(); openModal('productModal');
 }
 
 async function editProd(id) {
-  const p = state.products.find(x => x.id === id);
-  if(!p) return;
+  const p = state.products.find(x=>x.id===id); if(!p) return;
   document.getElementById('editId').value = p.id;
-  document.getElementById('mTitle').textContent = 'Məhsulu Yenilə';
-  
-  document.getElementById('pNameAZ').value = p.name?.az || p.name || '';
-  document.getElementById('pNameRU').value = p.name?.ru || '';
-  document.getElementById('pNameEN').value = p.name?.en || '';
-  document.getElementById('pDescAZ').value = p.description?.az || p.description || '';
-  document.getElementById('pDescRU').value = p.description?.ru || '';
-  document.getElementById('pDescEN').value = p.description?.en || '';
-  
-  document.getElementById('pPrice').value = p.price || '';
-  document.getElementById('pSalePrice').value = p.sale_price || '';
-  document.getElementById('pType').value = p.type || 'couture';
-  document.getElementById('pFeat').value = p.collection_id || ''; // Məhsulun kolleksiyası seçilir
-  document.getElementById('pSizes').value = p.sizes?.join(', ') || '';
-  document.getElementById('pFabric').value = p.fabric || '';
-  document.getElementById('pColor').value = p.color || '';
-  
-  state.images = p.images || []; renderPreviews();
-  switchTab('az', document.querySelector('#productModal .form-tab'));
-  openModal('productModal');
+  document.getElementById('pBrand').value = p.brand||''; document.getElementById('pTags').value = p.tags||'';
+  document.getElementById('pNameAZ').value = p.name.az||''; document.getElementById('pNameRU').value = p.name.ru||''; document.getElementById('pNameEN').value = p.name.en||'';
+  document.getElementById('pDescAZ').value = p.description?.az||''; document.getElementById('pDescRU').value = p.description?.ru||''; document.getElementById('pDescEN').value = p.description?.en||'';
+  document.getElementById('pPrice').value = p.price||''; document.getElementById('pRentPrice').value = p.rental_price||'';
+  document.getElementById('pColl').value = p.collection_id||''; document.getElementById('pSizes').value = p.sizes?.join(', ')||'';
+  state.images = p.images||[]; renderPreviews(); openModal('productModal');
 }
 
 async function commitProduct() {
   const id = document.getElementById('editId').value;
-  const btn = document.getElementById('saveActionBtn');
-  btn.disabled = true; btn.textContent = 'Saxlanılır...';
-
   const azN = document.getElementById('pNameAZ').value;
   const azD = document.getElementById('pDescAZ').value;
-
+  
   const payload = {
-    name: { az: azN, ru: document.getElementById('pNameRU').value || azN, en: document.getElementById('pNameEN').value || azN },
-    description: { az: azD, ru: document.getElementById('pDescRU').value || azD, en: document.getElementById('pDescEN').value || azD },
-    price: parseFloat(document.getElementById('pPrice').value) || 0,
-    sale_price: parseFloat(document.getElementById('pSalePrice').value) || null,
-    type: document.getElementById('pType').value,
-    collection_id: document.getElementById('pFeat').value || null, // Seçilmiş kolleksiyanın ID-si yazılır
+    brand: document.getElementById('pBrand').value,
+    tags: document.getElementById('pTags').value,
+    name: {az: azN, ru: document.getElementById('pNameRU').value||azN, en: document.getElementById('pNameEN').value||azN},
+    description: {az: azD, ru: document.getElementById('pDescRU').value||azD, en: document.getElementById('pDescEN').value||azD},
+    price: parseFloat(document.getElementById('pPrice').value)||0,
+    rental_price: parseFloat(document.getElementById('pRentPrice').value)||0,
+    collection_id: document.getElementById('pColl').value || null,
     sizes: document.getElementById('pSizes').value.split(',').map(s=>s.trim()).filter(Boolean),
-    fabric: document.getElementById('pFabric').value,
-    color: document.getElementById('pColor').value,
-    images: state.images,
-    status: 'active'
+    images: state.images, status: 'active'
   };
 
-  if(id) await supa.from('products').update(payload).eq('id', id);
+  if(id) await supa.from('products').update(payload).eq('id',id);
   else await supa.from('products').insert([payload]);
-
-  btn.disabled = false; btn.textContent = 'Yadda Saxla';
-  closeModal('productModal');
-  await loadProducts();
-  notify('Məhsul bazaya yazıldı');
+  closeModal('productModal'); await loadProducts(); notify('Məhsul yazıldı');
 }
+async function delProd(id) { if(confirm('Əminsən?')){ await supa.from('products').delete().eq('id',id); loadProducts(); notify('Silindi'); } }
 
-async function deleteProd(id) {
-  if(confirm('Əminsiniz?')) { await supa.from('products').delete().eq('id', id); await loadProducts(); notify('Silindi'); }
-}
-
-// --- CLOUDINARY UPLOAD ---
+// --- UPLOADS & UTILS ---
 async function processUploads(e) {
-  const files = Array.from(e.target.files);
-  notify('Şəkillər yüklənir...');
+  const files = Array.from(e.target.files); notify('Şəkillər yüklənir...');
   for(let f of files) {
     const fd = new FormData(); fd.append('file', f); fd.append('upload_preset', CLOUD_PRESET);
     const r = await fetch(CLOUD_URL, {method:'POST', body:fd});
-    const d = await r.json();
-    if(d.secure_url) state.images.push(d.secure_url);
-  }
-  renderPreviews();
+    const d = await r.json(); if(d.secure_url) state.images.push(d.secure_url);
+  } renderPreviews();
 }
-
-function renderPreviews() {
-  document.getElementById('previewGrid').innerHTML = state.images.map((img, i) => `<div class="preview-box"><img src="${img}"><button class="remove-img" onclick="state.images.splice(${i},1);renderPreviews()">&times;</button></div>`).join('');
-}
-
+function renderPreviews() { document.getElementById('previewGrid').innerHTML = state.images.map((img,i)=>`<div class="preview-box"><img src="${img}"><button class="remove-img" onclick="state.images.splice(${i},1);renderPreviews()">&times;</button></div>`).join(''); }
+function switchTab(l,b) { document.querySelectorAll('#productModal .form-tab').forEach(t=>t.classList.remove('active')); b.classList.add('active'); document.querySelectorAll('.lang-content').forEach(c=>c.classList.remove('active')); document.getElementById(`lang-${l}`).classList.add('active'); }
+function switchCollTab(l,b) { document.querySelectorAll('#collModal .form-tab').forEach(t=>t.classList.remove('active')); b.classList.add('active'); document.querySelectorAll('.lang-content-coll').forEach(c=>c.classList.remove('active')); document.getElementById(`clang-${l}`).classList.add('active'); }
 function notify(m) { const t = document.getElementById('toast'); t.textContent = m; t.className = 'toast show'; setTimeout(()=>t.className='toast', 3000); }
-function openModal(id){ document.getElementById(id).classList.add('active'); }
-function closeModal(id){ document.getElementById(id).classList.remove('active'); }
+function openModal(id) { document.getElementById(id).classList.add('active'); }
+function closeModal(id) { document.getElementById(id).classList.remove('active'); }
 </script>
 </body>
 </html>
