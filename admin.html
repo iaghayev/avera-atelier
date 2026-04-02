@@ -1495,7 +1495,23 @@ function renderCollections() {
 }
 
 // ═══ SETTINGS ═══
-function saveSettings() {
+// ═══ SETTINGS ═══
+async function saveSettings() {
+  const waInput = document.getElementById('setWa').value.trim();
+  // Nömrənin içindəki boşluqları və '+' işarəsini silirik ki, birbaşa linkə uyğun olsun
+  const waNumber = waInput.replace(/[^0-9]/g, ''); 
+  
+  // WhatsApp nömrəsini Supabase-ə yazırıq
+  const { error } = await supa.from('app_settings').upsert({ id: 1, whatsapp: waNumber });
+  
+  if (error) {
+    showToast('Xəta baş verdi', 'error');
+    console.error(error);
+  } else {
+    addActivity('WhatsApp nömrəsi yeniləndi: ' + waNumber, 'gold');
+    showToast('Parametrlər yadda saxlandı');
+  }
+
   const settings = store.get('settings') || {};
   settings.brandName = document.getElementById('setBrandName').value.trim();
   settings.phone = document.getElementById('setPhone').value.trim();
@@ -1503,7 +1519,7 @@ function saveSettings() {
   settings.address = document.getElementById('setAddress').value.trim();
   settings.instagram = document.getElementById('setInsta').value.trim();
   settings.facebook = document.getElementById('setFb').value.trim();
-  settings.whatsapp = document.getElementById('setWa').value.trim();
+  settings.whatsapp = waInput;
   settings.tiktok = document.getElementById('setTiktok').value.trim();
 
   const newPass = document.getElementById('setNewPass').value;
@@ -1512,15 +1528,18 @@ function saveSettings() {
     if (newPass !== confirmPass) { showToast('Şifrələr uyğun gəlmir', 'error'); return; }
     settings.password = newPass;
   }
-
   store.set('settings', settings);
   document.getElementById('setNewPass').value = '';
   document.getElementById('setConfirmPass').value = '';
-  addActivity('Parametrlər yeniləndi', 'gold');
-  showToast('Parametrlər yadda saxlandı');
 }
 
-function loadSettings() {
+async function loadSettings() {
+  // WhatsApp nömrəsini bazadan oxuyuruq
+  const { data } = await supa.from('app_settings').select('whatsapp').eq('id', 1).single();
+  if (data && data.whatsapp) {
+    document.getElementById('setWa').value = data.whatsapp;
+  }
+
   const s = store.get('settings') || {};
   document.getElementById('setBrandName').value = s.brandName || '';
   document.getElementById('setPhone').value = s.phone || '';
@@ -1528,7 +1547,7 @@ function loadSettings() {
   document.getElementById('setAddress').value = s.address || '';
   document.getElementById('setInsta').value = s.instagram || '';
   document.getElementById('setFb').value = s.facebook || '';
-  document.getElementById('setWa').value = s.whatsapp || '';
+  if (!data || !data.whatsapp) document.getElementById('setWa').value = s.whatsapp || '';
   document.getElementById('setTiktok').value = s.tiktok || '';
 }
 
