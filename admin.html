@@ -186,19 +186,28 @@ td { padding: 1rem; border-bottom: 1px solid var(--bg); vertical-align: middle; 
 
       <div class="form-grid">
         <div class="form-group"><label class="label">Qiymət (₼)</label><input type="number" class="input" id="pPrice"></div>
-        <div class="form-group">
-          <label class="label">Kateqoriya</label>
-          <select class="select" id="pType"><option value="couture">Couture</option><option value="rental">Kirayə</option></select>
-        </div>
+        <div class="form-group"><label class="label">Endirimli Qiymət (₼)</label><input type="number" class="input" id="pSalePrice" placeholder="Boş = endirim yoxdur"></div>
       </div>
 
       <div class="form-grid">
-        <div class="form-group"><label class="label">Ölçülər (vergüllə)</label><input class="input" id="pSizes" placeholder="S, M, L"></div>
         <div class="form-group">
-          <label class="label">Vitrində Göstərilsin?</label>
-          <select class="select" id="pFeat"><option value="false">Xeyr</option><option value="true">Bəli (Seçilmiş)</option></select>
+          <label class="label">Məhsul Növü</label>
+          <select class="select" id="pType"><option value="couture">Fərdi Tikiliş</option><option value="rental">Kirayə</option></select>
+        </div>
+        <div class="form-group">
+          <label class="label">Sayt Kateqoriyası</label>
+          <select class="select" id="pFeat">
+            <option value="">Adi</option>
+            <option value="featured">★ Seçilmiş (Hero Slider)</option>
+            <option value="new">🆕 Yeni Gələn</option>
+            <option value="bestseller">🔥 Ən Çox Satılan</option>
+            <option value="sale">💰 Endirimdə</option>
+            <option value="trend">✨ Ayın Modası</option>
+          </select>
         </div>
       </div>
+
+      <div class="form-group"><label class="label">Ölçülər (vergüllə)</label><input class="input" id="pSizes" placeholder="S, M, L, XL"></div>
     </div>
     <div class="modal-footer">
       <button class="btn btn-outline" onclick="closeModal('productModal')">Ləğv et</button>
@@ -294,14 +303,16 @@ async function loadProducts() {
   state.products = data || [];
   document.getElementById('statsInfo').textContent = `${state.products.length} aktiv məhsul`;
   
-  let html = `<table><thead><tr><th>Fayl</th><th>Məhsul</th><th>Növ</th><th>Qiymət</th><th>Vitrində</th><th>Status</th><th></th></tr></thead><tbody>`;
+  let html = `<table><thead><tr><th>Fayl</th><th>Məhsul</th><th>Növ</th><th>Qiymət</th><th>Kateqoriya</th><th>Status</th><th></th></tr></thead><tbody>`;
+  const catLabels = {featured:'★ Seçilmiş',new:'🆕 Yeni',bestseller:'🔥 Bestseller',sale:'💰 Endirim',trend:'✨ Trend'};
   state.products.forEach(p => {
+    const priceStr = p.sale_price ? `<span style="text-decoration:line-through;color:var(--muted)">${p.price}</span> <strong style="color:#c44">${p.sale_price} ₼</strong>` : `${p.price} ₼`;
     html += `<tr>
       <td><img src="${p.images?.[0] || ''}" class="data-img"></td>
-      <td><strong>${p.name.az}</strong></td>
-      <td><span style="text-transform:capitalize">${p.type}</span></td>
-      <td>${p.price} ₼</td>
-      <td>${p.collection_id === 'featured' ? '✅' : '—'}</td>
+      <td><strong>${p.name?.az || p.name || ''}</strong></td>
+      <td>${p.type==='couture'?'Fərdi Tikiliş':'Kirayə'}</td>
+      <td>${priceStr}</td>
+      <td>${catLabels[p.collection_id]||'—'}</td>
       <td><span style="color:${p.status==='active'?'green':'gray'}">${p.status}</span></td>
       <td>
         <button class="btn btn-sm btn-outline" onclick="editProd('${p.id}')">Düzəliş</button>
@@ -316,7 +327,7 @@ async function loadProducts() {
 function openProductModal() {
   document.getElementById('editId').value = '';
   document.getElementById('mTitle').textContent = 'Yeni Məhsul';
-  ['pName','pDesc','pPrice','pSizes'].forEach(id => document.getElementById(id).value = '');
+  ['pName','pDesc','pPrice','pSalePrice','pSizes'].forEach(id => document.getElementById(id).value = '');
   state.images = [];
   renderPreviews();
   openModal('productModal');
@@ -330,7 +341,8 @@ async function editProd(id) {
   document.getElementById('pDesc').value = p.description.az;
   document.getElementById('pPrice').value = p.price;
   document.getElementById('pType').value = p.type;
-  document.getElementById('pFeat').value = p.collection_id === 'featured' ? 'true' : 'false';
+  document.getElementById('pFeat').value = p.collection_id || '';
+  document.getElementById('pSalePrice').value = p.sale_price || '';
   document.getElementById('pSizes').value = p.sizes?.join(', ') || '';
   state.images = p.images || [];
   renderPreviews();
@@ -349,8 +361,9 @@ async function commitProduct() {
     name: { az: name, ru: name, en: name },
     description: { az: desc, ru: desc, en: desc },
     price: parseFloat(document.getElementById('pPrice').value) || 0,
+    sale_price: parseFloat(document.getElementById('pSalePrice').value) || null,
     type: document.getElementById('pType').value,
-    collection_id: document.getElementById('pFeat').value === 'true' ? 'featured' : null,
+    collection_id: document.getElementById('pFeat').value || null,
     sizes: document.getElementById('pSizes').value.split(',').map(s=>s.trim()).filter(Boolean),
     images: state.images,
     status: 'active'
