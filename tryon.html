@@ -39,7 +39,7 @@ body{background:var(--charcoal);color:var(--cream);font-family:var(--body);displ
 .dc{position:relative;aspect-ratio:3/4;border-radius:6px;overflow:hidden;cursor:pointer;border:2px solid transparent;transition:all .25s}
 .dc:hover{border-color:rgba(244,239,230,.15);transform:translateY(-2px)}
 .dc.sel{border-color:var(--rose);box-shadow:0 0 0 1px var(--rose),0 4px 20px rgba(196,114,126,.25)}
-.dc-bg{position:absolute;inset:0}
+.dc-bg{position:absolute;inset:0;background-position:center;background-size:cover;}
 .dc-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(44,40,38,.75) 0%,transparent 50%)}
 .dc-info{position:absolute;bottom:0;left:0;right:0;padding:.5rem}
 .dc-name{font-family:var(--heading);font-size:.78rem;font-weight:500;color:#fff}
@@ -122,8 +122,14 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;hei
     </div>
     <div class="sb-body">
       <div class="tp act" id="tp-dr">
-        <div class="frow"><button class="fb act" onclick="flt('all',this)">Hamısı</button><button class="fb" onclick="flt('emerald',this)">Zümrüd</button><button class="fb" onclick="flt('ruby',this)">Yaqut</button><button class="fb" onclick="flt('ivory',this)">Fil dişi</button></div>
-        <div class="dgrid" id="dg"></div>
+        <div class="frow">
+          <button class="fb act" onclick="flt('all',this)">Hamısı</button>
+          <button class="fb" onclick="flt('couture',this)">Couture</button>
+          <button class="fb" onclick="flt('rental',this)">Kirayə</button>
+        </div>
+        <div class="dgrid" id="dg">
+          <p style="color:var(--taupe);grid-column:1/-1;text-align:center;font-size:0.8rem;margin-top:1rem;">Məhsullar yüklənir...</p>
+        </div>
         <div class="hint-box"><p><strong>NECƏ İŞLƏYİR?</strong>1. Şəklinizi yükləyin<br>2. AI bədən nöqtələrini tapır<br>3. Geyimi seçin — avtomatik əyninizə oturur</p></div>
       </div>
       <div class="tp" id="tp-adj">
@@ -166,27 +172,97 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;hei
 <button class="mtg" onclick="opMob()"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></button>
 <div class="tst" id="tst"></div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-core@4.17.0/dist/tf-core.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-converter@4.17.0/dist/tf-converter.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-webgl@4.17.0/dist/tf-backend-webgl.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/pose-detection@2.1.3/dist/pose-detection.min.js"></script>
+
 <script>
-const DS=[
-{id:1,n:'Zümrüd Axşam',c:'emerald',t:'Couture',g:'linear-gradient(160deg,#0d2618,#1a4a30 30%,#2a6a48 60%,#1a4a30 90%)',cl:'#1a4a30',h:'rgba(255,255,255,.12)'},
-{id:2,n:'Yaşıl İpək',c:'emerald',t:'Kirayə',g:'linear-gradient(160deg,#1a3a2a,#2a6a48 40%,#3a7a58 70%,#1a4a30)',cl:'#2a5a40',h:'rgba(255,255,255,.1)'},
-{id:3,n:'Zümrüd Parıltı',c:'emerald',t:'Couture',g:'linear-gradient(160deg,#0a3020,#1a5a38 35%,#2a7050 65%,#0d3822)',cl:'#1a5a38',h:'rgba(255,255,255,.08)'},
-{id:4,n:'Yaqut Gecə',c:'ruby',t:'Couture',g:'linear-gradient(160deg,#3a1010,#7a2020 30%,#9a3030 60%,#5a1818 90%)',cl:'#7a2020',h:'rgba(255,255,255,.12)'},
-{id:5,n:'Qırmızı Saten',c:'ruby',t:'Kirayə',g:'linear-gradient(160deg,#4a1414,#8a2a2a 40%,#aa3a3a 65%,#6a2020)',cl:'#8a2a2a',h:'rgba(255,255,255,.1)'},
-{id:6,n:'Yaqut Parıltı',c:'ruby',t:'Couture',g:'linear-gradient(160deg,#3a0a0a,#6a1a1a 30%,#8a2828 55%,#4a1212 90%)',cl:'#6a1a1a',h:'rgba(255,255,255,.1)'},
-{id:7,n:'Fil Dişi Elegans',c:'ivory',t:'Couture',g:'linear-gradient(160deg,#b8b0a0,#d4cfc4 30%,#e8e0d2 60%,#c8c0b4 90%)',cl:'#d4cfc4',h:'rgba(0,0,0,.06)'},
-{id:8,n:'Krem İpək',c:'ivory',t:'Kirayə',g:'linear-gradient(160deg,#c0b8a8,#e0d8c8 40%,#f0e8d8 65%,#d0c8b8)',cl:'#e0d8c8',h:'rgba(0,0,0,.05)'},
-{id:9,n:'Ağ Saten',c:'ivory',t:'Couture',g:'linear-gradient(160deg,#d0c8b8,#e8e0d2 35%,#f4efe6 60%,#d8d0c0)',cl:'#e8e0d2',h:'rgba(0,0,0,.04)'},
-{id:10,n:'Gümüşü Axşam',c:'ivory',t:'Kirayə',g:'linear-gradient(160deg,#a8a098,#c8c0b4 30%,#d8d0c4 55%,#b8b0a4 90%)',cl:'#c8c0b4',h:'rgba(0,0,0,.06)'}
-];
-let uPh=null,sD=null,dI=null,det=null,ps=null,shP=false,md='m';
-let W=0,H=0,drg=false,ds={x:0,y:0};
-let F={x:0,y:0,sc:1,rt:0,op:1,fh:false,fv:false,ox:0,oy:0};
-function mkSVG(d,w=400,h=600){const s=d.cl,l=d.h;return`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}"><defs><linearGradient id="g${d.id}" x1=".2" y1="0" x2=".8" y2="1"><stop offset="0%" stop-color="${s}" stop-opacity=".85"/><stop offset="100%" stop-color="${s}"/></linearGradient></defs><path d="M${w*.38} ${h*.02}C${w*.35} ${h*.05} ${w*.28} ${h*.08} ${w*.25} ${h*.12}L${w*.22} ${h*.18}C${w*.2} ${h*.22} ${w*.18} ${h*.28} ${w*.16} ${h*.35}L${w*.12} ${h*.5}C${w*.08} ${h*.65} ${w*.05} ${h*.78} ${w*.06} ${h*.88}C${w*.07} ${h*.94} ${w*.1} ${h*.97} ${w*.14} ${h*.98}L${w*.86} ${h*.98}C${w*.9} ${h*.97} ${w*.93} ${h*.94} ${w*.94} ${h*.88}C${w*.95} ${h*.78} ${w*.92} ${h*.65} ${w*.88} ${h*.5}L${w*.84} ${h*.35}C${w*.82} ${h*.28} ${w*.8} ${h*.22} ${w*.78} ${h*.18}L${w*.75} ${h*.12}C${w*.72} ${h*.08} ${w*.65} ${h*.05} ${w*.62} ${h*.02}C${w*.55} 0 ${w*.45} 0 ${w*.38} ${h*.02}Z" fill="url(#g${d.id})" stroke="${l}" stroke-width="1"/><path d="M${w*.38} ${h*.02}C${w*.35} ${h*.05} ${w*.28} ${h*.08} ${w*.25} ${h*.12}L${w*.22} ${h*.18}C${w*.2} ${h*.22} ${w*.18} ${h*.28} ${w*.16} ${h*.35}L${w*.12} ${h*.5}C${w*.08} ${h*.65} ${w*.05} ${h*.78} ${w*.06} ${h*.88}C${w*.07} ${h*.94} ${w*.1} ${h*.97} ${w*.14} ${h*.98}L${w*.5} ${h*.98}L${w*.5} 0C${w*.45} 0 ${w*.38} ${h*.02} ${w*.38} ${h*.02}Z" fill="${l}" opacity=".4"/><path d="M${w*.22} ${h*.35}Q${w*.5} ${h*.38} ${w*.78} ${h*.35}" fill="none" stroke="${l}" stroke-width=".8"/><path d="M${w*.38} ${h*.02}Q${w*.5} ${h*.06} ${w*.62} ${h*.02}" fill="none" stroke="${l}" stroke-width="1"/><path d="M${w*.3} ${h*.5}Q${w*.28} ${h*.7} ${w*.2} ${h*.9}" fill="none" stroke="${l}" stroke-width=".5" opacity=".5"/><path d="M${w*.7} ${h*.5}Q${w*.72} ${h*.7} ${w*.8} ${h*.9}" fill="none" stroke="${l}" stroke-width=".5" opacity=".5"/></svg>`}
+// ═══ SUPABASE İNTEQRASİYASI ═══
+const { createClient } = supabase;
+const supabaseUrl = 'https://ijljnzqigtfonvqlkhkr.supabase.co'; 
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlqbGpuenFpZ3Rmb252cWxraGtyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUxMjY5NzAsImV4cCI6MjA5MDcwMjk3MH0.KDnvL1F-Zwae5fyEzEyGNAT7QYT0L7KKy1g84LQTLDU';
+const supa = createClient(supabaseUrl, supabaseKey);
+
+let dynProducts = [];
+let uPh=null, sD=null, dI=null, det=null, ps=null, shP=false, md='m';
+let W=0, H=0, drg=false, ds={x:0,y:0};
+let F={x:0, y:0, sc:1, rt:0, op:1, fh:false, fv:false, ox:0, oy:0};
+let cFlt='all';
+
+// Məhsulları bazadan yüklə
+async function initData() {
+  const { data, error } = await supa.from('products').select('*').eq('status', 'active').order('created_at', { ascending: false });
+  if (data && !error) {
+    dynProducts = data;
+    rGrid('all');
+  } else {
+    document.getElementById('dg').innerHTML = '<p style="color:var(--taupe);grid-column:1/-1;text-align:center;font-size:0.8rem;">Məhsullar yüklənmədi.</p>';
+  }
+}
+window.addEventListener('load', initData);
+
+// Cədvəli (sol paneli) render et
+function rGrid(f) {
+  cFlt = f;
+  const g = document.getElementById('dg');
+  const l = f === 'all' ? dynProducts : dynProducts.filter(d => d.type === f);
+  
+  if (l.length === 0) {
+    g.innerHTML = '<p style="color:var(--taupe);grid-column:1/-1;text-align:center;font-size:0.8rem;">Bu kateqoriyada məhsul yoxdur.</p>';
+    return;
+  }
+
+  g.innerHTML = l.map(d => {
+    const bg = d.images?.[0] ? `background-image:url(${d.images[0]});` : `background-color:${d.color || '#8a7e74'};`;
+    const tp = d.type === 'rental' ? 'Kirayə' : 'Couture';
+    const name = d.name?.az || d.name?.en || 'Məhsul';
+    const sel = sD?.id === d.id ? 'sel' : '';
+    return `<div class="dc ${sel}" onclick="selD('${d.id}')"><div class="dc-bg" style="${bg}"></div><div class="dc-ov"></div><div class="dc-info"><div class="dc-name">${name}</div><div class="dc-tp">${tp}</div></div><div class="dc-chk"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div></div>`;
+  }).join('');
+}
+
+// Şəkli olmayan məhsullar üçün köməkçi (Fallback) SVG paltar çəkici
+function mkSVG(color){
+  const c = color || '#2a5a40';
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600" width="400" height="600"><path d="M152 12C140 30 112 48 100 72L88 108C80 132 72 168 64 210L48 300C32 390 20 468 24 528C28 564 40 582 56 588L344 588C360 582 372 564 376 528C380 468 368 390 352 300L336 210C328 168 320 132 312 108L300 72C288 48 260 30 248 12C220 0 180 0 152 12Z" fill="${c}" opacity="0.9"/></svg>`;
+}
+
+// Seçilən geyimi Canvas-a gətir
+function selD(id) {
+  sD = dynProducts.find(d => d.id === id);
+  rGrid(cFlt); // outline-ı yenilə
+  
+  dI = new Image();
+  // CORS XƏTASININ QARŞISINI ALMAQ ÜÇÜN ÇOX VACİBDİR
+  dI.crossOrigin = "Anonymous"; 
+  
+  dI.onload = () => {
+    if(ps) aFit();
+    else {
+      F.x = W/2; F.y = H*0.55; 
+      F.sc = Math.min(W,H)*0.5/(dI.naturalHeight || 600); 
+      F.rt = 0; F.op = 1; F.fh = false; F.fv = false; F.ox = 0; F.oy = 0; 
+      syncUI();
+    }
+    draw();
+    noti(ps ? 'AI geyimi əyninizə uyğunlaşdırdı!' : 'Geyim seçildi');
+  };
+  
+  dI.onerror = () => { noti('Şəkil yüklənmədi', 'wr'); };
+  
+  if (sD.images && sD.images.length > 0) {
+    dI.src = sD.images[0]; // Buluddakı (Cloudinary) şəkil
+  } else {
+    // Şəkli yoxdursa SVG çəkirik
+    const svg = mkSVG(sD.color);
+    const b = new Blob([svg],{type:'image/svg+xml'});
+    dI.src = URL.createObjectURL(b);
+  }
+}
+
+// ═══ AI VƏ CANVAS KODLARI (olduğu kimi qorunub) ═══
 async function ldMod(){if(det)return det;try{await tf.setBackend('webgl');await tf.ready();det=await poseDetection.createDetector(poseDetection.SupportedModels.MoveNet,{modelType:poseDetection.movenet.modelType.SINGLEPOSE_THUNDER});return det}catch(e){console.error(e);noti('AI modeli yüklənə bilmədi','wr');return null}}
 async function detP(img){sLd(true);try{const d=await ldMod();if(!d){sLd(false);return null}const r=await d.estimatePoses(img);sLd(false);if(r&&r.length>0){ps=r[0];noti('Bədən nöqtələri tapıldı! Geyim seçin →');document.getElementById('pTg').classList.add('vis');return ps}else{noti('Bədən tapılmadı. Tam boy şəkil yükləyin.','wr');return null}}catch(e){sLd(false);console.error(e);noti('AI xəta. Manual rejim aktiv.','wr');return null}}
 function kp(n){if(!ps)return null;const m={nose:0,lSh:5,rSh:6,lHi:11,rHi:12,lKn:13,rKn:14,lAn:15,rAn:16};const i=m[n];if(i===undefined)return null;const p=ps.keypoints[i];return(p&&p.score>.3)?{x:p.x,y:p.y}:null}
@@ -194,7 +270,6 @@ function calcFit(){const ls=kp('lSh'),rs=kp('rSh'),lh=kp('lHi'),rh=kp('rHi'),lk=
 function aFit(){const f=calcFit();if(!f){F.x=W/2;F.y=H*.55;F.sc=Math.min(W,H)*.5/600;F.rt=0}else{F.x=f.x;F.y=f.y;F.sc=f.sc;F.rt=f.rt}F.op=1;F.fh=false;F.fv=false;F.ox=0;F.oy=0;syncUI();draw()}
 function ldPh(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=async ev=>{const img=new Image();img.onload=async()=>{uPh=img;setupC();document.getElementById('uSt').classList.add('hid');document.getElementById('cW').classList.add('vis');document.getElementById('fBar').classList.add('vis');draw();await detP(img);if(sD)aFit();draw()};img.src=ev.target.result};r.readAsDataURL(f)}
 function setupC(){const c=document.getElementById('mc'),a=document.querySelector('.canvas-area');const mW=a.clientWidth*.92,mH=a.clientHeight*.92;let w=uPh.naturalWidth,h=uPh.naturalHeight;const r=Math.min(mW/w,mH/h,1);w=Math.round(w*r);h=Math.round(h*r);if(w<280){const s=280/w;w=280;h=Math.round(h*s)}c.width=w;c.height=h;c.style.width=w+'px';c.style.height=h+'px';W=w;H=h}
-function selD(id){sD=DS.find(d=>d.id===id);rGrid(cFlt);const svg=mkSVG(sD);const b=new Blob([svg],{type:'image/svg+xml'});dI=new Image();dI.onload=()=>{if(ps)aFit();else{F.x=W/2;F.y=H*.55;F.sc=Math.min(W,H)*.5/600;F.rt=0;F.op=1;F.fh=false;F.fv=false;F.ox=0;F.oy=0;syncUI()}draw();noti(ps?'AI geyimi əyninizə uyğunlaşdırdı!':'Geyim seçildi')};dI.src=URL.createObjectURL(b)}
 function draw(){const c=document.getElementById('mc'),x=c.getContext('2d');x.clearRect(0,0,W,H);if(uPh)x.drawImage(uPh,0,0,W,H);if(shP&&ps)drawP(x);if(dI&&sD){x.save();x.globalAlpha=F.op;const fx=F.x+F.ox,fy=F.y+F.oy;x.translate(fx,fy);x.rotate(F.rt*Math.PI/180);x.scale(F.fh?-F.sc:F.sc,F.fv?-F.sc:F.sc);const dw=dI.naturalWidth||400,dh=dI.naturalHeight||600;x.drawImage(dI,-dw/2,-dh/2,dw,dh);x.restore()}}
 function drawP(x){if(!ps)return;const k=ps.keypoints;const cn=[[5,6],[5,7],[7,9],[6,8],[8,10],[5,11],[6,12],[11,12],[11,13],[13,15],[12,14],[14,16]];x.strokeStyle='rgba(196,114,126,.6)';x.lineWidth=2;cn.forEach(([a,b])=>{if(k[a].score>.3&&k[b].score>.3){x.beginPath();x.moveTo(k[a].x,k[a].y);x.lineTo(k[b].x,k[b].y);x.stroke()}});k.forEach(p=>{if(p.score>.3){x.beginPath();x.arc(p.x,p.y,4,0,Math.PI*2);x.fillStyle='rgba(196,114,126,.9)';x.fill();x.strokeStyle='#fff';x.lineWidth=1.5;x.stroke()}})}
 function adjC(p,v){const bs=ps?calcFit()?.sc||1:Math.min(W,H)*.5/600;if(p==='s'){F.sc=v/100*bs;document.getElementById('vS').textContent=v+'%'}if(p==='y'){F.oy=+v;document.getElementById('vY').textContent=v}if(p==='x'){F.ox=+v;document.getElementById('vX').textContent=v}if(p==='r'){F.rt=+v;document.getElementById('vR').textContent=v+'°'}if(p==='o'){F.op=v/100;document.getElementById('vO').textContent=v+'%'}draw()}
@@ -213,7 +288,6 @@ let lTD=0;cv.addEventListener('touchstart',e=>{if(!dI)return;e.preventDefault();
 cv.addEventListener('touchmove',e=>{if(!dI)return;e.preventDefault();if(e.touches.length===1&&drg){const p=gp(e.touches[0]);F.ox=p.x-ds.x-F.x;F.oy=p.y-ds.y-F.y;syncUI();draw()}else if(e.touches.length===2){const d=Math.hypot(e.touches[1].clientX-e.touches[0].clientX,e.touches[1].clientY-e.touches[0].clientY);F.sc=Math.max(.05,Math.min(3,F.sc*(d/lTD)));lTD=d;syncUI();draw()}},{passive:false});
 cv.addEventListener('touchend',()=>drg=false);
 function sMode(m){md=m;document.querySelectorAll('.fbb').forEach(b=>b.classList.remove('act'));document.getElementById(m==='m'?'fMv':'fSc')?.classList.add('act')}
-let cFlt='all';function rGrid(f){cFlt=f;const g=document.getElementById('dg');const l=f==='all'?DS:DS.filter(d=>d.c===f);g.innerHTML=l.map(d=>`<div class="dc ${sD?.id===d.id?'sel':''}" onclick="selD(${d.id})"><div class="dc-bg" style="background:${d.g}"></div><div class="dc-ov"></div><div class="dc-info"><div class="dc-name">${d.n}</div><div class="dc-tp">${d.t}</div></div><div class="dc-chk"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div></div>`).join('')}
 function flt(c,b){b.parentElement.querySelectorAll('.fb').forEach(x=>x.classList.remove('act'));b.classList.add('act');rGrid(c)}
 function swTab(id,b){document.querySelectorAll('.sb-tab').forEach(t=>t.classList.remove('act'));b.classList.add('act');document.querySelectorAll('.tp').forEach(p=>p.classList.remove('act'));document.getElementById('tp-'+id).classList.add('act')}
 function saveI(){if(!uPh){noti('Əvvəlcə şəkil yükləyin','wr');return}const sp=shP;shP=false;draw();const a=document.createElement('a');a.download='avera-tryon-'+Date.now()+'.png';a.href=document.getElementById('mc').toDataURL('image/png');a.click();shP=sp;draw();noti('Şəkil yadda saxlandı!')}
@@ -221,7 +295,6 @@ function opMob(){document.getElementById('sidebar').classList.add('open');docume
 function clMob(){document.getElementById('sidebar').classList.remove('open');document.getElementById('mOv').classList.remove('vis')}
 function sLd(v){document.getElementById('aLd').classList.toggle('vis',v)}
 function noti(m,t='ok'){const e=document.getElementById('tst');e.textContent=m;e.className='tst '+t+' show';setTimeout(()=>e.classList.remove('show'),3000)}
-rGrid('all');
 </script>
 </body>
 </html>
