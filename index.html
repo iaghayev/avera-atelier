@@ -3,276 +3,177 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Avera Atelier — Fashion & Style by Anvaril</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Lora:ital,wght@0,400;0,500;1,400&family=Nunito+Sans:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<title>Avera Atelier — Fashion & Style</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lora:ital@0;1&family=Nunito+Sans:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
 :root {
-  --cream: #f4efe6; --cream-dark: #e8e0d2; --warm-white: #faf8f4;
-  --charcoal: #2c2826; --charcoal-light: #3d3835; --taupe: #8a7e74;
-  --taupe-light: #b0a69c; --rose: #c4727e; --rose-soft: #d4929b;
-  --gradient-accent: linear-gradient(135deg, #d4727e, #d4926a, #c4a85a, #7a9a6e, #5a7a9a, #7a5c8e);
-  --shadow-soft: 0 4px 30px rgba(44,40,38,0.08);
-  --shadow-md: 0 8px 40px rgba(44,40,38,0.12);
-  --heading: 'Playfair Display', Georgia, serif;
-  --body-serif: 'Lora', Georgia, serif;
-  --body: 'Nunito Sans', 'Helvetica Neue', sans-serif;
+  --cream: #f4efe6; --warm-white: #faf8f4; --charcoal: #2c2826;
+  --taupe: #8a7e74; --rose: #c4727e; --shadow-md: 0 8px 40px rgba(0,0,0,0.1);
+  --heading: 'Playfair Display', serif; --body: 'Nunito Sans', sans-serif;
 }
+body { background: var(--warm-white); color: var(--charcoal); font-family: var(--body); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
 
-html { scroll-behavior: smooth; }
-body { background: var(--warm-white); color: var(--charcoal); font-family: var(--body); font-weight: 300; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
-::-webkit-scrollbar { width: 5px; } ::-webkit-scrollbar-track { background: var(--cream); } ::-webkit-scrollbar-thumb { background: var(--taupe-light); border-radius: 3px; }
+/* ═══ NAV & LANG ═══ */
+.lang-bar { position: fixed; top: 0; left: 0; right: 0; z-index: 2001; background: var(--charcoal); padding: 5px 3rem; display: flex; justify-content: flex-end; gap: 10px; }
+.lang-btn { background: none; border: none; color: rgba(255,255,255,0.5); cursor: pointer; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; transition: 0.3s; }
+.lang-btn.active { color: #fff; border-bottom: 1px solid var(--rose); }
 
-.preloader { position: fixed; inset: 0; z-index: 9999; background: var(--warm-white); display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 1.5rem; transition: opacity 1s; }
-.preloader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
-.preloader-logo { font-family: var(--heading); font-size: 3rem; font-style: italic; color: var(--charcoal); }
+nav { position: fixed; top: 25px; left: 0; width: 100%; z-index: 2000; padding: 1.5rem 3rem; display: flex; justify-content: space-between; align-items: center; transition: 0.4s; }
+nav.scrolled { background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); padding: 1rem 3rem; box-shadow: 0 2px 20px rgba(0,0,0,0.05); }
+.nav-logo { font-family: var(--heading); font-size: 1.6rem; font-style: italic; text-decoration: none; color: var(--charcoal); }
 
-nav { position: fixed; top: 0; left: 0; width: 100%; z-index: 1001; padding: 1.2rem 3rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.4s; }
-nav.scrolled { background: rgba(250,248,244,0.95); backdrop-filter: blur(20px); padding: 0.9rem 3rem; box-shadow: 0 1px 20px rgba(0,0,0,0.05); }
-.nav-logo { font-family: var(--heading); font-size: 1.5rem; font-style: italic; color: var(--charcoal); text-decoration: none; }
-.nav-links { display: flex; gap: 2.5rem; list-style: none; }
-.nav-links a { font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--taupe); text-decoration: none; transition: color 0.3s; }
-.nav-links a:hover { color: var(--charcoal); }
+/* ═══ HERO ═══ */
+.hero { height: 100vh; display: flex; align-items: center; justify-content: center; background: var(--cream); text-align: center; }
+.hero-brand { font-family: var(--heading); font-size: clamp(3rem, 10vw, 8rem); font-style: italic; margin-bottom: 1rem; }
 
-.hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: var(--cream); text-align: center; padding: 0 2rem; position: relative;}
-.hero-eyebrow { font-size: 0.65rem; letter-spacing: 0.5em; text-transform: uppercase; color: var(--taupe); margin-bottom: 2rem; opacity: 0; animation: fadeUp 1s ease 0.5s forwards; }
-.hero-brand { font-family: var(--heading); font-size: clamp(4rem, 12vw, 9rem); font-style: italic; line-height: 1; margin-bottom: 0.8rem; opacity: 0; animation: fadeUp 1s ease 0.7s forwards; }
-.hero-sub { font-family: var(--body-serif); font-size: 1rem; font-style: italic; color: var(--taupe); margin-bottom: 3rem; opacity: 0; animation: fadeUp 1s ease 0.9s forwards; }
-.hero-cta { display: inline-block; padding: 1rem 3.5rem; background: var(--charcoal); color: var(--cream); font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase; text-decoration: none; transition: all 0.4s; opacity: 0; animation: fadeUp 1s ease 1.1s forwards; }
-.hero-cta:hover { background: var(--charcoal-light); transform: translateY(-2px); }
-
-section { padding: 6rem 3rem; }
-.section-label { font-size: 0.6rem; letter-spacing: 0.5em; text-transform: uppercase; color: var(--rose); margin-bottom: 1rem; }
-.section-title { font-family: var(--heading); font-size: clamp(2rem, 4.5vw, 3.2rem); color: var(--charcoal); margin-bottom: 1.5rem; }
-
-#about { background: var(--warm-white); }
-.about { max-width: 900px; margin: 0 auto; text-align: center; }
-.about-text { font-family: var(--body-serif); font-size: 1.05rem; line-height: 1.8; color: var(--taupe); margin-bottom: 2rem; }
-
-#new-arrivals { background: var(--cream); }
-.dynamic-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2.5rem; max-width: 1200px; margin: 0 auto; }
-.product-card { background: #fff; overflow: hidden; cursor: pointer; transition: transform 0.4s; }
+/* ═══ GRID ═══ */
+section { padding: 5rem 3rem; }
+.dynamic-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto; }
+.product-card { background: #fff; cursor: pointer; transition: 0.4s; border-radius: 4px; overflow: hidden; }
 .product-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); }
-.product-img { width: 100%; aspect-ratio: 3/4; background-size: cover; background-position: center; background-color: var(--cream-dark); }
-.product-info { padding: 1.5rem; text-align: center; }
-.product-info h3 { font-family: var(--heading); font-size: 1.1rem; color: var(--charcoal); margin-bottom: 0.4rem; }
-.product-info p { font-size: 0.9rem; color: var(--taupe); }
+.product-img { width: 100%; aspect-ratio: 3/4; background-size: cover; background-position: center; }
+.product-info { padding: 1.2rem; text-align: center; }
 
-/* ═══ YENİ: MÜKƏMMƏLLƏŞDİRİLMİŞ MODAL (Slider oxları ilə) ═══ */
-.pm-overlay { position: fixed; inset: 0; z-index: 2000; background: rgba(44,40,38,0.8); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: all 0.3s; }
-.pm-overlay.active { opacity: 1; visibility: visible; }
-.pm-modal { background: var(--warm-white); width: 95%; max-width: 1100px; height: 85vh; border-radius: 4px; display: flex; overflow: hidden; box-shadow: var(--shadow-md); transform: translateY(20px); transition: all 0.3s; position: relative; }
-.pm-overlay.active .pm-modal { transform: translateY(0); }
-.pm-close { position: absolute; top: 1.2rem; right: 1.5rem; background: rgba(255,255,255,0.9); border: none; width: 40px; height: 40px; border-radius: 50%; font-size: 1.5rem; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; transition: background 0.3s; }
-.pm-close:hover { background: #fff; }
+/* ═══ MODAL & SLIDER ═══ */
+.pm-overlay { position: fixed; inset: 0; z-index: 3000; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); display: none; align-items: center; justify-content: center; opacity: 0; transition: 0.3s; }
+.pm-overlay.active { display: flex; opacity: 1; }
+.pm-modal { background: #fff; width: 95%; max-width: 1000px; height: 80vh; display: flex; position: relative; border-radius: 4px; overflow: hidden; }
+.pm-close { position: absolute; top: 15px; right: 15px; z-index: 10; background: #fff; border: none; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; }
 
-.pm-gallery { flex: 1.2; position: relative; background: var(--cream); display: flex; align-items: center; justify-content: center; overflow: hidden; }
-.pm-main-img { width: 100%; height: 100%; background-size: contain; background-repeat: no-repeat; background-position: center; transition: background-image 0.3s; }
+.pm-gallery { flex: 1.2; position: relative; background: #000; display: flex; align-items: center; }
+.pm-main-img { width: 100%; height: 100%; background-size: contain; background-repeat: no-repeat; background-position: center; }
 
 /* Slider Oxları */
-.pm-nav-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.7); border: none; width: 40px; height: 40px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; display: none; align-items: center; justify-content: center; z-index: 5; transition: background 0.3s; }
-.pm-nav-btn:hover { background: #fff; }
-.pm-nav-prev { left: 1rem; }
-.pm-nav-next { right: 1rem; }
+.nav-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.2); color: #fff; border: none; width: 45px; height: 45px; cursor: pointer; font-size: 1.5rem; transition: 0.3s; display: flex; align-items: center; justify-content: center; }
+.nav-arrow:hover { background: rgba(255,255,255,0.4); }
+.arrow-left { left: 10px; }
+.arrow-right { right: 10px; }
 
-.pm-details { flex: 1; padding: 4rem 3rem; overflow-y: auto; background: var(--warm-white); }
-.pm-tag { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--rose); margin-bottom: 0.8rem; display: block; }
-.pm-title { font-family: var(--heading); font-size: 2.2rem; color: var(--charcoal); margin-bottom: 0.5rem; line-height: 1.2; }
-.pm-price { font-size: 1.2rem; color: var(--taupe); margin-bottom: 2rem; }
-.pm-desc { font-family: var(--body-serif); font-size: 0.95rem; line-height: 1.8; color: var(--taupe); margin-bottom: 2rem; }
-.pm-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; padding: 1.5rem 0; border-top: 1px solid var(--cream-dark); border-bottom: 1px solid var(--cream-dark); margin-bottom: 2.5rem; }
-.pm-meta-item strong { display: block; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--charcoal-light); margin-bottom: 0.3rem; }
-.pm-btn { display: block; width: 100%; padding: 1.2rem; text-align: center; background: var(--charcoal); color: var(--cream); text-decoration: none; text-transform: uppercase; letter-spacing: 0.2em; font-size: 0.75rem; font-weight: 600; cursor: pointer; border: none; transition: background 0.3s; }
-.pm-btn:hover { background: var(--rose); }
+.pm-details { flex: 1; padding: 3rem; overflow-y: auto; }
+.pm-title { font-family: var(--heading); font-size: 2rem; margin-bottom: 10px; }
+.pm-price { font-size: 1.3rem; color: var(--rose); margin-bottom: 20px; font-weight: 600; }
+.pm-btn { display: block; width: 100%; padding: 1rem; background: var(--charcoal); color: #fff; text-align: center; text-decoration: none; text-transform: uppercase; font-weight: 600; letter-spacing: 1px; margin-top: 2rem; }
 
-@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-.reveal { opacity: 0; transform: translateY(30px); transition: all 0.7s; } .reveal.visible { opacity: 1; transform: translateY(0); }
-
-@media (max-width: 800px) {
-  .pm-modal { flex-direction: column; height: 95vh; }
-  .pm-gallery { flex: none; height: 50vh; }
-  .pm-details { padding: 2rem 1.5rem; }
-  section { padding: 4rem 1.5rem; }
-}
+@media (max-width: 800px) { .pm-modal { flex-direction: column; } .pm-gallery { height: 45%; } }
 </style>
 </head>
 <body>
 
-<div class="preloader" id="preloader"><div class="preloader-logo">Avera</div><div class="preloader-bar"></div></div>
+<div class="lang-bar">
+  <button class="lang-btn active" onclick="switchLang('az')">AZ</button>
+  <button class="lang-btn" onclick="switchLang('ru')">RU</button>
+  <button class="lang-btn" onclick="switchLang('en')">EN</button>
+</div>
 
-<nav id="nav">
-  <a href="#" class="nav-logo">Avera</a>
-  <ul class="nav-links">
-    <li><a href="#about">Haqqımızda</a></li>
-    <li><a href="#new-arrivals">Kolleksiyalar</a></li>
-  </ul>
-</nav>
+<nav id="nav"><a href="#" class="nav-logo">Avera</a></nav>
 
 <section class="hero">
   <div class="hero-content">
-    <p class="hero-eyebrow">Eksklüziv</p>
-    <h1 class="hero-brand" id="uiHeroTitle">Avera</h1>
-    <p class="hero-sub" id="uiHeroSub">Couture & Kirayə Donlar</p>
-    <a href="#new-arrivals" class="hero-cta">Kolleksiyalara Bax</a>
+    <h1 class="hero-brand" id="ui-hero-title">Avera Atelier</h1>
+    <p class="hero-sub" id="ui-hero-sub">Fashion & Style</p>
   </div>
 </section>
 
-<section id="about">
-  <div class="about reveal">
-    <p class="section-label">Haqqımızda</p>
-    <h2 class="section-title" id="uiAboutTitle">Zamansız Zəriflik</h2>
-    <div class="about-text" id="uiAboutText">Avera Atelier qadınların özlərini xüsusi hiss etmələri üçün yaradılmış lüks moda evidir.</div>
-  </div>
-</section>
-
-<section id="new-arrivals">
-  <div style="text-align:center; margin-bottom: 3rem;" class="reveal">
-    <p class="section-label">Seçilmiş Dizaynlar</p>
-    <h2 class="section-title">Kolleksiyamız</h2>
-  </div>
-  <div class="dynamic-grid" id="dynamicProductsGrid">
-    <p style="text-align:center;width:100%;color:var(--taupe);">Məhsullar yüklənir...</p>
-  </div>
+<section id="products">
+  <div class="dynamic-grid" id="productGrid"></div>
 </section>
 
 <div class="pm-overlay" id="productModal">
   <div class="pm-modal">
     <button class="pm-close" onclick="closeProductModal()">&times;</button>
     <div class="pm-gallery">
-      <button class="pm-nav-btn pm-nav-prev" id="btnPrev" onclick="prevImg()">&#10094;</button>
-      <div class="pm-main-img" id="pmMainImg"></div>
-      <button class="pm-nav-btn pm-nav-next" id="btnNext" onclick="nextImg()">&#10095;</button>
+      <button class="nav-arrow arrow-left" onclick="changeImg(-1)">&#10094;</button>
+      <div class="pm-main-img" id="mainImg"></div>
+      <button class="nav-arrow arrow-right" onclick="changeImg(1)">&#10095;</button>
     </div>
     <div class="pm-details">
-      <span class="pm-tag" id="pmType">Couture</span>
-      <h2 class="pm-title" id="pmTitle">Məhsul Adı</h2>
-      <div class="pm-price" id="pmPrice">0 ₼</div>
-      <p class="pm-desc" id="pmDesc">Məhsul haqqında məlumat</p>
-      
-      <div class="pm-meta">
-        <div class="pm-meta-item"><strong>Parça</strong><span id="pmFabric">—</span></div>
-        <div class="pm-meta-item"><strong>Ölçülər</strong><span id="pmSizes">—</span></div>
-      </div>
-
-      <button class="pm-btn" onclick="orderViaWhatsApp()">Sifariş üçün Əlaqə ✦</button>
+      <h2 class="pm-title" id="mTitle">Məhsul</h2>
+      <div class="pm-price" id="mPrice">0 ₼</div>
+      <p class="pm-desc" id="mDesc"></p>
+      <div id="mMeta" style="margin-top:20px; font-size:0.9rem; border-top:1px solid #eee; padding-top:20px;"></div>
+      <button class="pm-btn" onclick="orderWA()" id="mBtn">Sifariş üçün Əlaqə</button>
     </div>
   </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-// SUPABASE INIT
 const supa = supabase.createClient('https://ijljnzqigtfonvqlkhkr.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlqbGpuenFpZ3Rmb252cWxraGtyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUxMjY5NzAsImV4cCI6MjA5MDcwMjk3MH0.KDnvL1F-Zwae5fyEzEyGNAT7QYT0L7KKy1g84LQTLDU');
 
-let loadedProducts = [];
-let shopWhatsApp = '';
-let currentProductName = '';
+let products = [], currentLang = 'az', waNum = '', currentP = null, imgIdx = 0;
 
-// SLIDER MƏNTİQİ
-let currentImageArray = [];
-let currentImageIndex = 0;
+const t = {
+  az: { order: "Sifariş üçün Əlaqə", msg: "Salam, mən bu məhsulla maraqlanıram: " },
+  ru: { order: "Связаться для заказа", msg: "Здравствуйте, меня интересует этот товар: " },
+  en: { order: "Contact to Order", msg: "Hello, I am interested in this product: " }
+};
 
 async function loadData() {
-  // CMS & Settings
-  const { data: appData } = await supa.from('app_settings').select('*').eq('id', 1).single();
-  if (appData) {
-    if(appData.hero_title) document.getElementById('uiHeroTitle').textContent = appData.hero_title;
-    if(appData.hero_sub) document.getElementById('uiHeroSub').textContent = appData.hero_sub;
-    if(appData.about_title) document.getElementById('uiAboutTitle').textContent = appData.about_title;
-    if(appData.about_text) document.getElementById('uiAboutText').textContent = appData.about_text;
-    if(appData.whatsapp) shopWhatsApp = appData.whatsapp;
+  const { data: settings } = await supa.from('app_settings').select('*').eq('id', 1).single();
+  if(settings) {
+    waNum = settings.whatsapp;
+    if(settings.hero_title) document.getElementById('ui-hero-title').textContent = settings.hero_title;
   }
 
-  // Məhsulları çəkirik (Sadece 'featured' olanlar əsas səhifədə görünə bilər, əgər hamısını istəyirsinizsə .eq('collection_id', 'featured') hissəsini silin)
-  const { data: products } = await supa.from('products').select('*').eq('status', 'active').order('created_at', { ascending: false });
-  
-  const container = document.getElementById('dynamicProductsGrid');
-  if (!products || products.length === 0) {
-    container.innerHTML = '<p style="text-align:center;width:100%;">Hələ məhsul yoxdur...</p>';
-    return;
-  }
-  loadedProducts = products;
-  
-  // Ekrana ancaq "Önə çıxan" (featured) məhsulları düzürük. (Əgər yoxdursa hamısını düzürük ki, sayt boş qalmasın).
-  let displayProducts = products.filter(p => p.collection_id === 'featured');
-  if(displayProducts.length === 0) displayProducts = products;
-
-  container.innerHTML = displayProducts.map(p => {
-    const bg = p.images?.[0] ? `background-image: url('${p.images[0]}');` : `background-color: ${p.color||'#ccc'};`;
-    return `<div class="product-card reveal visible" onclick="openProductModal('${p.id}')">
-        <div class="product-img" style="${bg}"></div>
-        <div class="product-info"><h3>${p.name?.az || 'Məhsul'}</h3><p>${p.price ? p.price + ' ₼' : ''}</p></div>
-      </div>`;
-  }).join('');
+  const { data: prods } = await supa.from('products').select('*').eq('status', 'active');
+  products = prods || [];
+  render();
 }
 
-function openProductModal(id) {
-  const p = loadedProducts.find(x => x.id === id);
-  if (!p) return;
+function render() {
+  const grid = document.getElementById('productGrid');
+  grid.innerHTML = products.map(p => `
+    <div class="product-card" onclick="openModal('${p.id}')">
+      <div class="product-img" style="background-image:url('${p.images?.[0]||''}')"></div>
+      <div class="product-info">
+        <h3>${p.name[currentLang] || p.name.az}</h3>
+        <p>${p.price} ₼</p>
+      </div>
+    </div>
+  `).join('');
+}
 
-  currentProductName = p.name?.az || 'Məhsul';
-  document.getElementById('pmTitle').textContent = currentProductName;
-  document.getElementById('pmDesc').textContent = p.description?.az || '';
-  document.getElementById('pmPrice').textContent = p.price ? p.price + ' ₼' : 'Qiymət sorğuda';
-  document.getElementById('pmType').textContent = p.type === 'rental' ? 'Kirayə' : 'Couture';
-  document.getElementById('pmFabric').textContent = p.fabric || '—';
-  document.getElementById('pmSizes').textContent = p.sizes?.length ? p.sizes.join(', ') : '—';
-  
-  // Slider üçün şəkilləri tənzimləmək
-  currentImageArray = p.images || [];
-  currentImageIndex = 0;
-  updateModalImage();
-
+function openModal(id) {
+  currentP = products.find(x => x.id === id);
+  imgIdx = 0;
+  updateModal();
   document.getElementById('productModal').classList.add('active');
-  document.body.style.overflow = 'hidden';
 }
 
-function updateModalImage() {
-  const imgEl = document.getElementById('pmMainImg');
-  const prevBtn = document.getElementById('btnPrev');
-  const nextBtn = document.getElementById('btnNext');
-
-  if (currentImageArray.length > 0) {
-    imgEl.style.backgroundImage = `url('${currentImageArray[currentImageIndex]}')`;
-    // Əgər 1-dən çox şəkil varsa oxları göstər
-    if (currentImageArray.length > 1) {
-      prevBtn.style.display = 'flex'; nextBtn.style.display = 'flex';
-    } else {
-      prevBtn.style.display = 'none'; nextBtn.style.display = 'none';
-    }
-  } else {
-    imgEl.style.backgroundImage = 'none';
-    prevBtn.style.display = 'none'; nextBtn.style.display = 'none';
-  }
+function updateModal() {
+  const p = currentP;
+  document.getElementById('mTitle').textContent = p.name[currentLang] || p.name.az;
+  document.getElementById('mPrice').textContent = p.price + " ₼";
+  document.getElementById('mDesc').textContent = p.description[currentLang] || p.description.az;
+  document.getElementById('mainImg').style.backgroundImage = `url('${p.images[imgIdx]}')`;
+  document.getElementById('mBtn').textContent = t[currentLang].order;
+  
+  // Oxların görünməsi
+  document.querySelectorAll('.nav-arrow').forEach(a => a.style.display = p.images.length > 1 ? 'flex' : 'none');
 }
 
-function nextImg() {
-  currentImageIndex = (currentImageIndex + 1) % currentImageArray.length;
-  updateModalImage();
-}
-function prevImg() {
-  currentImageIndex = (currentImageIndex - 1 + currentImageArray.length) % currentImageArray.length;
-  updateModalImage();
+function changeImg(dir) {
+  imgIdx = (imgIdx + dir + currentP.images.length) % currentP.images.length;
+  document.getElementById('mainImg').style.backgroundImage = `url('${currentP.images[imgIdx]}')`;
 }
 
-function closeProductModal() {
-  document.getElementById('productModal').classList.remove('active');
-  document.body.style.overflow = '';
+function switchLang(l) {
+  currentLang = l;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.textContent.toLowerCase() === l));
+  render();
+  if(currentP) updateModal();
 }
 
-function orderViaWhatsApp() {
-  if (!shopWhatsApp) return alert('WhatsApp nömrəsi qeyd olunmayıb.');
-  const msg = `Salam! Mən bu məhsulla maraqlanıram: ${currentProductName}`;
-  window.open(`https://wa.me/${shopWhatsApp}?text=${encodeURIComponent(msg)}`, '_blank');
+function closeProductModal() { document.getElementById('productModal').classList.remove('active'); }
+
+function orderWA() {
+  const link = `https://wa.me/${waNum}?text=${encodeURIComponent(t[currentLang].msg + (currentP.name[currentLang] || currentP.name.az))}`;
+  window.open(link, '_blank');
 }
 
-window.addEventListener('load', () => {
-  setTimeout(() => document.getElementById('preloader').classList.add('hidden'), 1000);
-  loadData();
-});
-const nav = document.getElementById('nav');
-window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 50));
+window.addEventListener('load', loadData);
+window.addEventListener('scroll', () => document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 50));
 </script>
 </body>
 </html>
