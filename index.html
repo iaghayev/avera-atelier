@@ -3,108 +3,110 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Avera Atelier — Timeless Elegance</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Nunito+Sans:wght@200;300;400;600&display=swap" rel="stylesheet">
+<title>Avera Atelier — Rental & Couture</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Nunito+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
-:root {
-  --primary: #2c2826; --accent: #c4727e; --white: #ffffff; --bg: #faf8f4;
-  --shadow-lg: 0 20px 50px rgba(0,0,0,0.15);
-  --heading: 'Playfair Display', serif; --body: 'Nunito Sans', sans-serif;
-}
+:root { --primary: #111; --accent: #c4727e; --bg: #ffffff; --card-bg: #f9f9f9; --text: #333; --muted: #777; --heading: 'Playfair Display', serif; --body: 'Nunito Sans', sans-serif; }
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-body { background: var(--bg); color: var(--primary); font-family: var(--body); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+body { background: var(--bg); color: var(--text); font-family: var(--body); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
 
-/* NAV & LANG */
-.lang-bar { position: fixed; top: 0; left: 0; right: 0; z-index: 2001; background: var(--primary); padding: 8px 3rem; display: flex; justify-content: flex-end; gap: 15px; }
-.lang-btn { background: none; border: none; color: rgba(255,255,255,0.4); cursor: pointer; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; }
-.lang-btn.active { color: #fff; border-bottom: 1.5px solid var(--accent); }
-
-nav { position: fixed; top: 35px; left: 0; width: 100%; z-index: 2000; padding: 1.5rem 3rem; display: flex; justify-content: space-between; align-items: center; transition: 0.4s; }
-nav.scrolled { background: rgba(255,255,255,0.98); backdrop-filter: blur(10px); padding: 1rem 3rem; box-shadow: 0 2px 30px rgba(0,0,0,0.04); }
-.logo { font-family: var(--heading); font-size: 1.8rem; font-style: italic; color: var(--primary); text-decoration: none; }
+/* NAV */
+.top-bar { background: var(--primary); color: #fff; text-align: center; padding: 6px; font-size: 0.65rem; letter-spacing: 1px; font-weight: 600; text-transform: uppercase; }
+nav { padding: 1.5rem 3rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; position: sticky; top: 0; background: rgba(255,255,255,0.98); z-index: 1000; }
+.logo { font-family: var(--heading); font-size: 2rem; color: var(--primary); text-decoration: none; }
+.lang-btn { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 0.75rem; font-weight: 700; margin-left: 10px; }
+.lang-btn.active { color: var(--primary); border-bottom: 2px solid var(--primary); }
 
 /* HERO */
-.hero { height: 100vh; display: flex; align-items: center; justify-content: center; background: #f4efe6; text-align: center; }
-.hero-title { font-family: var(--heading); font-size: clamp(3rem, 10vw, 8.5rem); font-style: italic; margin-bottom: 0.5rem; opacity: 0; animation: fadeUp 1s forwards 0.5s; }
-.hero-sub { font-size: 1.1rem; letter-spacing: 4px; text-transform: uppercase; color: var(--accent); opacity: 0; animation: fadeUp 1s forwards 0.8s; }
+.hero { height: 70vh; display: flex; align-items: center; justify-content: center; background: #f4efe6; text-align: center; position: relative; overflow: hidden; }
+.hero-title { font-family: var(--heading); font-size: clamp(3rem, 8vw, 6rem); margin-bottom: 1rem; color: var(--primary); }
+.hero-sub { font-size: 1rem; letter-spacing: 3px; text-transform: uppercase; color: var(--primary); }
 
-/* GRID & COLLECTIONS TABS */
-section { padding: 8rem 3rem; }
-.section-header { text-align: center; margin-bottom: 4rem; }
+/* TABS & CAROUSEL */
+section { padding: 5rem 0; }
+.section-header { text-align: center; margin-bottom: 3rem; }
+.section-title { font-family: var(--heading); font-size: 2.2rem; color: var(--primary); margin-bottom: 1rem; text-transform: uppercase; }
 
-.coll-tabs { display: flex; justify-content: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 3rem; }
-.coll-tab { padding: 0.8rem 2rem; background: transparent; border: 1px solid var(--border); border-radius: 30px; font-family: var(--body); font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--primary); cursor: pointer; transition: 0.3s; }
-.coll-tab:hover { border-color: var(--primary); }
-.coll-tab.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+.coll-tabs { display: flex; justify-content: center; gap: 2rem; margin-bottom: 3rem; overflow-x: auto; padding: 0 2rem; white-space: nowrap; }
+.coll-tab { background: none; border: none; font-family: var(--body); font-size: 0.85rem; font-weight: 700; text-transform: uppercase; color: var(--muted); cursor: pointer; padding-bottom: 5px; transition: 0.3s; }
+.coll-tab:hover { color: var(--primary); }
+.coll-tab.active { color: var(--primary); border-bottom: 2px solid var(--primary); }
 
-.dynamic-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 3rem; max-width: 1300px; margin: 0 auto; }
-.item-card { background: var(--white); cursor: pointer; transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1); border-radius: 2px; overflow: hidden; animation: fadeIn 0.5s; }
-.item-card:hover { transform: translateY(-10px); box-shadow: 0 30px 60px rgba(0,0,0,0.1); }
-.item-img { width: 100%; aspect-ratio: 3/4; background-size: cover; background-position: center; transition: 0.8s; }
-.item-card:hover .item-img { transform: scale(1.05); }
-.item-info { padding: 1.5rem; text-align: center; }
+/* PREMIUM PRODUCT CARD (LIKE HURR) */
+.carousel-wrapper { width: 100%; padding: 0 3rem; }
+.product-grid { display: flex; gap: 2rem; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 2rem; scrollbar-width: none; }
+.product-grid::-webkit-scrollbar { display: none; }
 
-/* MODAL SYSTEM */
-.pm-overlay { position: fixed; inset: 0; z-index: 3000; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; opacity: 0; transition: 0.4s; }
+.product-card { min-width: 280px; max-width: 320px; flex: 0 0 auto; scroll-snap-align: start; cursor: pointer; position: relative; }
+.product-img-box { width: 100%; aspect-ratio: 3/4; background: var(--card-bg); position: relative; overflow: hidden; margin-bottom: 1rem; }
+.product-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+.product-card:hover .product-img { transform: scale(1.05); }
+
+/* BADGES & ICONS */
+.card-badge { position: absolute; top: 10px; left: 10px; background: #e3ff00; color: #000; font-size: 0.6rem; font-weight: 800; padding: 4px 8px; text-transform: uppercase; border-radius: 2px; z-index: 2; }
+.heart-icon { position: absolute; top: 10px; right: 10px; width: 35px; height: 35px; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); z-index: 2; color: #ccc; font-size: 1.2rem; transition: 0.3s; }
+.product-card:hover .heart-icon { color: var(--primary); }
+
+/* INFO */
+.p-brand { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; color: var(--primary); margin-bottom: 5px; }
+.p-name { font-size: 0.9rem; color: var(--muted); margin-bottom: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.p-price { font-size: 1rem; font-weight: 700; color: var(--primary); margin-bottom: 5px; }
+.p-rrp { font-size: 0.7rem; color: var(--muted); margin-bottom: 10px; }
+.p-sizes { font-size: 0.7rem; color: var(--primary); display: flex; gap: 5px; }
+.size-dot { border-bottom: 1px solid #ccc; padding-bottom: 2px; }
+
+/* MODAL */
+.pm-overlay { position: fixed; inset: 0; z-index: 3000; background: rgba(0,0,0,0.8); display: none; align-items: center; justify-content: center; opacity: 0; transition: 0.3s; }
 .pm-overlay.active { display: flex; opacity: 1; }
-.pm-container { background: var(--white); width: 95%; max-width: 1200px; height: 85vh; display: flex; border-radius: 4px; overflow: hidden; position: relative; }
+.pm-container { background: #fff; width: 100%; max-width: 1000px; height: 85vh; display: flex; position: relative; }
+.pm-close { position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 2rem; cursor: pointer; z-index: 10; }
 
-.pm-slider { flex: 1.3; background: #000; position: relative; display: flex; align-items: center; justify-content: center; }
-.pm-main-img { width: 100%; height: 100%; background-size: contain; background-repeat: no-repeat; background-position: center; transition: 0.4s; }
-
-.slider-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.1); border: none; width: 60px; height: 60px; color: #fff; font-size: 2rem; cursor: pointer; transition: 0.3s; z-index: 10; display: flex; align-items: center; justify-content: center; }
-.slider-nav:hover { background: rgba(255,255,255,0.3); }
-.prev-btn { left: 0; } .next-btn { right: 0; }
+.pm-slider { flex: 1; background: var(--card-bg); position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.pm-main-img { width: 100%; height: 100%; background-size: cover; background-position: center; }
+.slider-nav { position: absolute; top: 50%; transform: translateY(-50%); background: #fff; border: none; width: 40px; height: 40px; border-radius: 50%; box-shadow: 0 4px 10px rgba(0,0,0,0.1); cursor: pointer; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; z-index: 5; }
+.prev-btn { left: 15px; } .next-btn { right: 15px; }
 
 .pm-content { flex: 1; padding: 4rem; overflow-y: auto; }
-.pm-close { position: absolute; top: 20px; right: 20px; z-index: 20; background: #fff; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 1.5rem; }
-.pm-price { font-size: 1.5rem; color: var(--accent); margin: 1.5rem 0; font-weight: 700; }
-.pm-desc { font-family: 'Lora', serif; line-height: 1.8; color: #666; margin-bottom: 2.5rem; font-size: 1.1rem; }
+.pm-c-brand { font-size: 0.9rem; font-weight: 700; text-transform: uppercase; margin-bottom: 10px; }
+.pm-c-title { font-family: var(--heading); font-size: 2.2rem; margin-bottom: 15px; }
+.pm-c-price { font-size: 1.5rem; font-weight: 700; margin-bottom: 5px; }
+.pm-c-rrp { font-size: 0.9rem; color: var(--muted); margin-bottom: 2rem; }
+.pm-c-desc { font-size: 1rem; line-height: 1.6; color: var(--muted); margin-bottom: 2rem; }
+.pm-btn { width: 100%; padding: 1.2rem; background: var(--primary); color: #fff; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; border: none; cursor: pointer; }
 
-.pm-footer-btn { display: block; width: 100%; padding: 1.2rem; background: var(--primary); color: #fff; text-align: center; text-decoration: none; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; border: none; cursor: pointer; transition: 0.3s;}
-.pm-footer-btn:hover { background: var(--accent); }
-
-@keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-@media (max-width: 900px) { .pm-container { flex-direction: column; } .pm-slider { height: 50%; } .pm-content { padding: 2rem; } }
+@media (max-width: 900px) {
+  .pm-container { flex-direction: column; } .pm-slider { height: 50vh; } .pm-content { padding: 2rem; }
+  .carousel-wrapper { padding: 0 1.5rem; } .product-card { min-width: 240px; } nav { padding: 1rem 1.5rem; }
+}
 </style>
 </head>
 <body>
 
-<div class="preloader" id="preloader"><div class="preloader-logo" style="font-family:var(--heading); font-size: 3rem; font-style: italic;">Avera</div></div>
+<div class="top-bar">20% OFF RENTALS WITH CODE 'AVERA20'</div>
 
-<div class="lang-bar">
-  <button class="lang-btn active" onclick="switchLang('az')">AZ</button>
-  <button class="lang-btn" onclick="switchLang('ru')">RU</button>
-  <button class="lang-btn" onclick="switchLang('en')">EN</button>
-</div>
-
-<nav id="nav"><a href="#" class="logo">Avera</a></nav>
+<nav>
+  <a href="#" class="logo">Avera</a>
+  <div>
+    <button class="lang-btn active" onclick="switchLang('az')">AZ</button>
+    <button class="lang-btn" onclick="switchLang('en')">EN</button>
+    <button class="lang-btn" onclick="switchLang('ru')">RU</button>
+  </div>
+</nav>
 
 <section class="hero">
   <div class="hero-content">
-    <h1 class="hero-title" id="hero-title">Avera Atelier</h1>
-    <p class="hero-sub" id="hero-sub">Fashion & Style</p>
+    <h1 class="hero-title" id="hTitle">Rent New Season</h1>
+    <p class="hero-sub" id="hSub">Explore the latest collections</p>
   </div>
 </section>
 
-<section id="about" style="text-align:center; background:#fff;">
-  <div style="opacity: 0; transform: translateY(30px); transition: all 0.8s;" id="about-reveal">
-    <p style="font-size: 0.6rem; letter-spacing: 0.5em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem;">Haqqımızda</p>
-    <h2 id="about-title" style="font-family:var(--heading); font-size: 2.5rem; margin-bottom: 1.5rem;">Zamansız Zəriflik</h2>
-    <div id="about-text" style="font-family: 'Lora', serif; font-size: 1.1rem; line-height: 1.8; color: #666; max-width:800px; margin:0 auto;"></div>
-  </div>
-</section>
-
-<section id="products">
-  <div class="section-header">
-    <p style="font-size: 0.6rem; letter-spacing: 0.5em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem;" id="ui-coll-label">Kolleksiyalar</p>
-    <h2 style="font-family:var(--heading); font-size: 2.5rem;" id="ui-coll-title">Seçilmiş Dizaynlar</h2>
-  </div>
-  
+<section>
+  <div class="section-header"><h2 class="section-title" id="sTitle">Just Landed</h2></div>
   <div class="coll-tabs" id="collTabs"></div>
-
-  <div class="dynamic-grid" id="grid"></div>
+  
+  <div class="carousel-wrapper">
+    <div class="product-grid" id="grid"></div>
+  </div>
 </section>
 
 <div class="pm-overlay" id="pm">
@@ -116,16 +118,18 @@ section { padding: 8rem 3rem; }
       <button class="slider-nav next-btn" onclick="slide(1)">&#10095;</button>
     </div>
     <div class="pm-content">
-      <h2 id="pmTitle" style="font-family:var(--heading); font-size:2.5rem;"></h2>
-      <div id="pmPrice" class="pm-price"></div>
-      <p id="pmDesc" class="pm-desc"></p>
+      <div class="pm-c-brand" id="pmBrand">CULT GAIA</div>
+      <h2 class="pm-c-title" id="pmTitle">Dress</h2>
+      <div class="pm-c-price" id="pmPrice">Rent from ₼68</div>
+      <div class="pm-c-rrp" id="pmRrp">RRP ₼428</div>
+      <p class="pm-c-desc" id="pmDesc"></p>
       
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; padding: 1.5rem 0; border-top:1px solid #eee; border-bottom:1px solid #eee; margin-bottom: 2rem;">
-        <div><strong style="display:block; font-size:0.65rem; color:#999; text-transform:uppercase; letter-spacing:1px; margin-bottom:5px;">Kateqoriya</strong><span id="pmType"></span></div>
-        <div><strong style="display:block; font-size:0.65rem; color:#999; text-transform:uppercase; letter-spacing:1px; margin-bottom:5px;">Parça / Ölçü</strong><span id="pmMeta"></span></div>
+      <div style="margin-bottom: 2rem;">
+        <strong style="font-size:0.8rem; text-transform:uppercase;">Ölçülər:</strong>
+        <p id="pmSizes" style="margin-top:5px; color:var(--muted);"></p>
       </div>
 
-      <button class="pm-footer-btn" onclick="order()" id="orderBtn"></button>
+      <button class="pm-btn" onclick="order()" id="oBtn">Sifariş üçün WhatsApp</button>
     </div>
   </div>
 </div>
@@ -134,155 +138,103 @@ section { padding: 8rem 3rem; }
 <script>
 const supa = supabase.createClient('https://ijljnzqigtfonvqlkhkr.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlqbGpuenFpZ3Rmb252cWxraGtyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUxMjY5NzAsImV4cCI6MjA5MDcwMjk3MH0.KDnvL1F-Zwae5fyEzEyGNAT7QYT0L7KKy1g84LQTLDU');
 
-let state = { products: [], collections: [], lang: 'az', wa: '', activeP: null, imgIdx: 0, currentColl: 'all' };
+let state = { products: [], colls: [], lang: 'az', wa: '', activeP: null, imgIdx: 0, activeColl: 'all' };
 
-const dict = {
-  az: { order: "WhatsApp ilə Sifariş", msg: "Salam, bu məhsul haqqında məlumat istəyirəm: ", all: "Bütün Məhsullar", cout: "Fərdi Tikiliş", rent: "Kirayə" },
-  ru: { order: "Заказать через WhatsApp", msg: "Здравствуйте, я хочу заказать: ", all: "Все Товары", cout: "Индивидуальный Пошив", rent: "Прокат" },
-  en: { order: "Order via WhatsApp", msg: "Hello, I'm interested in: ", all: "All Products", cout: "Couture", rent: "Rental" }
+const t = {
+  az: { all: "Bütün Məhsullar", title: "Kolleksiyalar", rent: "Kirayə", rrp: "Orijinal Qiymət", btn: "Sifariş üçün Əlaqə" },
+  en: { all: "All Products", title: "Collections", rent: "Rent from", rrp: "RRP", btn: "Contact to Order" },
+  ru: { all: "Все Товары", title: "Коллекции", rent: "Аренда от", rrp: "Ориг. Цена", btn: "Связаться для заказа" }
 };
 
-// --- DATA LOADER ---
+function safeTxt(o) { return !o ? '' : typeof o==='string' ? o : o[state.lang] || o.az || o.en || ''; }
+
 async function boot() {
-  // CMS Settings
-  const { data: settings } = await supa.from('app_settings').select('*').eq('id', 1).single();
-  if(settings) {
-    state.wa = settings.whatsapp;
-    document.getElementById('hero-title').textContent = settings.hero_title || 'Avera';
-    document.getElementById('hero-sub').textContent = settings.hero_sub || 'Fashion';
-    document.getElementById('about-title').textContent = settings.about_title || '';
-    document.getElementById('about-text').textContent = settings.about_text || '';
+  const {data: set} = await supa.from('app_settings').select('*').eq('id',1).single();
+  if(set) {
+    state.wa = set.whatsapp;
+    document.getElementById('hTitle').textContent = set.hero_title || 'Rent New Season';
+    document.getElementById('hSub').textContent = set.hero_sub || 'Explore';
   }
-
-  // Kolleksiyaları Yüklə
-  const { data: colls } = await supa.from('collections').select('*').eq('status', 'active').order('created_at', { ascending: false });
-  state.collections = colls || [];
-
-  // Məhsulları Yüklə
-  const { data: prods } = await supa.from('products').select('*').eq('status', 'active');
-  state.products = prods || [];
   
-  renderTabs();
-  renderGrid();
-  document.getElementById('preloader').style.display='none';
+  const {data: c} = await supa.from('collections').select('*').eq('status','active');
+  state.colls = c || [];
+  
+  const {data: p} = await supa.from('products').select('*').eq('status','active');
+  state.products = p || [];
+
+  renderTabs(); renderGrid();
 }
 
-function safeTxt(obj) {
-  if(!obj) return '';
-  if(typeof obj === 'string') return obj;
-  return obj[state.lang] || obj.az || obj.en || '';
-}
-
-// --- DİNAMİK TABLAR (KOLLEKSİYALAR) ---
 function renderTabs() {
-  const container = document.getElementById('collTabs');
-  let html = `<button class="coll-tab ${state.currentColl === 'all' ? 'active' : ''}" onclick="filterColl('all')">${dict[state.lang].all}</button>`;
-  
-  state.collections.forEach(c => {
-    html += `<button class="coll-tab ${state.currentColl === c.id ? 'active' : ''}" onclick="filterColl('${c.id}')">${safeTxt(c.name)}</button>`;
+  let html = `<button class="coll-tab ${state.activeColl==='all'?'active':''}" onclick="filt('all')">${t[state.lang].all}</button>`;
+  state.colls.forEach(c => {
+    html += `<button class="coll-tab ${state.activeColl===c.id?'active':''}" onclick="filt('${c.id}')">${safeTxt(c.name)}</button>`;
   });
-  
-  container.innerHTML = html;
+  document.getElementById('collTabs').innerHTML = html;
+  document.getElementById('sTitle').textContent = t[state.lang].title;
 }
 
-function filterColl(id) {
-  state.currentColl = id;
-  renderTabs();
-  renderGrid();
-}
+function filt(id) { state.activeColl = id; renderTabs(); renderGrid(); }
 
-// --- MƏHSUL QALEREYASI ---
 function renderGrid() {
-  const container = document.getElementById('grid');
-  
-  // Siyahını filterləyirik
-  let filtered = state.products;
-  if(state.currentColl !== 'all') {
-    filtered = state.products.filter(p => p.collection_id === state.currentColl);
-  }
+  let prods = state.activeColl === 'all' ? state.products : state.products.filter(p => p.collection_id === state.activeColl);
+  document.getElementById('grid').innerHTML = prods.map(p => {
+    let badge = p.tags ? `<div class="card-badge">${p.tags.split(',')[0]}</div>` : '';
+    let priceHTML = p.rental_price ? `${t[state.lang].rent} <strong>${p.rental_price} ₼</strong>` : `<strong>${p.price} ₼</strong>`;
+    let rrpHTML = p.price && p.rental_price ? `<div class="p-rrp">${t[state.lang].rrp} ${p.price} ₼</div>` : `<div class="p-rrp" style="opacity:0;">-</div>`;
+    let sizesHTML = p.sizes ? p.sizes.map(s => `<span class="size-dot">${s}</span>`).join('') : '';
 
-  if(filtered.length === 0) {
-    container.innerHTML = `<p style="grid-column:1/-1; text-align:center; color:#999; font-size:1.1rem; padding: 3rem;">Bu kolleksiyada hələ məhsul yoxdur.</p>`;
-    return;
-  }
-
-  container.innerHTML = filtered.map(p => {
-    const prStr = p.sale_price ? `<span style="text-decoration:line-through; font-size:0.9rem; color:#999;">${p.price}</span> <span style="color:var(--accent);">${p.sale_price} ₼</span>` : `${p.price} ₼`;
     return `
-    <div class="item-card" onclick="openPm('${p.id}')">
-      <div class="item-img" style="background-image:url('${p.images?.[0] || ''}')"></div>
-      <div class="item-info">
-        <h3 style="font-family:var(--heading)">${safeTxt(p.name)}</h3>
-        <p style="font-weight:700; margin-top:5px;">${prStr}</p>
+    <div class="product-card" onclick="openPm('${p.id}')">
+      <div class="product-img-box">
+        ${badge}
+        <div class="heart-icon">♥</div>
+        <img src="${p.images?.[0]||''}" class="product-img">
       </div>
-    </div>
-  `}).join('');
+      <div class="p-brand">${p.brand || 'AVERA'}</div>
+      <div class="p-name">${safeTxt(p.name)}</div>
+      <div class="p-price">${priceHTML}</div>
+      ${rrpHTML}
+      <div class="p-sizes">${sizesHTML}</div>
+    </div>`;
+  }).join('');
 }
 
-// --- MODAL & SLIDER ---
 function openPm(id) {
-  state.activeP = state.products.find(x => x.id === id);
-  state.imgIdx = 0;
-  updatePm();
-  document.getElementById('pm').classList.add('active');
-  document.body.style.overflow='hidden';
+  state.activeP = state.products.find(x=>x.id===id); state.imgIdx = 0; updatePm();
+  document.getElementById('pm').classList.add('active'); document.body.style.overflow='hidden';
 }
 
 function updatePm() {
   const p = state.activeP;
+  document.getElementById('pmBrand').textContent = p.brand || 'AVERA';
   document.getElementById('pmTitle').textContent = safeTxt(p.name);
-  
-  document.getElementById('pmPrice').innerHTML = p.sale_price 
-    ? `<span style="text-decoration:line-through; font-size:1rem; color:#999; margin-right:10px;">${p.price} ₼</span>${p.sale_price} ₼` 
-    : `${p.price} ₼`;
-    
+  document.getElementById('pmPrice').textContent = p.rental_price ? `${t[state.lang].rent} ${p.rental_price} ₼` : `${p.price} ₼`;
+  document.getElementById('pmRrp').textContent = p.price && p.rental_price ? `${t[state.lang].rrp} ${p.price} ₼` : '';
   document.getElementById('pmDesc').textContent = safeTxt(p.description);
+  document.getElementById('pmSizes').textContent = p.sizes ? p.sizes.join(', ') : '—';
+  document.getElementById('oBtn').textContent = t[state.lang].btn;
   
-  document.getElementById('pmType').textContent = p.type === 'couture' ? dict[state.lang].cout : dict[state.lang].rent;
-  
-  const fb = p.fabric ? p.fabric + " | " : "";
-  const sz = p.sizes && p.sizes.length ? p.sizes.join(', ') : "";
-  document.getElementById('pmMeta').textContent = (fb + sz) || '—';
-
   document.getElementById('pmImg').style.backgroundImage = `url('${p.images[state.imgIdx]}')`;
-  document.getElementById('orderBtn').textContent = dict[state.lang].order;
-  
-  const arrows = document.querySelectorAll('.slider-nav');
-  arrows.forEach(a => a.style.display = p.images.length > 1 ? 'flex' : 'none');
+  document.querySelectorAll('.slider-nav').forEach(a => a.style.display = p.images.length > 1 ? 'flex' : 'none');
 }
 
-function slide(dir) {
-  const len = state.activeP.images.length;
-  state.imgIdx = (state.imgIdx + dir + len) % len;
+function slide(d) {
+  const l = state.activeP.images.length; state.imgIdx = (state.imgIdx + d + l) % l;
   document.getElementById('pmImg').style.backgroundImage = `url('${state.activeP.images[state.imgIdx]}')`;
-}
-
-// --- LOGIC ---
-function switchLang(l) {
-  state.lang = l;
-  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.textContent.toLowerCase() === l));
-  
-  document.getElementById('ui-coll-label').textContent = l==='az' ? 'Kolleksiyalar' : l==='ru' ? 'Коллекции' : 'Collections';
-  document.getElementById('ui-coll-title').textContent = l==='az' ? 'Seçilmiş Dizaynlar' : l==='ru' ? 'Избранные Дизайны' : 'Selected Designs';
-  
-  renderTabs();
-  renderGrid();
-  if(state.activeP) updatePm();
 }
 
 function closePm() { document.getElementById('pm').classList.remove('active'); document.body.style.overflow=''; }
 
-function order() {
-  const url = `https://wa.me/${state.wa}?text=${encodeURIComponent(dict[state.lang].msg + safeTxt(state.activeP.name))}`;
-  window.open(url, '_blank');
+function switchLang(l) {
+  state.lang = l;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.textContent.toLowerCase()===l));
+  renderTabs(); renderGrid(); if(state.activeP) updatePm();
 }
 
-window.addEventListener('load', boot);
-window.addEventListener('scroll', () => {
-  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 50);
-  const ab = document.getElementById('about-reveal');
-  if(window.scrollY > 200) { ab.style.opacity = '1'; ab.style.transform = 'translateY(0)'; }
-});
+function order() { window.open(`https://wa.me/${state.wa}?text=${encodeURIComponent("Salam, mən bu məhsulla maraqlanıram: " + safeTxt(state.activeP.name))}`, '_blank'); }
+
+window.onload = boot;
 </script>
 </body>
 </html>
