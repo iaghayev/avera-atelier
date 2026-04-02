@@ -7,168 +7,291 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600&family=Nunito+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --primary: #2c2826; --accent: #c4727e; --bg: #f7f4ef; --white: #ffffff;
-  --text: #3d3835; --muted: #8a7e74; --border: #e8e0d2; --radius: 10px;
-  --sidebar-w: 260px; --shadow: 0 4px 20px rgba(0,0,0,0.08);
+  --primary: #2c2826; --accent: #c4727e; --bg: #f4f1eb; --white: #ffffff;
+  --text: #3d3835; --muted: #8a7e74; --border: #e2dcd2; --radius: 12px;
+  --sidebar-w: 260px; --shadow: 0 8px 30px rgba(0,0,0,0.05);
+  --success: #10b981; --warning: #f59e0b; --danger: #ef4444; --info: #3b82f6;
 }
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-body { background: var(--bg); color: var(--text); font-family: 'Nunito Sans', sans-serif; display: flex; min-height: 100vh; }
+body { background: var(--bg); color: var(--text); font-family: 'Nunito Sans', sans-serif; display: flex; min-height: 100vh; overflow-x: hidden;}
 
 /* AUTH SCREEN */
 .auth-overlay { position: fixed; inset: 0; z-index: 9999; background: var(--bg); display: flex; align-items: center; justify-content: center; }
 .auth-overlay.hidden { display: none; }
-.auth-card { background: var(--white); padding: 3rem; border-radius: var(--radius); shadow: var(--shadow); width: 100%; max-width: 400px; text-align: center; }
+.auth-card { background: var(--white); padding: 3rem; border-radius: var(--radius); box-shadow: var(--shadow); width: 100%; max-width: 400px; text-align: center; }
 
 /* SIDEBAR */
-.sidebar { width: var(--sidebar-w); background: var(--primary); color: #fff; padding: 2rem 0; display: flex; flex-direction: column; position: fixed; height: 100vh; }
-.sidebar-header { padding: 0 2rem 2rem; border-bottom: 1px solid rgba(255,255,255,0.1); font-family: 'Playfair Display', serif; font-size: 1.5rem; font-style: italic; }
-.nav-group { padding: 1.5rem 0; flex: 1; }
-.nav-label { padding: 0.5rem 2rem; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; color: rgba(255,255,255,0.3); margin-top: 1rem; }
-.nav-item { padding: 0.8rem 2rem; display: flex; align-items: center; gap: 10px; cursor: pointer; transition: 0.3s; color: rgba(255,255,255,0.6); border: none; background: none; width: 100%; text-align: left; font-size: 0.9rem; }
-.nav-item:hover, .nav-item.active { background: rgba(255,255,255,0.05); color: #fff; }
-.nav-item.active { border-right: 4px solid var(--accent); }
+.sidebar { width: var(--sidebar-w); background: var(--primary); color: #fff; padding: 2rem 0; display: flex; flex-direction: column; position: fixed; height: 100vh; z-index: 100; }
+.sidebar-header { padding: 0 2rem 2rem; border-bottom: 1px solid rgba(255,255,255,0.05); font-family: 'Playfair Display', serif; font-size: 1.5rem; font-style: italic; text-align: center;}
+.nav-group { padding: 1rem 0; flex: 1; overflow-y: auto;}
+.nav-label { padding: 0.5rem 2rem; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.5px; color: rgba(255,255,255,0.4); margin-top: 1rem; font-weight: 700;}
+.nav-item { padding: 0.9rem 2rem; display: flex; align-items: center; gap: 12px; cursor: pointer; transition: 0.3s; color: rgba(255,255,255,0.7); border: none; background: none; width: 100%; text-align: left; font-size: 0.95rem; font-family: inherit;}
+.nav-item:hover, .nav-item.active { background: rgba(255,255,255,0.08); color: #fff; }
+.nav-item.active { border-right: 4px solid var(--accent); font-weight: 600;}
 
 /* MAIN CONTENT */
-.main-content { flex: 1; margin-left: var(--sidebar-w); padding: 2rem; }
-.header-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
+.main-content { flex: 1; margin-left: var(--sidebar-w); padding: 2.5rem; max-width: calc(100vw - var(--sidebar-w));}
+.header-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; padding-bottom: 1rem; }
 .page { display: none; animation: fadeIn 0.4s ease; }
 .page.active { display: block; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+/* DASHBOARD STATS */
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+.stat-card { background: var(--white); padding: 1.5rem; border-radius: var(--radius); box-shadow: var(--shadow); border-left: 4px solid var(--accent); }
+.stat-card h4 { font-size: 0.85rem; color: var(--muted); text-transform: uppercase; margin-bottom: 0.5rem; }
+.stat-card .value { font-size: 2rem; font-weight: 700; color: var(--primary); }
 
 /* UI ELEMENTS */
 .card { background: var(--white); border-radius: var(--radius); padding: 1.5rem; box-shadow: var(--shadow); margin-bottom: 1.5rem; }
-.btn { padding: 0.8rem 1.5rem; border-radius: 5px; border: none; cursor: pointer; font-weight: 600; transition: 0.3s; font-family: inherit; }
+.btn { padding: 0.8rem 1.5rem; border-radius: 6px; border: none; cursor: pointer; font-weight: 600; transition: 0.3s; font-family: inherit; display: inline-flex; align-items: center; justify-content: center; gap: 8px;}
 .btn-primary { background: var(--primary); color: #fff; }
-.btn-primary:hover { opacity: 0.9; transform: translateY(-2px); }
-.btn-outline { background: transparent; border: 1.5px solid var(--border); }
-.btn-danger { background: #fee2e2; color: #dc2626; }
+.btn-primary:hover { background: #1a1716; transform: translateY(-2px); }
+.btn-accent { background: var(--accent); color: #fff; }
+.btn-accent:hover { opacity: 0.9; }
+.btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
+.btn-outline:hover { border-color: var(--muted); }
+.btn-sm { padding: 0.4rem 0.8rem; font-size: 0.8rem; }
+
+/* TOOLBAR (Search & Filters) */
+.toolbar { display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+.search-input { flex: 1; min-width: 250px; padding: 0.8rem 1.2rem; border: 1px solid var(--border); border-radius: 6px; outline: none; background: #fff url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%238a7e74" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>') no-repeat 95% center; }
+.filter-select { padding: 0.8rem 1.2rem; border: 1px solid var(--border); border-radius: 6px; outline: none; background: #fff; min-width: 150px; cursor: pointer;}
 
 /* DATA TABLE */
-table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
-th { text-align: left; padding: 1rem; font-size: 0.75rem; text-transform: uppercase; color: var(--muted); border-bottom: 2px solid var(--bg); }
-td { padding: 1rem; border-bottom: 1px solid var(--bg); vertical-align: middle; }
-.data-img { width: 45px; height: 60px; object-fit: cover; border-radius: 4px; background: var(--bg); }
+.table-wrapper { overflow-x: auto; background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); }
+table { width: 100%; border-collapse: collapse; white-space: nowrap; }
+th { text-align: left; padding: 1.2rem 1rem; font-size: 0.75rem; text-transform: uppercase; color: var(--muted); border-bottom: 1px solid var(--border); background: #fdfcfb; font-weight: 700; }
+td { padding: 1rem; border-bottom: 1px solid var(--border); vertical-align: middle; font-size: 0.9rem; }
+tr:hover td { background: #fdfdfd; }
+.data-img { width: 50px; height: 65px; object-fit: cover; border-radius: 6px; background: var(--bg); border: 1px solid var(--border); }
+.badge { padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;}
+.badge.active, .badge.completed { background: #d1fae5; color: var(--success); }
+.badge.pending { background: #fef3c7; color: var(--warning); }
+.badge.inactive, .badge.cancelled { background: #fee2e2; color: var(--danger); }
+.badge.new { background: #dbeafe; color: var(--info); }
 
 /* FORMS */
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+.form-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
 .form-group { margin-bottom: 1.2rem; }
-.label { display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--muted); text-transform: uppercase; }
-.input, .textarea, .select { width: 100%; padding: 0.9rem; border: 1.5px solid var(--border); border-radius: 6px; outline: none; font-size: 0.9rem; transition: 0.3s; }
-.input:focus { border-color: var(--accent); }
-
-/* IMAGE PREVIEWER */
-.preview-grid { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 1rem; }
-.preview-box { width: 80px; height: 100px; position: relative; border-radius: 6px; overflow: hidden; border: 1px solid var(--border); }
-.preview-box img { width: 100%; height: 100%; object-fit: cover; }
-.remove-img { position: absolute; top: 2px; right: 2px; background: rgba(220,38,38,0.9); color: #fff; border: none; border-radius: 50%; width: 20px; height: 20px; cursor: pointer; font-size: 12px; }
+.label { display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 0.6rem; color: var(--text); }
+.input, .textarea, .select { width: 100%; padding: 0.8rem 1rem; border: 1px solid var(--border); border-radius: 6px; outline: none; font-size: 0.95rem; background: #faf9f7; transition: 0.3s; font-family: inherit;}
+.input:focus, .textarea:focus { border-color: var(--accent); background: #fff; box-shadow: 0 0 0 3px rgba(196, 114, 126, 0.1); }
+.lang-badge { display: inline-block; font-size: 0.65rem; background: var(--primary); color: #fff; padding: 2px 6px; border-radius: 4px; margin-right: 5px; vertical-align: middle;}
 
 /* MODAL */
-.modal-wrap { position: fixed; inset: 0; z-index: 2000; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; }
-.modal-wrap.active { display: flex; }
-.modal-content { background: var(--white); width: 90%; max-width: 800px; max-height: 90vh; overflow-y: auto; border-radius: var(--radius); position: relative; }
-.modal-header { padding: 1.5rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+.modal-wrap { position: fixed; inset: 0; z-index: 2000; background: rgba(44, 40, 38, 0.6); backdrop-filter: blur(5px); display: none; align-items: center; justify-content: center; }
+.modal-wrap.active { display: flex; animation: fadeIn 0.2s ease; }
+.modal-content { background: var(--white); width: 95%; max-width: 900px; max-height: 90vh; overflow-y: auto; border-radius: var(--radius); position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.2); }
+.modal-header { padding: 1.5rem 2rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; background: var(--white); z-index: 10; }
 .modal-body { padding: 2rem; }
-.modal-footer { padding: 1.5rem; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 10px; }
+.modal-footer { padding: 1.5rem 2rem; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 15px; position: sticky; bottom: 0; background: #fdfcfb; }
 
-.toast { position: fixed; bottom: 2rem; right: 2rem; background: var(--primary); color: #fff; padding: 1rem 2rem; border-radius: 5px; transform: translateY(100px); transition: 0.3s; z-index: 9999; box-shadow: var(--shadow); }
-.toast.show { transform: translateY(0); }
+/* UPLOAD */
+.image-upload-box { border: 2px dashed var(--border); padding: 2rem; text-align: center; border-radius: 8px; cursor: pointer; position: relative; background: #faf9f7; transition: 0.3s; }
+.image-upload-box:hover { border-color: var(--accent); background: #fff; }
+.image-upload-box input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.preview-grid { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 1rem; }
+.preview-box { width: 90px; height: 120px; position: relative; border-radius: 6px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+.preview-box img { width: 100%; height: 100%; object-fit: cover; }
+.remove-img { position: absolute; top: 5px; right: 5px; background: rgba(239,68,68,0.9); color: #fff; border: none; border-radius: 50%; width: 22px; height: 22px; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center;}
+
+.toast { position: fixed; bottom: 2rem; right: 2rem; background: var(--primary); color: #fff; padding: 1rem 2rem; border-radius: 8px; transform: translateY(100px); opacity: 0; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 9999; box-shadow: 0 10px 30px rgba(0,0,0,0.2); font-weight: 600;}
+.toast.show { transform: translateY(0); opacity: 1; }
 </style>
 </head>
 <body>
 
 <div class="auth-overlay" id="authScreen">
   <div class="auth-card">
-    <h1 style="font-family:'Playfair Display',serif; margin-bottom:1.5rem;">Avera Control</h1>
-    <input type="password" id="adminPass" class="input" placeholder="Giriş şifrəsi" style="text-align:center; margin-bottom:1rem;">
-    <button class="btn btn-primary" style="width:100%" onclick="login()">Sistemi Aç</button>
+    <h1 style="font-family:'Playfair Display',serif; margin-bottom:0.5rem; color:var(--primary)">Avera Atelier</h1>
+    <p style="color:var(--muted); margin-bottom: 2rem; font-size:0.9rem;">Senior İdarəetmə Paneli</p>
+    <div class="form-group" style="text-align: left;">
+        <label class="label">Şifrə</label>
+        <input type="password" id="adminPass" class="input" placeholder="••••••••" style="margin-bottom:1rem;">
+    </div>
+    <button class="btn btn-primary" style="width:100%" onclick="login()">Sistemə Daxil Ol</button>
+    <p id="loginErr" style="color:var(--danger); font-size:0.8rem; margin-top:1rem; display:none;">Şifrə yalnışdır!</p>
   </div>
 </div>
 
 <aside class="sidebar">
   <div class="sidebar-header">Avera Atelier</div>
   <nav class="nav-group">
+    <div class="nav-label">Əsas</div>
+    <button class="nav-item active" onclick="navTo('dashboard', this)">📊 Statistika</button>
+    <button class="nav-item" onclick="navTo('orders', this)">🛍️ Sifarişlər</button>
+    
     <div class="nav-label">Kataloq</div>
-    <button class="nav-item active" onclick="navTo('products', this)">Məhsullar</button>
+    <button class="nav-item" onclick="navTo('products', this)">👗 Məhsullar</button>
     
     <div class="nav-label">Məzmun (CMS)</div>
-    <button class="nav-item" onclick="navTo('cms-hero', this)">Ana Səhifə (Hero)</button>
-    <button class="nav-item" onclick="navTo('cms-about', this)">Haqqımızda</button>
+    <button class="nav-item" onclick="navTo('cms-hero', this)">🖼️ Ana Səhifə (Hero)</button>
+    <button class="nav-item" onclick="navTo('cms-about', this)">📝 Haqqımızda</button>
     
     <div class="nav-label">Sistem</div>
-    <button class="nav-item" onclick="navTo('settings', this)">Parametrlər</button>
+    <button class="nav-item" onclick="navTo('settings', this)">⚙️ Parametrlər</button>
   </nav>
 </aside>
 
 <main class="main-content">
-  <div class="header-bar"><h2 id="pageTitle">Məhsul İdarəetməsi</h2><span id="liveClock" style="font-weight:600; color:var(--muted)"></span></div>
+  <div class="header-bar">
+      <div>
+          <h2 id="pageTitle" style="font-family:'Playfair Display', serif; font-size:2rem;">Statistika</h2>
+          <p style="color:var(--muted); font-size:0.9rem; margin-top:5px;">Avera Atelier rəqəmsal idarəetmə mərkəzi</p>
+      </div>
+      <div style="text-align:right;">
+          <span id="liveDate" style="display:block; font-size:0.8rem; color:var(--muted); font-weight:700; text-transform:uppercase;"></span>
+          <span id="liveClock" style="font-weight:700; color:var(--primary); font-size:1.2rem;"></span>
+      </div>
+  </div>
 
-  <div class="page active" id="page-products">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:2rem;">
-      <div id="statsInfo" style="font-size:0.9rem; color:var(--muted)">Yüklənir...</div>
-      <button class="btn btn-primary" onclick="openProductModal()">+ Yeni Məhsul Əlavə Et</button>
+  <div class="page active" id="page-dashboard">
+    <div class="stat-grid">
+        <div class="stat-card">
+            <h4>Ümumi Məhsul</h4>
+            <div class="value" id="statTotalProd">0</div>
+        </div>
+        <div class="stat-card">
+            <h4>Aktiv Kirayə</h4>
+            <div class="value" style="color:var(--accent)">12</div>
+        </div>
+        <div class="stat-card">
+            <h4>Yeni Sifarişlər</h4>
+            <div class="value" style="color:var(--info)">5</div>
+        </div>
+        <div class="stat-card">
+            <h4>Aylıq Ziyarət (Təxmini)</h4>
+            <div class="value">1,240</div>
+        </div>
     </div>
-    <div class="card" id="productsTableContainer" style="overflow-x:auto;"></div>
+    
+    <div class="card">
+        <h3 style="margin-bottom:1rem; font-family:'Playfair Display', serif;">Son Əlavə Olunanlar</h3>
+        <div class="table-wrapper">
+            <table id="recentProductsTable">
+                </table>
+        </div>
+    </div>
+  </div>
+
+  <div class="page" id="page-orders">
+    <div class="toolbar">
+        <input type="text" class="search-input" placeholder="Müştəri adı və ya nömrə axtar...">
+        <select class="filter-select">
+            <option value="all">Bütün Statuslar</option>
+            <option value="pending">Gözləyir</option>
+            <option value="completed">Tamamlanıb</option>
+        </select>
+    </div>
+    <div class="table-wrapper">
+        <table>
+            <thead><tr><th>Sifariş ID</th><th>Müştəri</th><th>Məhsul</th><th>Tarix</th><th>Məbləğ</th><th>Status</th><th>Əməliyyat</th></tr></thead>
+            <tbody>
+                <tr><td>#ORD-001</td><td>Aygün Məmmədova</td><td>Gecə Libası (Qara)</td><td>02 Aprel 2026</td><td>150 ₼</td><td><span class="badge pending">Gözləyir</span></td><td><button class="btn btn-sm btn-outline">Bax</button></td></tr>
+                <tr><td>#ORD-002</td><td>Nigar Əliyeva</td><td>Ziyafət Donu</td><td>01 Aprel 2026</td><td>300 ₼</td><td><span class="badge completed">Tamamlandı</span></td><td><button class="btn btn-sm btn-outline">Bax</button></td></tr>
+                <tr><td>#ORD-003</td><td>Lalə Həsənova</td><td>Fərdi Tikiliş (Gəlinlik)</td><td>28 Mart 2026</td><td>1200 ₼</td><td><span class="badge new">Yeni</span></td><td><button class="btn btn-sm btn-outline">Bax</button></td></tr>
+            </tbody>
+        </table>
+    </div>
+  </div>
+
+  <div class="page" id="page-products">
+    <div class="toolbar" style="justify-content: space-between;">
+        <div style="display:flex; gap:1rem; flex:1;">
+            <input type="text" id="searchInput" class="search-input" placeholder="Məhsul adı ilə axtar..." onkeyup="renderProductsTable()">
+            <select id="typeFilter" class="filter-select" onchange="renderProductsTable()">
+                <option value="all">Bütün Növlər</option>
+                <option value="couture">Fərdi Tikiliş</option>
+                <option value="rental">Kirayə</option>
+            </select>
+        </div>
+        <button class="btn btn-primary" onclick="openProductModal()">+ Yeni Məhsul</button>
+    </div>
+    
+    <div class="table-wrapper">
+        <table id="productsTableMain">
+            </table>
+    </div>
   </div>
 
   <div class="page" id="page-cms-hero">
-    <div class="card">
+    <div class="card" style="max-width: 600px;">
       <div class="form-group">
         <label class="label">Ana Başlıq (Hero Title)</label>
         <input class="input" id="heroTitle" placeholder="Məs: Avera Atelier">
       </div>
       <div class="form-group">
         <label class="label">Alt Başlıq (Hero Subtitle)</label>
-        <input class="input" id="heroSub" placeholder="Məs: Fashion & Style">
+        <input class="input" id="heroSub" placeholder="Məs: Zamansız Zəriflik">
       </div>
-      <button class="btn btn-primary" onclick="updateCMS()">Dizaynı Yenilə</button>
+      <div style="margin-top: 2rem;">
+          <button class="btn btn-primary" onclick="updateCMS()">Dizaynı Yenilə</button>
+      </div>
     </div>
   </div>
 
   <div class="page" id="page-cms-about">
-    <div class="card">
+    <div class="card" style="max-width: 800px;">
       <div class="form-group">
         <label class="label">Bölmə Başlığı</label>
-        <input class="input" id="aboutTitle" placeholder="Məs: Zamansız Zəriflik">
+        <input class="input" id="aboutTitle" placeholder="Məs: Biz Kimik?">
       </div>
       <div class="form-group">
         <label class="label">Geniş Mətn (Haqqımızda)</label>
-        <textarea class="textarea" id="aboutText" style="height:250px;"></textarea>
+        <textarea class="textarea" id="aboutText" style="height:300px; line-height:1.6;"></textarea>
       </div>
-      <button class="btn btn-primary" onclick="updateCMS()">Məlumatları Saxla</button>
+      <div style="margin-top: 2rem;">
+        <button class="btn btn-primary" onclick="updateCMS()">Məlumatları Saxla</button>
+      </div>
     </div>
   </div>
 
   <div class="page" id="page-settings">
-    <div class="card">
-      <div class="form-grid">
-        <div class="form-group">
-          <label class="label">WhatsApp Nömrəsi (Link üçün)</label>
-          <input class="input" id="setWa" placeholder="Məs: 994551234567">
+    <div class="card" style="max-width: 600px;">
+      <h3 style="margin-bottom:1.5rem; border-bottom:1px solid var(--border); padding-bottom:1rem;">Əlaqə & Sosial Şəbəkələr</h3>
+      <div class="form-group">
+        <label class="label">WhatsApp Nömrəsi</label>
+        <div style="display:flex; align-items:center; gap:10px;">
+            <span style="font-weight:700; color:var(--muted)">+994</span>
+            <input class="input" id="setWa" placeholder="55 123 45 67">
         </div>
-        <div class="form-group">
-          <label class="label">Instagram Linki</label>
-          <input class="input" id="setInsta">
-        </div>
+        <small style="color:var(--muted)">Saytdakı WhatsApp butonuna klikləyəndə gedəcək nömrə.</small>
       </div>
+      <div class="form-group">
+        <label class="label">Instagram Linki</label>
+        <input class="input" id="setInsta" placeholder="https://instagram.com/avera.atelier">
+      </div>
+      
+      <h3 style="margin-top:2.5rem; margin-bottom:1.5rem; border-bottom:1px solid var(--border); padding-bottom:1rem;">Təhlükəsizlik</h3>
       <div class="form-group">
         <label class="label">Admin Paneli Şifrəsi</label>
         <input type="password" class="input" id="setPass" placeholder="Dəyişmək istəmirsinizsə boş qoyun">
       </div>
-      <button class="btn btn-primary" onclick="saveSettings()">Sistemi Yenilə</button>
+      <div style="margin-top: 2rem;">
+        <button class="btn btn-primary" onclick="saveSettings()">Sistemi Yenilə</button>
+      </div>
     </div>
   </div>
 </main>
 
 <div class="modal-wrap" id="productModal">
   <div class="modal-content">
-    <div class="modal-header"><h3 id="mTitle">Məhsul Detalları</h3><button onclick="closeModal('productModal')" style="background:none; border:none; font-size:1.5rem; cursor:pointer;">&times;</button></div>
+    <div class="modal-header">
+        <h3 id="mTitle" style="font-family:'Playfair Display', serif;">Məhsul Detalları</h3>
+        <button onclick="closeModal('productModal')" style="background:none; border:none; font-size:2rem; line-height:1; color:var(--muted); cursor:pointer;">&times;</button>
+    </div>
+    
     <div class="modal-body">
       <input type="hidden" id="editId">
       
-      <div class="form-group">
+      <div class="form-group card" style="box-shadow:none; border:1px solid var(--border);">
         <label class="label">Məhsul Şəkilləri (Qalereya)</label>
         <div class="image-upload-box">
-          <p style="font-weight:600; color:var(--muted)">Şəkilləri seçin və ya bura dartın</p>
+          <svg style="width:40px; height:40px; margin-bottom:10px; color:var(--muted)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+          <p style="font-weight:600; color:var(--text)">Şəkilləri seçin və ya bura dartın</p>
+          <p style="font-size:0.8rem; color:var(--muted); margin-top:5px;">Maksimum 5MB. Format: JPG, PNG, WEBP</p>
           <input type="file" multiple accept="image/*" onchange="processUploads(event)">
         </div>
         <div class="preview-grid" id="previewGrid"></div>
@@ -176,42 +299,66 @@ td { padding: 1rem; border-bottom: 1px solid var(--bg); vertical-align: middle; 
 
       <div class="form-group">
         <label class="label">Məhsulun Adı</label>
-        <input class="input" id="pName">
+        <div class="form-grid-3">
+            <div><span class="lang-badge">AZ</span><input class="input" id="pNameAz" placeholder="Azərbaycanca"></div>
+            <div><span class="lang-badge">EN</span><input class="input" id="pNameEn" placeholder="İngiliscə"></div>
+            <div><span class="lang-badge">RU</span><input class="input" id="pNameRu" placeholder="Rusca"></div>
+        </div>
       </div>
 
       <div class="form-group">
-        <label class="label">Təsvir</label>
-        <textarea class="textarea" id="pDesc"></textarea>
+        <label class="label">Məhsulun Təsviri</label>
+        <div class="form-grid-3">
+            <div><span class="lang-badge">AZ</span><textarea class="textarea" id="pDescAz" placeholder="Azərbaycanca təsvir..." rows="4"></textarea></div>
+            <div><span class="lang-badge">EN</span><textarea class="textarea" id="pDescEn" placeholder="İngiliscə təsvir..." rows="4"></textarea></div>
+            <div><span class="lang-badge">RU</span><textarea class="textarea" id="pDescRu" placeholder="Rusca təsvir..." rows="4"></textarea></div>
+        </div>
       </div>
 
       <div class="form-grid">
-        <div class="form-group"><label class="label">Qiymət (₼)</label><input type="number" class="input" id="pPrice"></div>
-        <div class="form-group"><label class="label">Endirimli Qiymət (₼)</label><input type="number" class="input" id="pSalePrice" placeholder="Boş = endirim yoxdur"></div>
+        <div class="form-group"><label class="label">Qiymət (₼)</label><input type="number" class="input" id="pPrice" placeholder="0.00"></div>
+        <div class="form-group"><label class="label">Endirimli Qiymət (₼)</label><input type="number" class="input" id="pSalePrice" placeholder="Əgər endirim yoxdursa boş qoyun"></div>
       </div>
 
       <div class="form-grid">
         <div class="form-group">
           <label class="label">Məhsul Növü</label>
-          <select class="select" id="pType"><option value="couture">Fərdi Tikiliş</option><option value="rental">Kirayə</option></select>
+          <select class="select" id="pType">
+              <option value="couture">Fərdi Tikiliş (Couture)</option>
+              <option value="rental">Kirayə (Rental)</option>
+          </select>
         </div>
         <div class="form-group">
-          <label class="label">Sayt Kateqoriyası</label>
+          <label class="label">Sayt Vitrini (Kateqoriya)</label>
           <select class="select" id="pFeat">
-            <option value="">Adi</option>
-            <option value="featured">★ Seçilmiş (Hero Slider)</option>
-            <option value="new">🆕 Yeni Gələn</option>
+            <option value="">-- Standart --</option>
+            <option value="featured">★ Seçilmiş (Ana Slider)</option>
+            <option value="new">🆕 Yeni Kolleksiya</option>
             <option value="bestseller">🔥 Ən Çox Satılan</option>
-            <option value="sale">💰 Endirimdə</option>
-            <option value="trend">✨ Ayın Modası</option>
+            <option value="sale">💰 Endirimdə olanlar</option>
+            <option value="trend">✨ Ayın Trendi</option>
           </select>
         </div>
       </div>
 
-      <div class="form-group"><label class="label">Ölçülər (vergüllə)</label><input class="input" id="pSizes" placeholder="S, M, L, XL"></div>
+      <div class="form-grid">
+          <div class="form-group">
+              <label class="label">Ölçülər (Vergüllə ayırın)</label>
+              <input class="input" id="pSizes" placeholder="Məs: 36, 38, 40 və ya S, M, L">
+          </div>
+          <div class="form-group">
+              <label class="label">Status</label>
+              <select class="select" id="pStatus">
+                  <option value="active">Aktiv (Saytda görünsün)</option>
+                  <option value="inactive">Passiv (Gizlət)</option>
+              </select>
+          </div>
+      </div>
+
     </div>
     <div class="modal-footer">
       <button class="btn btn-outline" onclick="closeModal('productModal')">Ləğv et</button>
-      <button class="btn btn-primary" id="saveActionBtn" onclick="commitProduct()">Yadda Saxla</button>
+      <button class="btn btn-primary" id="saveActionBtn" onclick="commitProduct()">Məlumatları Saxla</button>
     </div>
   </div>
 </div>
@@ -241,12 +388,14 @@ function login() {
 
 // --- INITIALIZATION ---
 async function init() {
-  updateClock(); setInterval(updateClock, 1000);
+  updateTime(); setInterval(updateTime, 1000);
   await Promise.all([loadProducts(), loadCMS()]);
 }
 
-function updateClock() {
+function updateTime() {
   const now = new Date();
+  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  document.getElementById('liveDate').textContent = now.toLocaleDateString('az-AZ', options);
   document.getElementById('liveClock').textContent = now.toLocaleTimeString('az-AZ');
 }
 
@@ -254,9 +403,10 @@ function updateClock() {
 function navTo(id, btn) {
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById('page-'+id).classList.add('active');
-  document.querySelectorAll('.sidebar-link').forEach(l=>l.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(l=>l.classList.remove('active'));
   btn.classList.add('active');
-  document.getElementById('pageTitle').textContent = btn.textContent;
+  // Remove emoji for title
+  document.getElementById('pageTitle').textContent = btn.textContent.replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]|\p{Emoji_Presentation}/gu, '').trim();
 }
 
 // --- CMS LOGIC ---
@@ -281,7 +431,7 @@ async function updateCMS() {
     about_text: document.getElementById('aboutText').value
   };
   await supa.from('app_settings').upsert({id:1, ...payload});
-  notify('Sayt məlumatları yeniləndi');
+  notify('Səhifə məzmunu uğurla yeniləndi', 'success');
 }
 
 async function saveSettings() {
@@ -289,45 +439,90 @@ async function saveSettings() {
   const pass = document.getElementById('setPass').value;
   if(pass) localStorage.setItem('avera_secure_p', pass);
   
-  await supa.from('app_settings').upsert({
-    id:1, 
-    whatsapp: wa, 
-    instagram: document.getElementById('setInsta').value 
-  });
-  notify('Sistem ayarları saxlanıldı');
+  await supa.from('app_settings').upsert({ id:1, whatsapp: wa, instagram: document.getElementById('setInsta').value });
+  notify('Sistem ayarları saxlanıldı', 'success');
 }
 
 // --- PRODUCT LOGIC ---
 async function loadProducts() {
   const {data} = await supa.from('products').select('*').order('created_at', {ascending:false});
   state.products = data || [];
-  document.getElementById('statsInfo').textContent = `${state.products.length} aktiv məhsul`;
   
-  let html = `<table><thead><tr><th>Fayl</th><th>Məhsul</th><th>Növ</th><th>Qiymət</th><th>Kateqoriya</th><th>Status</th><th></th></tr></thead><tbody>`;
-  const catLabels = {featured:'★ Seçilmiş',new:'🆕 Yeni',bestseller:'🔥 Bestseller',sale:'💰 Endirim',trend:'✨ Trend'};
-  state.products.forEach(p => {
-    const priceStr = p.sale_price ? `<span style="text-decoration:line-through;color:var(--muted)">${p.price}</span> <strong style="color:#c44">${p.sale_price} ₼</strong>` : `${p.price} ₼`;
-    html += `<tr>
-      <td><img src="${p.images?.[0] || ''}" class="data-img"></td>
-      <td><strong>${p.name?.az || p.name || ''}</strong></td>
-      <td>${p.type==='couture'?'Fərdi Tikiliş':'Kirayə'}</td>
-      <td>${priceStr}</td>
-      <td>${catLabels[p.collection_id]||'—'}</td>
-      <td><span style="color:${p.status==='active'?'green':'gray'}">${p.status}</span></td>
-      <td>
-        <button class="btn btn-sm btn-outline" onclick="editProd('${p.id}')">Düzəliş</button>
-        <button class="btn btn-sm btn-danger" onclick="deleteProd('${p.id}')">Sil</button>
-      </td>
-    </tr>`;
-  });
-  html += `</tbody></table>`;
-  document.getElementById('productsTableContainer').innerHTML = html;
+  // Update Dashboard Stats
+  document.getElementById('statTotalProd').textContent = state.products.length;
+  
+  renderProductsTable();
+  renderRecentDashboardTable();
+}
+
+function renderProductsTable() {
+    const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+    const typeFilter = document.getElementById('typeFilter').value;
+    
+    let filtered = state.products.filter(p => {
+        const nameMatch = (p.name?.az || p.name || '').toLowerCase().includes(searchTerm);
+        const typeMatch = typeFilter === 'all' || p.type === typeFilter;
+        return nameMatch && typeMatch;
+    });
+
+    const catLabels = {featured:'★ Seçilmiş',new:'🆕 Yeni',bestseller:'🔥 Bestseller',sale:'💰 Endirim',trend:'✨ Trend'};
+    
+    let html = `<thead><tr><th>Fayl</th><th>Məhsul Adı</th><th>Növ</th><th>Qiymət</th><th>Vitrin</th><th>Status</th><th>Əməliyyat</th></tr></thead><tbody>`;
+    
+    if(filtered.length === 0) {
+        html += `<tr><td colspan="7" style="text-align:center; padding:2rem; color:var(--muted)">Məhsul tapılmadı.</td></tr>`;
+    } else {
+        filtered.forEach(p => {
+            const priceStr = p.sale_price ? `<span style="text-decoration:line-through;color:var(--muted);font-size:0.8rem;">${p.price}</span> <strong style="color:var(--danger)">${p.sale_price} ₼</strong>` : `<strong>${p.price} ₼</strong>`;
+            const statusBadge = p.status === 'active' ? `<span class="badge active">Aktiv</span>` : `<span class="badge inactive">Passiv</span>`;
+            
+            html += `<tr>
+            <td><img src="${p.images?.[0] || 'https://via.placeholder.com/50x65?text=Img'}" class="data-img"></td>
+            <td><strong>${p.name?.az || p.name || 'Adsız'}</strong></td>
+            <td>${p.type==='couture'?'Couture (Fərdi)':'Kirayə'}</td>
+            <td>${priceStr}</td>
+            <td>${catLabels[p.collection_id] || '<span style="color:var(--muted)">Standart</span>'}</td>
+            <td>${statusBadge}</td>
+            <td>
+                <button class="btn btn-sm btn-outline" onclick="editProd('${p.id}')">✏️ Düzəliş</button>
+                <button class="btn btn-sm btn-outline" style="color:var(--danger); border-color:var(--danger)" onclick="deleteProd('${p.id}')">🗑️ Sil</button>
+            </td>
+            </tr>`;
+        });
+    }
+    html += `</tbody>`;
+    document.getElementById('productsTableMain').innerHTML = html;
+}
+
+function renderRecentDashboardTable() {
+    const recent = state.products.slice(0, 5); // Take top 5
+    let html = `<thead><tr><th>Məhsul</th><th>Növ</th><th>Qiymət</th><th>Tarix</th></tr></thead><tbody>`;
+    recent.forEach(p => {
+        const d = new Date(p.created_at).toLocaleDateString('az-AZ');
+        html += `<tr>
+            <td><strong>${p.name?.az || p.name || ''}</strong></td>
+            <td>${p.type==='couture'?'Couture':'Kirayə'}</td>
+            <td>${p.sale_price || p.price} ₼</td>
+            <td><span style="color:var(--muted); font-size:0.85rem">${d}</span></td>
+        </tr>`;
+    });
+    html += `</tbody>`;
+    document.getElementById('recentProductsTable').innerHTML = html;
 }
 
 function openProductModal() {
   document.getElementById('editId').value = '';
-  document.getElementById('mTitle').textContent = 'Yeni Məhsul';
-  ['pName','pDesc','pPrice','pSalePrice','pSizes'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('mTitle').textContent = 'Yeni Məhsul Əlavə Et';
+  
+  // Clear Multilingual inputs
+  ['Az','En','Ru'].forEach(l => {
+      document.getElementById('pName'+l).value = '';
+      document.getElementById('pDesc'+l).value = '';
+  });
+  
+  ['pPrice','pSalePrice','pSizes'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('pStatus').value = 'active';
+  
   state.images = [];
   renderPreviews();
   openModal('productModal');
@@ -336,14 +531,26 @@ function openProductModal() {
 async function editProd(id) {
   const p = state.products.find(x => x.id === id);
   if(!p) return;
+  
   document.getElementById('editId').value = p.id;
-  document.getElementById('pName').value = p.name.az;
-  document.getElementById('pDesc').value = p.description.az;
+  document.getElementById('mTitle').textContent = 'Məhsula Düzəliş Et';
+  
+  // Multilingual mapping
+  document.getElementById('pNameAz').value = p.name?.az || p.name || '';
+  document.getElementById('pNameEn').value = p.name?.en || '';
+  document.getElementById('pNameRu').value = p.name?.ru || '';
+  
+  document.getElementById('pDescAz').value = p.description?.az || p.description || '';
+  document.getElementById('pDescEn').value = p.description?.en || '';
+  document.getElementById('pDescRu').value = p.description?.ru || '';
+
   document.getElementById('pPrice').value = p.price;
-  document.getElementById('pType').value = p.type;
+  document.getElementById('pType').value = p.type || 'couture';
   document.getElementById('pFeat').value = p.collection_id || '';
   document.getElementById('pSalePrice').value = p.sale_price || '';
   document.getElementById('pSizes').value = p.sizes?.join(', ') || '';
+  document.getElementById('pStatus').value = p.status || 'active';
+  
   state.images = p.images || [];
   renderPreviews();
   openModal('productModal');
@@ -354,62 +561,91 @@ async function commitProduct() {
   const btn = document.getElementById('saveActionBtn');
   btn.disabled = true; btn.textContent = 'Saxlanılır...';
 
-  const name = document.getElementById('pName').value;
-  const desc = document.getElementById('pDesc').value;
-
   const payload = {
-    name: { az: name, ru: name, en: name },
-    description: { az: desc, ru: desc, en: desc },
+    name: { 
+        az: document.getElementById('pNameAz').value,
+        en: document.getElementById('pNameEn').value,
+        ru: document.getElementById('pNameRu').value 
+    },
+    description: { 
+        az: document.getElementById('pDescAz').value,
+        en: document.getElementById('pDescEn').value,
+        ru: document.getElementById('pDescRu').value 
+    },
     price: parseFloat(document.getElementById('pPrice').value) || 0,
     sale_price: parseFloat(document.getElementById('pSalePrice').value) || null,
     type: document.getElementById('pType').value,
     collection_id: document.getElementById('pFeat').value || null,
     sizes: document.getElementById('pSizes').value.split(',').map(s=>s.trim()).filter(Boolean),
     images: state.images,
-    status: 'active'
+    status: document.getElementById('pStatus').value
   };
 
-  if(id) await supa.from('products').update(payload).eq('id', id);
-  else await supa.from('products').insert([payload]);
-
-  btn.disabled = false; btn.textContent = 'Yadda Saxla';
-  closeModal('productModal');
-  await loadProducts();
-  notify('Məhsul bazaya yazıldı');
+  try {
+      if(id) await supa.from('products').update(payload).eq('id', id);
+      else await supa.from('products').insert([payload]);
+      
+      closeModal('productModal');
+      await loadProducts();
+      notify('Məhsul bazaya yazıldı', 'success');
+  } catch (error) {
+      notify('Xəta baş verdi', 'error');
+  } finally {
+      btn.disabled = false; btn.textContent = 'Məlumatları Saxla';
+  }
 }
 
 async function deleteProd(id) {
-  if(confirm('Silmək istədiyinizə əminsiniz?')) {
+  if(confirm('Məhsulu silmək istədiyinizə əminsiniz? Bu əməliyyat geri qaytarıla bilməz!')) {
     await supa.from('products').delete().eq('id', id);
     await loadProducts();
-    notify('Məhsul silindi');
+    notify('Məhsul sistemdən silindi');
   }
 }
 
 // --- UTILS ---
 async function processUploads(e) {
   const files = Array.from(e.target.files);
-  notify('Şəkillər buluda ötürülür...');
+  if(files.length === 0) return;
+  
+  notify('Şəkillər buluda yüklənir, zəhmət olmasa gözləyin...');
   for(let f of files) {
     const fd = new FormData();
     fd.append('file', f);
     fd.append('upload_preset', CLOUD_PRESET);
-    const r = await fetch(CLOUD_URL, {method:'POST', body:fd});
-    const d = await r.json();
-    if(d.secure_url) state.images.push(d.secure_url);
+    try {
+        const r = await fetch(CLOUD_URL, {method:'POST', body:fd});
+        const d = await r.json();
+        if(d.secure_url) state.images.push(d.secure_url);
+    } catch(err) {
+        console.error("Upload error", err);
+    }
   }
   renderPreviews();
+  notify('Şəkillər yükləndi', 'success');
 }
 
 function renderPreviews() {
   const c = document.getElementById('previewGrid');
-  c.innerHTML = state.images.map((img, i) => `<div class="preview-box"><img src="${img}"><button class="remove-img" onclick="state.images.splice(${i},1);renderPreviews()">&times;</button></div>`).join('');
+  if(state.images.length === 0) { c.innerHTML = ''; return; }
+  
+  c.innerHTML = state.images.map((img, i) => `
+    <div class="preview-box">
+        <img src="${img}">
+        <button class="remove-img" onclick="state.images.splice(${i},1);renderPreviews()">✕</button>
+    </div>
+  `).join('');
 }
 
-function notify(m) {
+function notify(m, type = 'info') {
   const t = document.getElementById('toast');
-  t.textContent = m; t.className = 'toast show';
-  setTimeout(()=>t.className='toast', 3000);
+  t.textContent = m; 
+  if(type === 'error') t.style.background = 'var(--danger)';
+  else if(type === 'success') t.style.background = 'var(--success)';
+  else t.style.background = 'var(--primary)';
+  
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 3500);
 }
 function openModal(id){ document.getElementById(id).classList.add('active'); }
 function closeModal(id){ document.getElementById(id).classList.remove('active'); }
