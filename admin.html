@@ -1274,28 +1274,42 @@ function openProductModal(id = null) {
 }
 
 async function saveProduct() {
-  const nameAz = document.getElementById('pName_az').value.trim();
+  const nameAzInput = document.getElementById('pName_az');
+  const nameAz = nameAzInput ? nameAzInput.value.trim() : '';
+  
   if (!nameAz) { showToast('Məhsul adı (AZ) tələb olunur', 'error'); return; }
 
-  const editId = document.getElementById('editProductId').value;
+  // Inputların olub-olmadığını yoxlayaraq dəyərləri götürürük
+  const editId = document.getElementById('editProductId') ? document.getElementById('editProductId').value : '';
+  
   const productData = {
-    name: { az: nameAz, ru: document.getElementById('pName_ru').value.trim(), en: document.getElementById('pName_en').value.trim() },
-    description: { az: document.getElementById('pDesc_az').value.trim(), ru: document.getElementById('pDesc_ru').value.trim(), en: document.getElementById('pDesc_en').value.trim() },
-    price: parseFloat(document.getElementById('pPrice').value) || 0,
-    rental_price: parseFloat(document.getElementById('pRentalPrice').value) || 0,
-    collection_id: document.getElementById('pCollection').value || null,
-    type: document.getElementById('pType').value,
-    color: document.getElementById('pColor').value.trim(),
-    status: document.getElementById('pStatus').value,
-    sizes: document.getElementById('pSizes').value.split(',').map(s => s.trim()).filter(Boolean),
-    fabric: document.getElementById('pFabric').value.trim(),
+    name: { 
+        az: nameAz, 
+        ru: document.getElementById('pName_ru') ? document.getElementById('pName_ru').value.trim() : '', 
+        en: document.getElementById('pName_en') ? document.getElementById('pName_en').value.trim() : '' 
+    },
+    description: { 
+        az: document.getElementById('pDesc_az') ? document.getElementById('pDesc_az').value.trim() : '', 
+        ru: document.getElementById('pDesc_ru') ? document.getElementById('pDesc_ru').value.trim() : '', 
+        en: document.getElementById('pDesc_en') ? document.getElementById('pDesc_en').value.trim() : '' 
+    },
+    price: document.getElementById('pPrice') ? (parseFloat(document.getElementById('pPrice').value) || 0) : 0,
+    rental_price: document.getElementById('pRentalPrice') ? (parseFloat(document.getElementById('pRentalPrice').value) || 0) : 0,
+    collection_id: document.getElementById('pCollection') ? (document.getElementById('pCollection').value || null) : null,
+    type: document.getElementById('pType') ? document.getElementById('pType').value : 'couture',
+    color: document.getElementById('pColor') ? document.getElementById('pColor').value.trim() : '',
+    status: document.getElementById('pStatus') ? document.getElementById('pStatus').value : 'active',
+    sizes: document.getElementById('pSizes') ? document.getElementById('pSizes').value.split(',').map(s => s.trim()).filter(Boolean) : [],
+    fabric: document.getElementById('pFabric') ? document.getElementById('pFabric').value.trim() : '',
     images: uploadedImages,
     updated_at: new Date().toISOString()
   };
 
   const saveBtn = document.querySelector('.modal-footer .btn-primary');
-  saveBtn.textContent = 'Yüklənir...';
-  saveBtn.disabled = true;
+  if (saveBtn) {
+      saveBtn.textContent = 'Yüklənir...';
+      saveBtn.disabled = true;
+  }
 
   let errorInfo;
 
@@ -1309,8 +1323,10 @@ async function saveProduct() {
     if (!error) addActivity('Yeni məhsul əlavə edildi: ' + nameAz, 'emerald');
   }
 
-  saveBtn.textContent = 'Yadda Saxla';
-  saveBtn.disabled = false;
+  if (saveBtn) {
+      saveBtn.textContent = 'Yadda Saxla';
+      saveBtn.disabled = false;
+  }
 
   if (errorInfo) {
     showToast('Xəta baş verdi', 'error');
