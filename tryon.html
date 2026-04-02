@@ -42,7 +42,7 @@ body{background:var(--charcoal);color:var(--cream);font-family:var(--body);displ
 .dc-bg{position:absolute;inset:0;background-position:center;background-size:cover;}
 .dc-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(44,40,38,.75) 0%,transparent 50%)}
 .dc-info{position:absolute;bottom:0;left:0;right:0;padding:.5rem}
-.dc-name{font-family:var(--heading);font-size:.78rem;font-weight:500;color:#fff}
+.dc-name{font-family:var(--heading);font-size:.78rem;font-weight:500;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .dc-tp{font-size:.55rem;color:rgba(255,255,255,.5);letter-spacing:.1em;text-transform:uppercase}
 .dc-chk{position:absolute;top:5px;right:5px;width:18px;height:18px;background:var(--rose);border-radius:50%;display:none;align-items:center;justify-content:center}
 .dc.sel .dc-chk{display:flex}
@@ -197,23 +197,23 @@ async function initData() {
   if (data && !error) {
     dynProducts = data;
     rGrid('all');
+    
+    // Əgər index.html-dən məhsul seçilib gəlibsə, onu avtomatik aç
+    const urlParams = new URLSearchParams(window.location.search);
+    const prodId = urlParams.get('product');
+    if(prodId) selD(prodId);
+
   } else {
     document.getElementById('dg').innerHTML = '<p style="color:var(--taupe);grid-column:1/-1;text-align:center;font-size:0.8rem;">Məhsullar yüklənmədi.</p>';
   }
 }
 window.addEventListener('load', initData);
 
-// Cədvəli (sol paneli) render et
 function rGrid(f) {
   cFlt = f;
   const g = document.getElementById('dg');
   const l = f === 'all' ? dynProducts : dynProducts.filter(d => d.type === f);
-  
-  if (l.length === 0) {
-    g.innerHTML = '<p style="color:var(--taupe);grid-column:1/-1;text-align:center;font-size:0.8rem;">Bu kateqoriyada məhsul yoxdur.</p>';
-    return;
-  }
-
+  if (l.length === 0) { g.innerHTML = '<p style="color:var(--taupe);grid-column:1/-1;text-align:center;font-size:0.8rem;">Bu kateqoriyada məhsul yoxdur.</p>'; return; }
   g.innerHTML = l.map(d => {
     const bg = d.images?.[0] ? `background-image:url(${d.images[0]});` : `background-color:${d.color || '#8a7e74'};`;
     const tp = d.type === 'rental' ? 'Kirayə' : 'Couture';
@@ -223,59 +223,69 @@ function rGrid(f) {
   }).join('');
 }
 
-// Şəkli olmayan məhsullar üçün köməkçi (Fallback) SVG paltar çəkici
 function mkSVG(color){
   const c = color || '#2a5a40';
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600" width="400" height="600"><path d="M152 12C140 30 112 48 100 72L88 108C80 132 72 168 64 210L48 300C32 390 20 468 24 528C28 564 40 582 56 588L344 588C360 582 372 564 376 528C380 468 368 390 352 300L336 210C328 168 320 132 312 108L300 72C288 48 260 30 248 12C220 0 180 0 152 12Z" fill="${c}" opacity="0.9"/></svg>`;
 }
 
-// Seçilən geyimi Canvas-a gətir
 function selD(id) {
   sD = dynProducts.find(d => d.id === id);
-  rGrid(cFlt); // outline-ı yenilə
+  if(!sD) return;
+  rGrid(cFlt);
   
   dI = new Image();
-  // CORS XƏTASININ QARŞISINI ALMAQ ÜÇÜN ÇOX VACİBDİR
-  dI.crossOrigin = "Anonymous"; 
+  dI.crossOrigin = "Anonymous"; // AI və Yükləmə xətalarının qarşısını alır
   
   dI.onload = () => {
     if(ps) aFit();
     else {
       F.x = W/2; F.y = H*0.55; 
-      F.sc = Math.min(W,H)*0.5/(dI.naturalHeight || 600); 
+      F.sc = Math.min(W,H)*0.5/(dI.naturalWidth || 400); 
       F.rt = 0; F.op = 1; F.fh = false; F.fv = false; F.ox = 0; F.oy = 0; 
       syncUI();
     }
     draw();
-    noti(ps ? 'AI geyimi əyninizə uyğunlaşdırdı!' : 'Geyim seçildi');
+    noti(ps ? 'AI geyimi uyğunlaşdırdı!' : 'Geyim seçildi');
   };
   
   dI.onerror = () => { noti('Şəkil yüklənmədi', 'wr'); };
   
-  if (sD.images && sD.images.length > 0) {
-    dI.src = sD.images[0]; // Buluddakı (Cloudinary) şəkil
-  } else {
-    // Şəkli yoxdursa SVG çəkirik
-    const svg = mkSVG(sD.color);
-    const b = new Blob([svg],{type:'image/svg+xml'});
-    dI.src = URL.createObjectURL(b);
-  }
+  if (sD.images && sD.images.length > 0) dI.src = sD.images[0];
+  else { const b = new Blob([mkSVG(sD.color)],{type:'image/svg+xml'}); dI.src = URL.createObjectURL(b); }
 }
 
-// ═══ AI VƏ CANVAS KODLARI (olduğu kimi qorunub) ═══
+// ═══ YENİLƏNMİŞ AI HESABLAMA (GEYİMİN NATURAL ÖLÇÜSÜNÜ OXUYUR) ═══
 async function ldMod(){if(det)return det;try{await tf.setBackend('webgl');await tf.ready();det=await poseDetection.createDetector(poseDetection.SupportedModels.MoveNet,{modelType:poseDetection.movenet.modelType.SINGLEPOSE_THUNDER});return det}catch(e){console.error(e);noti('AI modeli yüklənə bilmədi','wr');return null}}
 async function detP(img){sLd(true);try{const d=await ldMod();if(!d){sLd(false);return null}const r=await d.estimatePoses(img);sLd(false);if(r&&r.length>0){ps=r[0];noti('Bədən nöqtələri tapıldı! Geyim seçin →');document.getElementById('pTg').classList.add('vis');return ps}else{noti('Bədən tapılmadı. Tam boy şəkil yükləyin.','wr');return null}}catch(e){sLd(false);console.error(e);noti('AI xəta. Manual rejim aktiv.','wr');return null}}
 function kp(n){if(!ps)return null;const m={nose:0,lSh:5,rSh:6,lHi:11,rHi:12,lKn:13,rKn:14,lAn:15,rAn:16};const i=m[n];if(i===undefined)return null;const p=ps.keypoints[i];return(p&&p.score>.3)?{x:p.x,y:p.y}:null}
-function calcFit(){const ls=kp('lSh'),rs=kp('rSh'),lh=kp('lHi'),rh=kp('rHi'),lk=kp('lKn'),rk=kp('rKn'),la=kp('lAn'),ra=kp('rAn');if(!ls||!rs)return null;const cx=(ls.x+rs.x)/2,cy=(ls.y+rs.y)/2;const sw=Math.hypot(rs.x-ls.x,rs.y-ls.y);const sa=Math.atan2(rs.y-ls.y,rs.x-ls.x)*180/Math.PI;let bl=sw*2.5;const hcy=lh&&rh?(lh.y+rh.y)/2:null;const kcy=lk&&rk?(lk.y+rk.y)/2:null;const acy=la&&ra?(la.y+ra.y)/2:null;if(acy)bl=acy-cy;else if(kcy)bl=(kcy-cy)*1.4;else if(hcy)bl=(hcy-cy)*2.2;const tW=sw*2.2;return{x:cx,y:cy+bl*.42,sc:tW/400,rt:sa}}
-function aFit(){const f=calcFit();if(!f){F.x=W/2;F.y=H*.55;F.sc=Math.min(W,H)*.5/600;F.rt=0}else{F.x=f.x;F.y=f.y;F.sc=f.sc;F.rt=f.rt}F.op=1;F.fh=false;F.fv=false;F.ox=0;F.oy=0;syncUI();draw()}
+
+function calcFit(){
+  const ls=kp('lSh'),rs=kp('rSh');
+  if(!ls||!rs) return null;
+  const cx=(ls.x+rs.x)/2, cy=(ls.y+rs.y)/2;
+  const sw=Math.hypot(rs.x-ls.x,rs.y-ls.y);
+  const sa=Math.atan2(rs.y-ls.y,rs.x-ls.x)*180/Math.PI;
+  
+  // Yüklənmiş şəklin (paltarın) real ölçüləri
+  const dw = dI ? (dI.naturalWidth || 400) : 400;
+  const dh = dI ? (dI.naturalHeight || 600) : 600;
+  
+  // Çiyin eninə uyğunlaşdırma (Paltarın kənar boşluqlarına görə rəqəmi dəyişə bilərsən)
+  const sc = (sw * 2.5) / dw; 
+  const yOffset = dh * sc * 0.38; // Paltarın boyun hissəsini çiyinə salır
+  
+  return {x:cx, y:cy+yOffset, sc:sc, rt:sa};
+}
+
+function aFit(){const f=calcFit();if(!f){F.x=W/2;F.y=H*.55;F.sc=Math.min(W,H)*.5/(dI?.naturalWidth||400);F.rt=0}else{F.x=f.x;F.y=f.y;F.sc=f.sc;F.rt=f.rt}F.op=1;F.fh=false;F.fv=false;F.ox=0;F.oy=0;syncUI();draw()}
 function ldPh(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=async ev=>{const img=new Image();img.onload=async()=>{uPh=img;setupC();document.getElementById('uSt').classList.add('hid');document.getElementById('cW').classList.add('vis');document.getElementById('fBar').classList.add('vis');draw();await detP(img);if(sD)aFit();draw()};img.src=ev.target.result};r.readAsDataURL(f)}
 function setupC(){const c=document.getElementById('mc'),a=document.querySelector('.canvas-area');const mW=a.clientWidth*.92,mH=a.clientHeight*.92;let w=uPh.naturalWidth,h=uPh.naturalHeight;const r=Math.min(mW/w,mH/h,1);w=Math.round(w*r);h=Math.round(h*r);if(w<280){const s=280/w;w=280;h=Math.round(h*s)}c.width=w;c.height=h;c.style.width=w+'px';c.style.height=h+'px';W=w;H=h}
 function draw(){const c=document.getElementById('mc'),x=c.getContext('2d');x.clearRect(0,0,W,H);if(uPh)x.drawImage(uPh,0,0,W,H);if(shP&&ps)drawP(x);if(dI&&sD){x.save();x.globalAlpha=F.op;const fx=F.x+F.ox,fy=F.y+F.oy;x.translate(fx,fy);x.rotate(F.rt*Math.PI/180);x.scale(F.fh?-F.sc:F.sc,F.fv?-F.sc:F.sc);const dw=dI.naturalWidth||400,dh=dI.naturalHeight||600;x.drawImage(dI,-dw/2,-dh/2,dw,dh);x.restore()}}
 function drawP(x){if(!ps)return;const k=ps.keypoints;const cn=[[5,6],[5,7],[7,9],[6,8],[8,10],[5,11],[6,12],[11,12],[11,13],[13,15],[12,14],[14,16]];x.strokeStyle='rgba(196,114,126,.6)';x.lineWidth=2;cn.forEach(([a,b])=>{if(k[a].score>.3&&k[b].score>.3){x.beginPath();x.moveTo(k[a].x,k[a].y);x.lineTo(k[b].x,k[b].y);x.stroke()}});k.forEach(p=>{if(p.score>.3){x.beginPath();x.arc(p.x,p.y,4,0,Math.PI*2);x.fillStyle='rgba(196,114,126,.9)';x.fill();x.strokeStyle='#fff';x.lineWidth=1.5;x.stroke()}})}
-function adjC(p,v){const bs=ps?calcFit()?.sc||1:Math.min(W,H)*.5/600;if(p==='s'){F.sc=v/100*bs;document.getElementById('vS').textContent=v+'%'}if(p==='y'){F.oy=+v;document.getElementById('vY').textContent=v}if(p==='x'){F.ox=+v;document.getElementById('vX').textContent=v}if(p==='r'){F.rt=+v;document.getElementById('vR').textContent=v+'°'}if(p==='o'){F.op=v/100;document.getElementById('vO').textContent=v+'%'}draw()}
+function adjC(p,v){const bs=ps?calcFit()?.sc||1:Math.min(W,H)*.5/(dI?.naturalWidth||400);if(p==='s'){F.sc=v/100*bs;document.getElementById('vS').textContent=v+'%'}if(p==='y'){F.oy=+v;document.getElementById('vY').textContent=v}if(p==='x'){F.ox=+v;document.getElementById('vX').textContent=v}if(p==='r'){F.rt=+v;document.getElementById('vR').textContent=v+'°'}if(p==='o'){F.op=v/100;document.getElementById('vO').textContent=v+'%'}draw()}
 function flpH(){F.fh=!F.fh;draw()}function flpV(){F.fv=!F.fv;draw()}
-function rstFit(){if(ps)aFit();else{F={x:W/2,y:H*.55,sc:Math.min(W,H)*.5/600,rt:0,op:1,fh:false,fv:false,ox:0,oy:0};syncUI();draw()}}
-function syncUI(){const bs=ps?calcFit()?.sc||1:Math.min(W,H)*.5/600;const pc=Math.round(F.sc/bs*100);document.getElementById('sS').value=pc;document.getElementById('vS').textContent=pc+'%';document.getElementById('sY').value=F.oy;document.getElementById('vY').textContent=F.oy;document.getElementById('sX').value=F.ox;document.getElementById('vX').textContent=F.ox;document.getElementById('sR').value=Math.round(F.rt);document.getElementById('vR').textContent=Math.round(F.rt)+'°';document.getElementById('sO').value=Math.round(F.op*100);document.getElementById('vO').textContent=Math.round(F.op*100)+'%'}
+function rstFit(){if(ps)aFit();else{F={x:W/2,y:H*.55,sc:Math.min(W,H)*.5/(dI?.naturalWidth||400),rt:0,op:1,fh:false,fv:false,ox:0,oy:0};syncUI();draw()}}
+function syncUI(){const bs=ps?calcFit()?.sc||1:Math.min(W,H)*.5/(dI?.naturalWidth||400);const pc=Math.round(F.sc/bs*100);document.getElementById('sS').value=pc;document.getElementById('vS').textContent=pc+'%';document.getElementById('sY').value=F.oy;document.getElementById('vY').textContent=F.oy;document.getElementById('sX').value=F.ox;document.getElementById('vX').textContent=F.ox;document.getElementById('sR').value=Math.round(F.rt);document.getElementById('vR').textContent=Math.round(F.rt)+'°';document.getElementById('sO').value=Math.round(F.op*100);document.getElementById('vO').textContent=Math.round(F.op*100)+'%'}
 async function reAI(){if(!uPh)return;ps=null;det=null;await detP(uPh);if(sD)aFit();draw()}
 function tgPose(){shP=!shP;document.getElementById('bPose').classList.toggle('act',shP);draw()}
 const cv=document.getElementById('mc');
