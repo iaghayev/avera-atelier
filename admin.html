@@ -629,7 +629,6 @@ tr:hover td { background: var(--warm-white); }
 </head>
 <body>
 
-<!-- Login Screen -->
 <div class="login-screen" id="loginScreen">
   <div class="login-box">
     <div class="login-logo">Avera</div>
@@ -647,12 +646,10 @@ tr:hover td { background: var(--warm-white); }
   </div>
 </div>
 
-<!-- Mobile Toggle -->
 <button class="mobile-toggle" id="mobileToggle" onclick="toggleSidebar()">
   <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
 </button>
 
-<!-- Sidebar -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-brand">
     <div class="sidebar-brand-name">Avera</div>
@@ -699,7 +696,6 @@ tr:hover td { background: var(--warm-white); }
   </div>
 </aside>
 
-<!-- Main Content -->
 <div class="main" id="mainContent">
   <div class="topbar">
     <div class="topbar-title" id="pageTitle">İdarə Paneli</div>
@@ -713,7 +709,6 @@ tr:hover td { background: var(--warm-white); }
 
   <div class="content">
 
-    <!-- ═══ DASHBOARD ═══ -->
     <div class="page active" id="page-dashboard">
       <div class="stats-grid">
         <div class="stat-card rose">
@@ -769,7 +764,6 @@ tr:hover td { background: var(--warm-white); }
       </div>
     </div>
 
-    <!-- ═══ PRODUCTS ═══ -->
     <div class="page" id="page-products">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
         <div>
@@ -791,7 +785,6 @@ tr:hover td { background: var(--warm-white); }
       </div>
     </div>
 
-    <!-- ═══ COLLECTIONS ═══ -->
     <div class="page" id="page-collections">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
         <span style="font-size:0.82rem;color:var(--taupe);" id="collectionCount">3 kolleksiya</span>
@@ -805,7 +798,6 @@ tr:hover td { background: var(--warm-white); }
       </div>
     </div>
 
-    <!-- ═══ ORDERS ═══ -->
     <div class="page" id="page-orders">
       <div class="panel">
         <div class="panel-header">
@@ -821,7 +813,6 @@ tr:hover td { background: var(--warm-white); }
       </div>
     </div>
 
-    <!-- ═══ MESSAGES ═══ -->
     <div class="page" id="page-messages">
       <div class="panel">
         <div class="panel-header">
@@ -837,7 +828,6 @@ tr:hover td { background: var(--warm-white); }
       </div>
     </div>
 
-    <!-- ═══ SETTINGS ═══ -->
     <div class="page" id="page-settings">
       <div class="panel">
         <div class="panel-body">
@@ -913,7 +903,6 @@ tr:hover td { background: var(--warm-white); }
   </div>
 </div>
 
-<!-- Product Modal -->
 <div class="modal-overlay" id="productModal">
   <div class="modal">
     <div class="modal-header">
@@ -1029,7 +1018,6 @@ tr:hover td { background: var(--warm-white); }
   </div>
 </div>
 
-<!-- Collection Modal -->
 <div class="modal-overlay" id="collectionModal">
   <div class="modal">
     <div class="modal-header">
@@ -1094,10 +1082,18 @@ tr:hover td { background: var(--warm-white); }
   </div>
 </div>
 
-<!-- Toast -->
 <div class="toast" id="toast"></div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
+// ═══ SUPABASE INIT ═══
+const { createClient } = supabase;
+// AŞAĞIDAKİ 2 SƏTRİ ÖZ SUPABASE MƏLUMATLARINLA DƏYİŞDİR!
+const supabaseUrl = 'https://ijljnzqigtfonvqlkhkr.supabase.co'; 
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlqbGpuenFpZ3Rmb252cWxraGtyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUxMjY5NzAsImV4cCI6MjA5MDcwMjk3MH0.KDnvL1F-Zwae5fyEzEyGNAT7QYT0L7KKy1g84LQTLDU';
+const supa = createClient(supabaseUrl, supabaseKey);
+
 // ═══ DATA STORE ═══
 // Uses localStorage when available (deployed site), falls back to memory
 const store = {
@@ -1255,12 +1251,12 @@ function openProductModal(id = null) {
       document.getElementById('pName_az').value = p.name?.az || '';
       document.getElementById('pName_ru').value = p.name?.ru || '';
       document.getElementById('pName_en').value = p.name?.en || '';
-      document.getElementById('pDesc_az').value = p.desc?.az || '';
-      document.getElementById('pDesc_ru').value = p.desc?.ru || '';
-      document.getElementById('pDesc_en').value = p.desc?.en || '';
+      document.getElementById('pDesc_az').value = p.description?.az || '';
+      document.getElementById('pDesc_ru').value = p.description?.ru || '';
+      document.getElementById('pDesc_en').value = p.description?.en || '';
       document.getElementById('pPrice').value = p.price || '';
-      document.getElementById('pRentalPrice').value = p.rentalPrice || '';
-      document.getElementById('pCollection').value = p.collection || '';
+      document.getElementById('pRentalPrice').value = p.rental_price || '';
+      document.getElementById('pCollection').value = p.collection_id || '';
       document.getElementById('pType').value = p.type || 'couture';
       document.getElementById('pColor').value = p.color || '';
       document.getElementById('pStatus').value = p.status || 'active';
@@ -1277,60 +1273,85 @@ function openProductModal(id = null) {
   openModal('productModal');
 }
 
-function saveProduct() {
+async function saveProduct() {
   const nameAz = document.getElementById('pName_az').value.trim();
   if (!nameAz) { showToast('Məhsul adı (AZ) tələb olunur', 'error'); return; }
 
-  const products = store.get('products') || [];
   const editId = document.getElementById('editProductId').value;
   const productData = {
-    id: editId || 'p' + Date.now(),
     name: { az: nameAz, ru: document.getElementById('pName_ru').value.trim(), en: document.getElementById('pName_en').value.trim() },
-    desc: { az: document.getElementById('pDesc_az').value.trim(), ru: document.getElementById('pDesc_ru').value.trim(), en: document.getElementById('pDesc_en').value.trim() },
+    description: { az: document.getElementById('pDesc_az').value.trim(), ru: document.getElementById('pDesc_ru').value.trim(), en: document.getElementById('pDesc_en').value.trim() },
     price: parseFloat(document.getElementById('pPrice').value) || 0,
-    rentalPrice: parseFloat(document.getElementById('pRentalPrice').value) || 0,
-    collection: document.getElementById('pCollection').value,
+    rental_price: parseFloat(document.getElementById('pRentalPrice').value) || 0,
+    collection_id: document.getElementById('pCollection').value || null,
     type: document.getElementById('pType').value,
     color: document.getElementById('pColor').value.trim(),
     status: document.getElementById('pStatus').value,
     sizes: document.getElementById('pSizes').value.split(',').map(s => s.trim()).filter(Boolean),
     fabric: document.getElementById('pFabric').value.trim(),
     images: uploadedImages,
-    updatedAt: new Date().toISOString()
+    updated_at: new Date().toISOString()
   };
 
+  const saveBtn = document.querySelector('.modal-footer .btn-primary');
+  saveBtn.textContent = 'Yüklənir...';
+  saveBtn.disabled = true;
+
+  let errorInfo;
+
   if (editId) {
-    const idx = products.findIndex(p => p.id === editId);
-    if (idx !== -1) products[idx] = { ...products[idx], ...productData };
-    addActivity('Məhsul yeniləndi: ' + nameAz, 'gold');
+    const { error } = await supa.from('products').update(productData).eq('id', editId);
+    errorInfo = error;
+    if (!error) addActivity('Məhsul yeniləndi: ' + nameAz, 'gold');
   } else {
-    productData.createdAt = new Date().toISOString();
-    products.push(productData);
-    addActivity('Yeni məhsul əlavə edildi: ' + nameAz, 'emerald');
+    const { error } = await supa.from('products').insert([productData]);
+    errorInfo = error;
+    if (!error) addActivity('Yeni məhsul əlavə edildi: ' + nameAz, 'emerald');
+  }
+
+  saveBtn.textContent = 'Yadda Saxla';
+  saveBtn.disabled = false;
+
+  if (errorInfo) {
+    showToast('Xəta baş verdi', 'error');
+    console.error(errorInfo);
+  } else {
+    closeModal('productModal');
+    renderProducts(); 
+    refreshAll();
+    showToast(editId ? 'Məhsul yeniləndi' : 'Məhsul əlavə edildi');
+  }
+}
+
+async function deleteProduct(id) {
+  if (!confirm('Bu məhsulu silmək istəyirsiniz? Həmişəlik silinəcək!')) return;
+  
+  const { error } = await supa.from('products').delete().eq('id', id);
+  
+  if (error) {
+    showToast('Məhsulu silmək mümkün olmadı', 'error');
+    console.error(error);
+  } else {
+    addActivity('Məhsul silindi', 'rose');
+    renderProducts();
+    refreshAll();
+    showToast('Məhsul uğurla silindi');
+  }
+}
+
+async function renderProducts() {
+  const container = document.getElementById('productsTable');
+  container.innerHTML = '<div class="empty-state"><p>Məhsullar yüklənir...</p></div>';
+
+  const { data: products, error } = await supa.from('products').select('*').order('created_at', { ascending: false });
+
+  if (error) {
+    container.innerHTML = '<div class="empty-state"><p style="color:red;">Xəta baş verdi</p></div>';
+    console.error(error);
+    return;
   }
 
   store.set('products', products);
-  closeModal('productModal');
-  renderProducts();
-  refreshAll();
-  showToast(editId ? 'Məhsul yeniləndi' : 'Məhsul əlavə edildi');
-}
-
-function deleteProduct(id) {
-  if (!confirm('Bu məhsulu silmək istəyirsiniz?')) return;
-  let products = store.get('products') || [];
-  const p = products.find(x => x.id === id);
-  products = products.filter(x => x.id !== id);
-  store.set('products', products);
-  addActivity('Məhsul silindi: ' + (p?.name?.az || ''), 'rose');
-  renderProducts();
-  refreshAll();
-  showToast('Məhsul silindi');
-}
-
-function renderProducts() {
-  const products = store.get('products') || [];
-  const container = document.getElementById('productsTable');
   document.getElementById('productCount').textContent = products.length + ' məhsul';
 
   if (products.length === 0) {
@@ -1349,7 +1370,7 @@ function renderProducts() {
       return `<tr>
         <td><div class="product-thumb" ${p.images?.[0] ? `style="background-image:url(${p.images[0]});background-size:cover;"` : ''}>${p.images?.[0] ? '' : 'A'}</div></td>
         <td><strong style="font-size:0.88rem;">${p.name.az}</strong><br><span style="font-size:0.75rem;color:var(--taupe);">${p.color || ''} ${p.fabric ? '· ' + p.fabric : ''}</span></td>
-        <td style="font-size:0.82rem;">${getColName(p.collection)}</td>
+        <td style="font-size:0.82rem;">${getColName(p.collection_id)}</td>
         <td><span class="badge ${tBadge}">${tLabel}</span></td>
         <td style="font-size:0.88rem;font-weight:500;">${p.price ? p.price + ' ₼' : '—'}</td>
         <td><span class="badge ${p.status === 'active' ? 'badge-active' : 'badge-draft'}">${p.status === 'active' ? 'Aktiv' : 'Qaralama'}</span></td>
@@ -1443,7 +1464,7 @@ function renderCollections() {
   container.innerHTML = `<table>
     <thead><tr><th>Rəng</th><th>Kolleksiya</th><th>Məhsul sayı</th><th>Status</th><th></th></tr></thead>
     <tbody>${cols.map(c => {
-      const count = products.filter(p => p.collection === c.id).length;
+      const count = products.filter(p => p.collection_id === c.id).length;
       return `<tr>
         <td><div style="width:28px;height:28px;border-radius:50%;background:${c.color};border:2px solid var(--cream-dark);"></div></td>
         <td><strong style="font-size:0.88rem;">${c.name.az}</strong><br><span style="font-size:0.75rem;color:var(--taupe);">${c.name.en || ''}</span></td>
@@ -1531,7 +1552,7 @@ function refreshAll() {
     recentContainer.innerHTML = `<div class="empty-state"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg><h3>Hələ məhsul yoxdur</h3><p>İlk məhsulunuzu əlavə edin</p></div>`;
   } else {
     recentContainer.innerHTML = `<table><thead><tr><th>Məhsul</th><th>Qiymət</th><th>Status</th></tr></thead><tbody>` +
-      products.slice(-5).reverse().map(p => `<tr><td style="font-size:0.85rem;">${p.name.az}</td><td style="font-size:0.85rem;">${p.price ? p.price + ' ₼' : '—'}</td><td><span class="badge ${p.status === 'active' ? 'badge-active' : 'badge-draft'}">${p.status === 'active' ? 'Aktiv' : 'Qaralama'}</span></td></tr>`).join('') +
+      products.slice(0, 5).map(p => `<tr><td style="font-size:0.85rem;">${p.name.az}</td><td style="font-size:0.85rem;">${p.price ? p.price + ' ₼' : '—'}</td><td><span class="badge ${p.status === 'active' ? 'badge-active' : 'badge-draft'}">${p.status === 'active' ? 'Aktiv' : 'Qaralama'}</span></td></tr>`).join('') +
       `</tbody></table>`;
   }
 
@@ -1540,7 +1561,11 @@ function refreshAll() {
 }
 
 // ═══ INIT ═══
-refreshAll();
+// Şifrə yoxlamasını sürətləndirmək üçün
+if (store.get('settings')) {
+  document.getElementById('loginPass').value = store.get('settings').password;
+}
+
 </script>
 </body>
 </html>
