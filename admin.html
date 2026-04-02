@@ -69,8 +69,8 @@ td { padding: 1rem; border-bottom: 1px solid var(--bg); vertical-align: middle; 
 .form-tabs { display: flex; gap: 5px; margin-bottom: 1rem; border-bottom: 2px solid var(--border); }
 .form-tab { padding: 0.5rem 1.5rem; background: none; border: none; cursor: pointer; font-weight: 600; color: var(--muted); border-bottom: 2px solid transparent; margin-bottom: -2px; }
 .form-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
-.lang-content { display: none; }
-.lang-content.active { display: block; animation: fadeIn 0.3s; }
+.lang-content, .lang-content-coll { display: none; }
+.lang-content.active, .lang-content-coll.active { display: block; animation: fadeIn 0.3s; }
 
 /* IMAGE PREVIEWER */
 .image-upload-box { border: 2px dashed var(--border); padding: 2rem; text-align: center; border-radius: 6px; cursor: pointer; position: relative; background: #fafafa; }
@@ -172,23 +172,21 @@ td { padding: 1rem; border-bottom: 1px solid var(--bg); vertical-align: middle; 
         <h3 style="font-family:var(--heading)">Kolleksiyalar</h3>
         <button class="btn btn-primary" onclick="openCollModal()">+ Yeni Kolleksiya</button>
       </div>
-      <div id="collectionsTableContainer">
-        <p style="color:var(--muted); text-align:center; padding: 2rem;">Kolleksiyalar sistemi (Tezliklə DB-yə tam bağlanacaq)</p>
-      </div>
+      <div id="collectionsTableContainer"></div>
     </div>
   </div>
 
   <div class="page" id="page-orders">
     <div class="card">
       <div class="card-header"><h3 style="font-family:var(--heading)">Sifarişlər (Saytdan gələnlər)</h3></div>
-      <p style="color:var(--muted); text-align:center; padding: 2rem;">Sifarişlər paneli aktivdir. Sayt üzərindən forma göndərildikdə burada görünəcək.</p>
+      <p style="color:var(--muted); text-align:center; padding: 2rem;">Sifarişlər paneli aktivdir. (Tezliklə sayt üzərindən forma göndərildikdə burada görünəcək).</p>
     </div>
   </div>
 
   <div class="page" id="page-messages">
     <div class="card">
       <div class="card-header"><h3 style="font-family:var(--heading)">Gələn Mesajlar</h3></div>
-      <p style="color:var(--muted); text-align:center; padding: 2rem;">Mesajlar paneli aktivdir. Kontakt formasından gələn mesajlar burada görünəcək.</p>
+      <p style="color:var(--muted); text-align:center; padding: 2rem;">Mesajlar paneli aktivdir. (Tezliklə kontakt formasından gələn mesajlar burada görünəcək).</p>
     </div>
   </div>
 
@@ -322,6 +320,49 @@ td { padding: 1rem; border-bottom: 1px solid var(--bg); vertical-align: middle; 
   </div>
 </div>
 
+<div class="modal-wrap" id="collModal">
+  <div class="modal-content" style="max-width: 600px;">
+    <div class="modal-header">
+      <h3 id="cTitle" style="font-family:var(--heading)">Kolleksiya Yarat</h3>
+      <button onclick="closeModal('collModal')" style="background:none; border:none; font-size:1.5rem; cursor:pointer;">&times;</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="editCollId">
+      
+      <div class="form-tabs">
+        <button class="form-tab active" onclick="switchCollTab('az', this)">AZ</button>
+        <button class="form-tab" onclick="switchCollTab('ru', this)">RU</button>
+        <button class="form-tab" onclick="switchCollTab('en', this)">EN</button>
+      </div>
+
+      <div class="lang-content-coll active" id="clang-az">
+        <div class="form-group"><label class="label">Kolleksiya Adı (AZ)</label><input class="input" id="cNameAZ"></div>
+        <div class="form-group"><label class="label">Təsvir (AZ)</label><textarea class="textarea" id="cDescAZ"></textarea></div>
+      </div>
+      <div class="lang-content-coll" id="clang-ru">
+        <div class="form-group"><label class="label">Kolleksiya Adı (RU)</label><input class="input" id="cNameRU"></div>
+        <div class="form-group"><label class="label">Təsvir (RU)</label><textarea class="textarea" id="cDescRU"></textarea></div>
+      </div>
+      <div class="lang-content-coll" id="clang-en">
+        <div class="form-group"><label class="label">Kolleksiya Adı (EN)</label><input class="input" id="cNameEN"></div>
+        <div class="form-group"><label class="label">Təsvir (EN)</label><textarea class="textarea" id="cDescEN"></textarea></div>
+      </div>
+
+      <div class="form-group">
+        <label class="label">Status</label>
+        <select class="select" id="cStatus">
+          <option value="active">Aktiv</option>
+          <option value="draft">Qaralama</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('collModal')">Ləğv et</button>
+      <button class="btn btn-primary" id="saveCollBtn" onclick="commitCollection()">Yadda Saxla</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -331,7 +372,7 @@ const supa = supabase.createClient('https://ijljnzqigtfonvqlkhkr.supabase.co', '
 const CLOUD_URL = 'https://api.cloudinary.com/v1_1/dxigokm01/image/upload';
 const CLOUD_PRESET = 'avera_preset';
 
-let state = { products: [], images: [], currentCms: null };
+let state = { products: [], collections: [], images: [], currentCms: null };
 
 // --- AUTH & INIT ---
 function login() {
@@ -343,7 +384,7 @@ function login() {
 
 async function init() {
   updateClock(); setInterval(updateClock, 1000);
-  await Promise.all([loadProducts(), loadCMS()]);
+  await Promise.all([loadProducts(), loadCollections(), loadCMS()]);
 }
 function updateClock() { document.getElementById('liveClock').textContent = new Date().toLocaleTimeString('az-AZ'); }
 
@@ -398,8 +439,6 @@ async function loadProducts() {
   state.products = data || [];
   
   document.getElementById('stProd').textContent = state.products.length;
-  // Varsayılan kolleksiya sayı məntiqi
-  document.getElementById('stColl').textContent = [...new Set(state.products.map(p=>p.collection_id).filter(Boolean))].length;
 
   const buildTable = (arr) => {
     let html = `<table><thead><tr><th>Şəkil</th><th>Ad (AZ)</th><th>Kateqoriya</th><th>Qiymət</th><th>Status</th><th></th></tr></thead><tbody>`;
@@ -423,7 +462,6 @@ async function loadProducts() {
   document.getElementById('recentProductsTable').innerHTML = buildTable(state.products.slice(0, 4));
 }
 
-// Multi-lang tab keçidi
 function switchTab(lang, btn) {
   document.querySelectorAll('.form-tab').forEach(t=>t.classList.remove('active'));
   btn.classList.add('active');
@@ -446,7 +484,6 @@ async function editProd(id) {
   document.getElementById('editId').value = p.id;
   document.getElementById('mTitle').textContent = 'Məhsulu Yenilə';
   
-  // Tərcümələr
   document.getElementById('pNameAZ').value = p.name?.az || p.name || '';
   document.getElementById('pNameRU').value = p.name?.ru || '';
   document.getElementById('pNameEN').value = p.name?.en || '';
@@ -472,21 +509,12 @@ async function commitProduct() {
   const btn = document.getElementById('saveActionBtn');
   btn.disabled = true; btn.textContent = 'Saxlanılır...';
 
-  // Boş dilləri AZ ilə doldururuq ki, saytda xəta olmasın (Ağıllı Fallback)
   const azN = document.getElementById('pNameAZ').value;
   const azD = document.getElementById('pDescAZ').value;
 
   const payload = {
-    name: { 
-      az: azN, 
-      ru: document.getElementById('pNameRU').value || azN, 
-      en: document.getElementById('pNameEN').value || azN 
-    },
-    description: { 
-      az: azD, 
-      ru: document.getElementById('pDescRU').value || azD, 
-      en: document.getElementById('pDescEN').value || azD 
-    },
+    name: { az: azN, ru: document.getElementById('pNameRU').value || azN, en: document.getElementById('pNameEN').value || azN },
+    description: { az: azD, ru: document.getElementById('pDescRU').value || azD, en: document.getElementById('pDescEN').value || azD },
     price: parseFloat(document.getElementById('pPrice').value) || 0,
     sale_price: parseFloat(document.getElementById('pSalePrice').value) || null,
     type: document.getElementById('pType').value,
@@ -509,6 +537,88 @@ async function commitProduct() {
 
 async function deleteProd(id) {
   if(confirm('Əminsiniz?')) { await supa.from('products').delete().eq('id', id); await loadProducts(); notify('Silindi'); }
+}
+
+// --- COLLECTIONS ---
+async function loadCollections() {
+  const {data} = await supa.from('collections').select('*').order('created_at', {ascending:false});
+  state.collections = data || [];
+  document.getElementById('stColl').textContent = state.collections.length;
+  
+  let html = `<table><thead><tr><th>Kolleksiya Adı (AZ)</th><th>Status</th><th></th></tr></thead><tbody>`;
+  state.collections.forEach(c => {
+    html += `<tr>
+      <td><strong>${c.name?.az || c.name || 'Adsız'}</strong></td>
+      <td><span class="badge ${c.status==='active'?'green':'red'}">${c.status}</span></td>
+      <td>
+        <button class="btn btn-sm btn-outline" onclick="editColl('${c.id}')">Düzəliş</button>
+        <button class="btn btn-sm btn-danger" onclick="deleteColl('${c.id}')">Sil</button>
+      </td>
+    </tr>`;
+  });
+  html += `</tbody></table>`;
+  document.getElementById('collectionsTableContainer').innerHTML = html;
+}
+
+function switchCollTab(lang, btn) {
+  document.querySelectorAll('#collModal .form-tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.lang-content-coll').forEach(c=>c.classList.remove('active'));
+  document.getElementById(`clang-${lang}`).classList.add('active');
+}
+
+function openCollModal() {
+  document.getElementById('editCollId').value = '';
+  document.getElementById('cTitle').textContent = 'Yeni Kolleksiya';
+  ['cNameAZ','cNameRU','cNameEN','cDescAZ','cDescRU','cDescEN'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('cStatus').value = 'active';
+  switchCollTab('az', document.querySelector('#collModal .form-tab'));
+  openModal('collModal');
+}
+
+function editColl(id) {
+  const c = state.collections.find(x => x.id === id);
+  if(!c) return;
+  document.getElementById('editCollId').value = c.id;
+  document.getElementById('cTitle').textContent = 'Kolleksiyanı Yenilə';
+  
+  document.getElementById('cNameAZ').value = c.name?.az || c.name || '';
+  document.getElementById('cNameRU').value = c.name?.ru || '';
+  document.getElementById('cNameEN').value = c.name?.en || '';
+  document.getElementById('cDescAZ').value = c.description?.az || c.description || '';
+  document.getElementById('cDescRU').value = c.description?.ru || '';
+  document.getElementById('cDescEN').value = c.description?.en || '';
+  document.getElementById('cStatus').value = c.status || 'active';
+  
+  switchCollTab('az', document.querySelector('#collModal .form-tab'));
+  openModal('collModal');
+}
+
+async function commitCollection() {
+  const id = document.getElementById('editCollId').value;
+  const btn = document.getElementById('saveCollBtn');
+  btn.disabled = true; btn.textContent = 'Saxlanılır...';
+
+  const azN = document.getElementById('cNameAZ').value;
+  const azD = document.getElementById('cDescAZ').value;
+
+  const payload = {
+    name: { az: azN, ru: document.getElementById('cNameRU').value || azN, en: document.getElementById('cNameEN').value || azN },
+    description: { az: azD, ru: document.getElementById('cDescRU').value || azD, en: document.getElementById('cDescEN').value || azD },
+    status: document.getElementById('cStatus').value
+  };
+
+  if(id) await supa.from('collections').update(payload).eq('id', id);
+  else await supa.from('collections').insert([payload]);
+
+  btn.disabled = false; btn.textContent = 'Yadda Saxla';
+  closeModal('collModal');
+  await loadCollections();
+  notify('Kolleksiya bazaya yazıldı');
+}
+
+async function deleteColl(id) {
+  if(confirm('Əminsiniz?')) { await supa.from('collections').delete().eq('id', id); await loadCollections(); notify('Kolleksiya silindi'); }
 }
 
 // --- CLOUDINARY UPLOAD ---
