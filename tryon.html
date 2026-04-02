@@ -6,1207 +6,222 @@
 <title>Avera Atelier — Virtual Sınaq Otağı</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Nunito+Sans:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-:root {
-  --cream: #f4efe6;
-  --cream-dark: #e8e0d2;
-  --warm-white: #faf8f4;
-  --charcoal: #2c2826;
-  --charcoal-light: #3d3835;
-  --taupe: #8a7e74;
-  --taupe-light: #b0a69c;
-  --rose: #c4727e;
-  --rose-soft: #d4929b;
-  --rose-bg: rgba(196,114,126,0.08);
-  --emerald: #2a5a40;
-  --gold: #b8976a;
-  --heading: 'Playfair Display', Georgia, serif;
-  --body: 'Nunito Sans', sans-serif;
-  --shadow: 0 8px 40px rgba(44,40,38,0.12);
-  --radius: 10px;
-}
-
-html, body { height: 100%; overflow: hidden; }
-body {
-  background: var(--charcoal);
-  color: var(--cream);
-  font-family: var(--body);
-  font-weight: 400;
-  -webkit-font-smoothing: antialiased;
-  display: flex;
-  flex-direction: column;
-}
-
-/* ═══ HEADER ═══ */
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.8rem 1.5rem;
-  background: rgba(44,40,38,0.95);
-  backdrop-filter: blur(15px);
-  border-bottom: 1px solid rgba(244,239,230,0.06);
-  flex-shrink: 0;
-  z-index: 100;
-}
-.header-brand {
-  display: flex; align-items: center; gap: 0.8rem;
-}
-.header-logo {
-  font-family: var(--heading);
-  font-size: 1.3rem; font-weight: 400; font-style: italic;
-  color: var(--cream);
-  text-decoration: none;
-}
-.header-divider {
-  width: 1px; height: 20px;
-  background: rgba(244,239,230,0.15);
-}
-.header-tag {
-  font-size: 0.6rem; font-weight: 500;
-  letter-spacing: 0.3em; text-transform: uppercase;
-  color: var(--rose-soft);
-}
-.header-back {
-  display: flex; align-items: center; gap: 0.4rem;
-  font-size: 0.72rem; font-weight: 500;
-  color: rgba(244,239,230,0.5);
-  text-decoration: none;
-  transition: color 0.3s;
-  background: none; border: none; cursor: pointer;
-  font-family: var(--body);
-}
-.header-back:hover { color: var(--cream); }
-.header-back svg {
-  width: 16px; height: 16px; stroke: currentColor;
-  fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
-}
-
-/* ═══ LAYOUT ═══ */
-.app {
-  flex: 1;
-  display: flex;
-  overflow: hidden;
-}
-
-/* ═══ SIDEBAR PANEL ═══ */
-.side-panel {
-  width: 320px;
-  background: rgba(250,248,244,0.03);
-  border-right: 1px solid rgba(244,239,230,0.06);
-  display: flex;
-  flex-direction: column;
-  flex-shrink: 0;
-  overflow: hidden;
-}
-.side-tabs {
-  display: flex;
-  border-bottom: 1px solid rgba(244,239,230,0.06);
-  flex-shrink: 0;
-}
-.side-tab {
-  flex: 1;
-  padding: 0.8rem 0.5rem;
-  background: none; border: none;
-  font-family: var(--body);
-  font-size: 0.65rem; font-weight: 600;
-  letter-spacing: 0.2em; text-transform: uppercase;
-  color: rgba(244,239,230,0.3);
-  cursor: pointer;
-  transition: all 0.2s;
-  border-bottom: 2px solid transparent;
-}
-.side-tab:hover { color: rgba(244,239,230,0.6); }
-.side-tab.active {
-  color: var(--cream);
-  border-bottom-color: var(--rose);
-}
-.side-content {
-  flex: 1;
-  overflow-y: auto;
-  padding: 1rem;
-}
-.side-content::-webkit-scrollbar { width: 4px; }
-.side-content::-webkit-scrollbar-thumb { background: rgba(244,239,230,0.1); border-radius: 2px; }
-
-/* ── Tab Contents ── */
-.tab-panel { display: none; }
-.tab-panel.active { display: block; }
-
-/* ── Dress Grid ── */
-.dress-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.6rem;
-}
-.dress-card {
-  position: relative;
-  aspect-ratio: 3/4;
-  border-radius: 6px;
-  overflow: hidden;
-  cursor: pointer;
-  border: 2px solid transparent;
-  transition: all 0.3s ease;
-}
-.dress-card:hover {
-  border-color: rgba(244,239,230,0.2);
-  transform: translateY(-2px);
-}
-.dress-card.selected {
-  border-color: var(--rose);
-  box-shadow: 0 0 0 1px var(--rose), 0 4px 20px rgba(196,114,126,0.3);
-}
-.dress-card-bg {
-  position: absolute; inset: 0;
-}
-.dress-card-overlay {
-  position: absolute; inset: 0;
-  background: linear-gradient(to top, rgba(44,40,38,0.8) 0%, transparent 50%);
-}
-.dress-card-info {
-  position: absolute; bottom: 0; left: 0; right: 0;
-  padding: 0.6rem;
-}
-.dress-card-name {
-  font-family: var(--heading);
-  font-size: 0.82rem; font-weight: 500;
-  color: #fff;
-}
-.dress-card-type {
-  font-size: 0.6rem;
-  color: rgba(255,255,255,0.5);
-  letter-spacing: 0.1em; text-transform: uppercase;
-}
-.dress-card-check {
-  position: absolute; top: 6px; right: 6px;
-  width: 20px; height: 20px;
-  background: var(--rose);
-  border-radius: 50%;
-  display: none;
-  align-items: center; justify-content: center;
-}
-.dress-card.selected .dress-card-check { display: flex; }
-.dress-card-check svg {
-  width: 12px; height: 12px;
-  stroke: #fff; fill: none;
-  stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round;
-}
-
-/* ── Controls ── */
-.control-section {
-  margin-bottom: 1.5rem;
-}
-.control-label {
-  font-size: 0.6rem; font-weight: 600;
-  letter-spacing: 0.25em; text-transform: uppercase;
-  color: rgba(244,239,230,0.4);
-  margin-bottom: 0.6rem;
-  display: flex; justify-content: space-between; align-items: center;
-}
-.control-value {
-  font-weight: 400; letter-spacing: 0;
-  text-transform: none;
-  color: var(--rose-soft);
-}
-.slider-track {
-  position: relative;
-  width: 100%;
-  height: 36px;
-  display: flex;
-  align-items: center;
-}
-input[type="range"] {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 100%; height: 4px;
-  background: rgba(244,239,230,0.1);
-  border-radius: 2px;
-  outline: none;
-}
-input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 18px; height: 18px;
-  background: var(--cream);
-  border-radius: 50%;
-  cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-  transition: transform 0.15s;
-}
-input[type="range"]::-webkit-slider-thumb:hover {
-  transform: scale(1.2);
-}
-input[type="range"]::-webkit-slider-thumb:active {
-  background: var(--rose);
-  transform: scale(1.3);
-}
-
-.rotation-dial {
-  width: 100%;
-  height: 60px;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-}
-.dial-visual {
-  width: 50px; height: 50px;
-  border: 2px solid rgba(244,239,230,0.15);
-  border-radius: 50%;
-  position: relative;
-  display: flex; align-items: center; justify-content: center;
-}
-.dial-needle {
-  width: 2px; height: 18px;
-  background: var(--rose);
-  border-radius: 1px;
-  transform-origin: bottom center;
-  position: absolute;
-  top: 5px;
-  transition: transform 0.15s;
-}
-.dial-center {
-  width: 6px; height: 6px;
-  background: var(--cream);
-  border-radius: 50%;
-  z-index: 1;
-}
-
-.quick-angles {
-  display: flex; gap: 0.4rem; margin-top: 0.5rem;
-}
-.angle-btn {
-  flex: 1;
-  padding: 0.45rem 0;
-  background: rgba(244,239,230,0.06);
-  border: 1px solid rgba(244,239,230,0.08);
-  border-radius: 4px;
-  font-family: var(--body);
-  font-size: 0.7rem; font-weight: 500;
-  color: rgba(244,239,230,0.5);
-  cursor: pointer;
-  transition: all 0.2s;
-  text-align: center;
-}
-.angle-btn:hover {
-  background: rgba(244,239,230,0.1);
-  color: var(--cream);
-}
-.angle-btn.active {
-  background: var(--rose);
-  border-color: var(--rose);
-  color: #fff;
-}
-
-.action-btns {
-  display: flex; gap: 0.5rem;
-  margin-top: 1rem;
-}
-.act-btn {
-  flex: 1;
-  padding: 0.7rem;
-  border-radius: 6px;
-  font-family: var(--body);
-  font-size: 0.7rem; font-weight: 600;
-  letter-spacing: 0.1em; text-transform: uppercase;
-  cursor: pointer;
-  transition: all 0.2s;
-  display: flex; align-items: center; justify-content: center; gap: 0.4rem;
-  border: none;
-}
-.act-btn svg {
-  width: 15px; height: 15px;
-  stroke: currentColor; fill: none;
-  stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
-}
-.act-btn-primary {
-  background: var(--rose); color: #fff;
-}
-.act-btn-primary:hover { background: var(--rose-soft); }
-.act-btn-outline {
-  background: transparent; color: var(--cream);
-  border: 1.5px solid rgba(244,239,230,0.15);
-}
-.act-btn-outline:hover { border-color: rgba(244,239,230,0.4); }
-
-/* ═══ CANVAS AREA ═══ */
-.canvas-area {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
-  background:
-    radial-gradient(ellipse at 50% 50%, rgba(196,114,126,0.03) 0%, transparent 60%),
-    repeating-conic-gradient(rgba(244,239,230,0.02) 0% 25%, transparent 0% 50%) 0 0 / 30px 30px;
-}
-
-.canvas-empty {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 2rem;
-}
-.canvas-empty-icon {
-  width: 100px; height: 100px;
-  border: 2px dashed rgba(244,239,230,0.15);
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  margin-bottom: 1.5rem;
-  transition: border-color 0.3s, background 0.3s;
-  cursor: pointer;
-}
-.canvas-empty-icon:hover {
-  border-color: var(--rose);
-  background: rgba(196,114,126,0.05);
-}
-.canvas-empty-icon svg {
-  width: 36px; height: 36px;
-  stroke: rgba(244,239,230,0.3);
-  fill: none; stroke-width: 1.5;
-  stroke-linecap: round; stroke-linejoin: round;
-}
-.canvas-empty h2 {
-  font-family: var(--heading);
-  font-size: 1.4rem; font-weight: 400; font-style: italic;
-  color: var(--cream);
-  margin-bottom: 0.5rem;
-}
-.canvas-empty p {
-  font-size: 0.85rem; color: var(--taupe-light);
-  max-width: 300px; line-height: 1.6;
-  margin-bottom: 1.5rem;
-}
-.upload-btn {
-  padding: 0.8rem 2.5rem;
-  background: var(--rose);
-  color: #fff;
-  border: none; border-radius: 6px;
-  font-family: var(--body);
-  font-size: 0.72rem; font-weight: 600;
-  letter-spacing: 0.2em; text-transform: uppercase;
-  cursor: pointer;
-  transition: all 0.3s;
-  position: relative;
-  overflow: hidden;
-}
-.upload-btn:hover {
-  background: var(--rose-soft);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 25px rgba(196,114,126,0.3);
-}
-.upload-btn input[type="file"] {
-  position: absolute; inset: 0;
-  opacity: 0; cursor: pointer;
-}
-
-/* ── Canvas Container ── */
-.canvas-container {
-  position: relative;
-  display: none;
-  max-width: 95%;
-  max-height: 95%;
-}
-.canvas-container.visible { display: block; }
-
-#mainCanvas {
-  display: block;
-  border-radius: 8px;
-  box-shadow: 0 12px 60px rgba(0,0,0,0.4);
-  max-width: 100%;
-  max-height: calc(100vh - 120px);
-  cursor: default;
-}
-
-.canvas-hint {
-  position: absolute;
-  bottom: -30px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 0.7rem;
-  color: rgba(244,239,230,0.3);
-  white-space: nowrap;
-  pointer-events: none;
-}
-
-/* ── Floating toolbar ── */
-.float-toolbar {
-  position: absolute;
-  bottom: 1.5rem;
-  left: 50%;
-  transform: translateX(-50%);
-  display: none;
-  gap: 0.4rem;
-  background: rgba(44,40,38,0.9);
-  backdrop-filter: blur(15px);
-  padding: 0.5rem 0.8rem;
-  border-radius: 30px;
-  border: 1px solid rgba(244,239,230,0.1);
-  box-shadow: 0 8px 30px rgba(0,0,0,0.3);
-}
-.float-toolbar.visible { display: flex; }
-.float-btn {
-  width: 38px; height: 38px;
-  border-radius: 50%;
-  background: rgba(244,239,230,0.06);
-  border: none;
-  cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  transition: all 0.2s;
-  position: relative;
-}
-.float-btn:hover {
-  background: rgba(244,239,230,0.15);
-}
-.float-btn.active {
-  background: var(--rose);
-}
-.float-btn svg {
-  width: 17px; height: 17px;
-  stroke: var(--cream); fill: none;
-  stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
-}
-.float-btn.active svg { stroke: #fff; }
-.float-btn-label {
-  position: absolute;
-  top: -28px; left: 50%;
-  transform: translateX(-50%);
-  font-size: 0.6rem;
-  color: rgba(244,239,230,0.5);
-  white-space: nowrap;
-  background: rgba(44,40,38,0.9);
-  padding: 0.2rem 0.5rem;
-  border-radius: 3px;
-  opacity: 0; pointer-events: none;
-  transition: opacity 0.2s;
-}
-.float-btn:hover .float-btn-label { opacity: 1; }
-
-/* ═══ MOBILE ═══ */
-.mobile-panel-toggle {
-  display: none;
-  position: fixed;
-  bottom: 1rem; right: 1rem;
-  z-index: 200;
-  width: 48px; height: 48px;
-  background: var(--rose);
-  border: none; border-radius: 50%;
-  cursor: pointer;
-  box-shadow: 0 4px 20px rgba(196,114,126,0.4);
-  align-items: center; justify-content: center;
-}
-.mobile-panel-toggle svg {
-  width: 20px; height: 20px;
-  stroke: #fff; fill: none;
-  stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
-}
-
-@media (max-width: 768px) {
-  .side-panel {
-    position: fixed; left: 0; top: 0; bottom: 0;
-    z-index: 300;
-    width: 85%; max-width: 320px;
-    transform: translateX(-100%);
-    transition: transform 0.3s ease;
-    background: var(--charcoal);
-  }
-  .side-panel.open { transform: translateX(0); }
-  .mobile-panel-toggle { display: flex; }
-  .mobile-overlay {
-    position: fixed; inset: 0; z-index: 299;
-    background: rgba(0,0,0,0.5);
-    display: none;
-  }
-  .mobile-overlay.visible { display: block; }
-}
-
-/* ═══ DRAG GHOST ═══ */
-.drag-active #mainCanvas { cursor: grabbing !important; }
-.move-mode #mainCanvas { cursor: move !important; }
-
-/* ═══ NOTIFICATION ═══ */
-.notif {
-  position: fixed;
-  top: 4.5rem; right: 1.5rem;
-  z-index: 500;
-  padding: 0.8rem 1.2rem;
-  background: rgba(42,90,64,0.95);
-  color: #fff;
-  border-radius: 6px;
-  font-size: 0.8rem; font-weight: 500;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-  transform: translateX(120%);
-  transition: transform 0.3s ease;
-}
-.notif.show { transform: translateX(0); }
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--cream:#f4efe6;--charcoal:#2c2826;--taupe:#8a7e74;--taupe-l:#b0a69c;--rose:#c4727e;--rose-s:#d4929b;--heading:'Playfair Display',Georgia,serif;--body:'Nunito Sans',sans-serif}
+html,body{height:100%;overflow:hidden}
+body{background:var(--charcoal);color:var(--cream);font-family:var(--body);display:flex;flex-direction:column;-webkit-font-smoothing:antialiased}
+.header{display:flex;justify-content:space-between;align-items:center;padding:.7rem 1.5rem;background:rgba(44,40,38,.95);backdrop-filter:blur(15px);border-bottom:1px solid rgba(244,239,230,.06);flex-shrink:0;z-index:100}
+.hdr-left{display:flex;align-items:center;gap:.8rem}
+.hdr-logo{font-family:var(--heading);font-size:1.3rem;font-style:italic;color:var(--cream);text-decoration:none}
+.hdr-sep{width:1px;height:18px;background:rgba(244,239,230,.12)}
+.hdr-tag{font-size:.58rem;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:var(--rose-s)}
+.hdr-ai{display:inline-flex;align-items:center;gap:.3rem;background:rgba(42,90,64,.3);border:1px solid rgba(42,90,64,.4);padding:.15rem .5rem;border-radius:20px;font-size:.58rem;font-weight:600;color:#6fcf97;margin-left:.5rem}
+.hdr-dot{width:5px;height:5px;background:#6fcf97;border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.hdr-back{display:flex;align-items:center;gap:.35rem;font-size:.7rem;color:rgba(244,239,230,.45);text-decoration:none;transition:color .3s}
+.hdr-back:hover{color:var(--cream)}
+.hdr-back svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.app{flex:1;display:flex;overflow:hidden}
+.sidebar{width:300px;background:rgba(250,248,244,.03);border-right:1px solid rgba(244,239,230,.06);display:flex;flex-direction:column;flex-shrink:0}
+.sb-tabs{display:flex;border-bottom:1px solid rgba(244,239,230,.06)}
+.sb-tab{flex:1;padding:.7rem;background:none;border:none;font-family:var(--body);font-size:.6rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:rgba(244,239,230,.25);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s}
+.sb-tab:hover{color:rgba(244,239,230,.5)}
+.sb-tab.act{color:var(--cream);border-bottom-color:var(--rose)}
+.sb-body{flex:1;overflow-y:auto;padding:1rem}
+.sb-body::-webkit-scrollbar{width:3px}
+.sb-body::-webkit-scrollbar-thumb{background:rgba(244,239,230,.08);border-radius:2px}
+.tp{display:none}.tp.act{display:block}
+.frow{display:flex;gap:.3rem;margin-bottom:.8rem}
+.fb{flex:1;padding:.4rem;background:rgba(244,239,230,.05);border:1px solid rgba(244,239,230,.06);border-radius:4px;font-family:var(--body);font-size:.62rem;font-weight:600;color:rgba(244,239,230,.35);cursor:pointer;text-align:center;transition:all .2s}
+.fb:hover{color:rgba(244,239,230,.6);background:rgba(244,239,230,.08)}
+.fb.act{background:var(--rose);border-color:var(--rose);color:#fff}
+.dgrid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+.dc{position:relative;aspect-ratio:3/4;border-radius:6px;overflow:hidden;cursor:pointer;border:2px solid transparent;transition:all .25s}
+.dc:hover{border-color:rgba(244,239,230,.15);transform:translateY(-2px)}
+.dc.sel{border-color:var(--rose);box-shadow:0 0 0 1px var(--rose),0 4px 20px rgba(196,114,126,.25)}
+.dc-bg{position:absolute;inset:0}
+.dc-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(44,40,38,.75) 0%,transparent 50%)}
+.dc-info{position:absolute;bottom:0;left:0;right:0;padding:.5rem}
+.dc-name{font-family:var(--heading);font-size:.78rem;font-weight:500;color:#fff}
+.dc-tp{font-size:.55rem;color:rgba(255,255,255,.5);letter-spacing:.1em;text-transform:uppercase}
+.dc-chk{position:absolute;top:5px;right:5px;width:18px;height:18px;background:var(--rose);border-radius:50%;display:none;align-items:center;justify-content:center}
+.dc.sel .dc-chk{display:flex}
+.dc-chk svg{width:11px;height:11px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.ctrl{margin-bottom:1.2rem}
+.cl{font-size:.58rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:rgba(244,239,230,.35);margin-bottom:.5rem;display:flex;justify-content:space-between}
+.cv{font-weight:400;letter-spacing:0;text-transform:none;color:var(--rose-s)}
+input[type="range"]{-webkit-appearance:none;width:100%;height:3px;background:rgba(244,239,230,.08);border-radius:2px;outline:none}
+input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;background:var(--cream);border-radius:50%;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.3)}
+.qb{display:flex;gap:.3rem;margin-top:.4rem}
+.qbb{flex:1;padding:.4rem;background:rgba(244,239,230,.05);border:1px solid rgba(244,239,230,.06);border-radius:4px;font-family:var(--body);font-size:.65rem;color:rgba(244,239,230,.4);cursor:pointer;text-align:center;transition:all .2s}
+.qbb:hover{background:rgba(244,239,230,.1);color:var(--cream)}
+.abtn{padding:.65rem;border-radius:5px;font-family:var(--body);font-size:.65rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.35rem;border:none;transition:all .2s}
+.abtn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.abtn-p{background:var(--rose);color:#fff}.abtn-p:hover{background:var(--rose-s)}
+.abtn-o{background:transparent;color:var(--cream);border:1.5px solid rgba(244,239,230,.12)}.abtn-o:hover{border-color:rgba(244,239,230,.3)}
+.canvas-area{flex:1;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;background:repeating-conic-gradient(rgba(244,239,230,.015) 0% 25%,transparent 0% 50%) 0 0/30px 30px}
+.us{display:flex;flex-direction:column;align-items:center;text-align:center;padding:2rem}
+.us.hid{display:none}
+.upc{width:110px;height:110px;border:2px dashed rgba(244,239,230,.12);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:1.5rem;cursor:pointer;transition:all .3s;position:relative}
+.upc:hover{border-color:var(--rose);background:rgba(196,114,126,.04)}
+.upc svg{width:36px;height:36px;stroke:rgba(244,239,230,.25);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.upc input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.us h2{font-family:var(--heading);font-size:1.3rem;font-style:italic;margin-bottom:.4rem}
+.us p{font-size:.82rem;color:var(--taupe-l);max-width:280px;line-height:1.5;margin-bottom:1.2rem}
+.ubtn{padding:.75rem 2.5rem;background:var(--rose);color:#fff;border:none;border-radius:6px;font-family:var(--body);font-size:.68rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;position:relative;transition:all .3s}
+.ubtn:hover{background:var(--rose-s);transform:translateY(-2px);box-shadow:0 6px 25px rgba(196,114,126,.3)}
+.ubtn input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.cw{position:relative;display:none;max-width:95%;max-height:95%}
+.cw.vis{display:block}
+#mc{display:block;border-radius:6px;box-shadow:0 12px 60px rgba(0,0,0,.4);max-width:100%;max-height:calc(100vh - 100px)}
+.ald{position:absolute;inset:0;background:rgba(44,40,38,.85);backdrop-filter:blur(8px);display:none;flex-direction:column;align-items:center;justify-content:center;z-index:50;border-radius:6px}
+.ald.vis{display:flex}
+.asp{width:44px;height:44px;border:2.5px solid rgba(244,239,230,.1);border-top-color:var(--rose);border-radius:50%;animation:sp .8s linear infinite;margin-bottom:1rem}
+@keyframes sp{to{transform:rotate(360deg)}}
+.ald p{font-size:.82rem;text-align:center;max-width:200px;line-height:1.5}
+.ald small{font-size:.7rem;color:var(--taupe-l);margin-top:.3rem}
+.ptg{position:absolute;top:.8rem;left:.8rem;display:none;gap:.3rem;z-index:20}
+.ptg.vis{display:flex}
+.ptb{padding:.35rem .7rem;background:rgba(44,40,38,.7);backdrop-filter:blur(8px);border:1px solid rgba(244,239,230,.1);border-radius:4px;font-family:var(--body);font-size:.6rem;font-weight:600;color:rgba(244,239,230,.5);cursor:pointer;transition:all .2s}
+.ptb:hover{color:var(--cream)}.ptb.act{background:rgba(196,114,126,.3);border-color:var(--rose);color:var(--cream)}
+.flb{position:absolute;bottom:1.2rem;left:50%;transform:translateX(-50%);display:none;gap:.35rem;background:rgba(44,40,38,.88);backdrop-filter:blur(15px);padding:.45rem .7rem;border-radius:28px;border:1px solid rgba(244,239,230,.08);box-shadow:0 8px 30px rgba(0,0,0,.3);z-index:20}
+.flb.vis{display:flex}
+.fbb{width:36px;height:36px;border-radius:50%;background:rgba(244,239,230,.05);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;position:relative}
+.fbb:hover{background:rgba(244,239,230,.12)}.fbb.act{background:var(--rose)}
+.fbb svg{width:16px;height:16px;stroke:var(--cream);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.fbb.act svg{stroke:#fff}
+.fbt{position:absolute;top:-26px;left:50%;transform:translateX(-50%);font-size:.55rem;color:rgba(244,239,230,.5);white-space:nowrap;background:rgba(44,40,38,.9);padding:.15rem .4rem;border-radius:3px;opacity:0;pointer-events:none;transition:opacity .2s}
+.fbb:hover .fbt{opacity:1}
+.mtg{display:none;position:fixed;bottom:.8rem;right:.8rem;z-index:200;width:44px;height:44px;background:var(--rose);border:none;border-radius:50%;cursor:pointer;box-shadow:0 4px 20px rgba(196,114,126,.4);align-items:center;justify-content:center}
+.mtg svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round}
+.mov{position:fixed;inset:0;z-index:199;background:rgba(0,0,0,.5);display:none}.mov.vis{display:block}
+.tst{position:fixed;top:4rem;right:1.2rem;z-index:500;padding:.7rem 1.1rem;border-radius:5px;font-size:.78rem;font-weight:500;box-shadow:0 4px 20px rgba(0,0,0,.3);transform:translateX(120%);transition:transform .3s}
+.tst.show{transform:translateX(0)}
+.tst.ok{background:rgba(42,90,64,.92);color:#fff}
+.tst.wr{background:rgba(184,151,106,.92);color:#fff}
+.hint-box{margin-top:1rem;padding:.8rem;background:rgba(196,114,126,.06);border:1px solid rgba(196,114,126,.12);border-radius:5px}
+.hint-box p{font-size:.72rem;color:var(--rose-s);line-height:1.5}
+.hint-box strong{color:var(--cream);font-size:.6rem;letter-spacing:.1em;display:block;margin-bottom:.3rem}
+@media(max-width:768px){.sidebar{position:fixed;left:0;top:0;bottom:0;z-index:300;width:85%;max-width:300px;transform:translateX(-100%);transition:transform .3s;background:var(--charcoal)}.sidebar.open{transform:translateX(0)}.mtg{display:flex}.hdr-ai{display:none}}
 </style>
 </head>
 <body>
-
-<!-- Header -->
 <div class="header">
-  <div class="header-brand">
-    <a href="index.html" class="header-logo">Avera</a>
-    <div class="header-divider"></div>
-    <span class="header-tag">Virtual Sınaq Otağı</span>
+  <div class="hdr-left">
+    <a href="index.html" class="hdr-logo">Avera</a><div class="hdr-sep"></div>
+    <span class="hdr-tag">Virtual Sınaq Otağı</span>
+    <span class="hdr-ai"><span class="hdr-dot"></span>AI Powered</span>
   </div>
-  <a href="index.html" class="header-back">
-    <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-    Sayta Qayıt
-  </a>
+  <a href="index.html" class="hdr-back"><svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>Sayta Qayıt</a>
 </div>
-
-<!-- App -->
 <div class="app">
-
-  <!-- Side Panel -->
-  <div class="side-panel" id="sidePanel">
-    <div class="side-tabs">
-      <button class="side-tab active" onclick="switchTab('dresses',this)">Geyimlər</button>
-      <button class="side-tab" onclick="switchTab('controls',this)">İdarəetmə</button>
+  <div class="sidebar" id="sidebar">
+    <div class="sb-tabs">
+      <button class="sb-tab act" onclick="swTab('dr',this)">Geyimlər</button>
+      <button class="sb-tab" onclick="swTab('adj',this)">Tənzimləmə</button>
     </div>
-    <div class="side-content">
-
-      <!-- Dresses Tab -->
-      <div class="tab-panel active" id="tab-dresses">
-        <div class="control-section">
-          <div class="control-label">Kolleksiya Filtrə</div>
-          <div class="quick-angles" style="margin-top:0;">
-            <button class="angle-btn active" onclick="filterCollection('all',this)">Hamısı</button>
-            <button class="angle-btn" onclick="filterCollection('emerald',this)">Zümrüd</button>
-            <button class="angle-btn" onclick="filterCollection('ruby',this)">Yaqut</button>
-            <button class="angle-btn" onclick="filterCollection('ivory',this)">Fil dişi</button>
-          </div>
-        </div>
-        <div class="dress-grid" id="dressGrid"></div>
+    <div class="sb-body">
+      <div class="tp act" id="tp-dr">
+        <div class="frow"><button class="fb act" onclick="flt('all',this)">Hamısı</button><button class="fb" onclick="flt('emerald',this)">Zümrüd</button><button class="fb" onclick="flt('ruby',this)">Yaqut</button><button class="fb" onclick="flt('ivory',this)">Fil dişi</button></div>
+        <div class="dgrid" id="dg"></div>
+        <div class="hint-box"><p><strong>NECƏ İŞLƏYİR?</strong>1. Şəklinizi yükləyin<br>2. AI bədən nöqtələrini tapır<br>3. Geyimi seçin — avtomatik əyninizə oturur</p></div>
       </div>
-
-      <!-- Controls Tab -->
-      <div class="tab-panel" id="tab-controls">
-
-        <div class="control-section">
-          <div class="control-label">
-            Ölçü
-            <span class="control-value" id="scaleVal">100%</span>
-          </div>
-          <input type="range" min="20" max="250" value="100" id="scaleSlider" oninput="updateScale(this.value)">
+      <div class="tp" id="tp-adj">
+        <div class="ctrl"><div class="cl">Ölçü <span class="cv" id="vS">100%</span></div><input type="range" min="30" max="200" value="100" id="sS" oninput="adjC('s',this.value)"></div>
+        <div class="ctrl"><div class="cl">Şaquli <span class="cv" id="vY">0</span></div><input type="range" min="-150" max="150" value="0" id="sY" oninput="adjC('y',this.value)"></div>
+        <div class="ctrl"><div class="cl">Üfüqi <span class="cv" id="vX">0</span></div><input type="range" min="-150" max="150" value="0" id="sX" oninput="adjC('x',this.value)"></div>
+        <div class="ctrl"><div class="cl">Dönmə <span class="cv" id="vR">0°</span></div><input type="range" min="-30" max="30" value="0" id="sR" oninput="adjC('r',this.value)"></div>
+        <div class="ctrl"><div class="cl">Şəffaflıq <span class="cv" id="vO">100%</span></div><input type="range" min="20" max="100" value="100" id="sO" oninput="adjC('o',this.value)"></div>
+        <div class="ctrl"><div class="cl">Əks etdirmə</div><div class="qb"><button class="qbb" onclick="flpH()">↔ Üfüqi</button><button class="qbb" onclick="flpV()">↕ Şaquli</button></div></div>
+        <div style="display:flex;gap:.4rem;margin-top:1rem">
+          <button class="abtn abtn-o" style="flex:1" onclick="rstFit()"><svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>Sıfırla</button>
+          <button class="abtn abtn-p" style="flex:1" onclick="saveI()"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Yüklə</button>
         </div>
-
-        <div class="control-section">
-          <div class="control-label">
-            Dönmə
-            <span class="control-value" id="rotVal">0°</span>
-          </div>
-          <div class="rotation-dial">
-            <input type="range" min="-180" max="180" value="0" id="rotSlider" oninput="updateRotation(this.value)" style="flex:1;">
-            <div class="dial-visual">
-              <div class="dial-needle" id="dialNeedle"></div>
-              <div class="dial-center"></div>
-            </div>
-          </div>
-          <div class="quick-angles">
-            <button class="angle-btn" onclick="setRotation(0)">0°</button>
-            <button class="angle-btn" onclick="setRotation(90)">90°</button>
-            <button class="angle-btn" onclick="setRotation(180)">180°</button>
-            <button class="angle-btn" onclick="setRotation(-90)">-90°</button>
-          </div>
-        </div>
-
-        <div class="control-section">
-          <div class="control-label">
-            Şəffaflıq
-            <span class="control-value" id="opacityVal">100%</span>
-          </div>
-          <input type="range" min="10" max="100" value="100" id="opacitySlider" oninput="updateOpacity(this.value)">
-        </div>
-
-        <div class="control-section">
-          <div class="control-label">
-            Parlaqlıq
-            <span class="control-value" id="brightVal">100%</span>
-          </div>
-          <input type="range" min="50" max="150" value="100" id="brightSlider" oninput="updateBrightness(this.value)">
-        </div>
-
-        <div class="control-section">
-          <div class="control-label">Əks etdirmə</div>
-          <div class="quick-angles">
-            <button class="angle-btn" onclick="flipDress('h')">↔ Üfüqi</button>
-            <button class="angle-btn" onclick="flipDress('v')">↕ Şaquli</button>
-          </div>
-        </div>
-
-        <div class="action-btns">
-          <button class="act-btn act-btn-outline" onclick="resetDress()">
-            <svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
-            Sıfırla
-          </button>
-          <button class="act-btn act-btn-primary" onclick="saveResult()">
-            <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            Yüklə
-          </button>
-        </div>
-
-        <div class="control-section" style="margin-top:1.5rem;">
-          <div class="control-label">Şəklinizi Dəyişin</div>
-          <button class="act-btn act-btn-outline" style="width:100%;position:relative;">
-            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-            Yeni Şəkil Yüklə
-            <input type="file" accept="image/*" onchange="loadUserPhoto(event)" style="position:absolute;inset:0;opacity:0;cursor:pointer;">
-          </button>
-        </div>
-
+        <button class="abtn abtn-o" style="width:100%;margin-top:.8rem;position:relative"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>Yeni Şəkil<input type="file" accept="image/*" onchange="ldPh(event)" style="position:absolute;inset:0;opacity:0;cursor:pointer;"></button>
       </div>
     </div>
   </div>
-
-  <!-- Mobile Overlay -->
-  <div class="mobile-overlay" id="mobileOverlay" onclick="closeMobilePanel()"></div>
-
-  <!-- Canvas Area -->
-  <div class="canvas-area" id="canvasArea">
-
-    <!-- Empty State -->
-    <div class="canvas-empty" id="canvasEmpty">
-      <div class="canvas-empty-icon" onclick="document.getElementById('mainUpload').click()">
-        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-      </div>
+  <div class="mov" id="mOv" onclick="clMob()"></div>
+  <div class="canvas-area">
+    <div class="us" id="uSt">
+      <div class="upc" onclick="document.getElementById('mUp').click()"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><input type="file" accept="image/*" id="mUp" onchange="ldPh(event)"></div>
       <h2>Şəklinizi Yükləyin</h2>
-      <p>Öz şəklinizi yükləyin və geyimləri üzərinizdə sınayın</p>
-      <button class="upload-btn">
-        Şəkil Seçin
-        <input type="file" accept="image/*" id="mainUpload" onchange="loadUserPhoto(event)">
-      </button>
+      <p>AI sistemi bədəninizi tanıyacaq və geyimi avtomatik əyninizə uyğunlaşdıracaq</p>
+      <button class="ubtn">Şəkil Seçin<input type="file" accept="image/*" onchange="ldPh(event)"></button>
     </div>
-
-    <!-- Canvas -->
-    <div class="canvas-container" id="canvasContainer">
-      <canvas id="mainCanvas"></canvas>
-      <div class="canvas-hint" id="canvasHint">Geyimi sürükləyərək hərəkət etdirin · Scroll ilə ölçüsünü dəyişin</div>
+    <div class="cw" id="cW">
+      <canvas id="mc"></canvas>
+      <div class="ald" id="aLd"><div class="asp"></div><p>AI bədən nöqtələrini aşkar edir...</p><small>Bir neçə saniyə gözləyin</small></div>
+      <div class="ptg" id="pTg"><button class="ptb" id="bPose" onclick="tgPose()">Bədən nöqtələri</button></div>
     </div>
-
-    <!-- Floating Toolbar -->
-    <div class="float-toolbar" id="floatToolbar">
-      <button class="float-btn active" id="btnMove" onclick="setMode('move')">
-        <span class="float-btn-label">Hərəkət</span>
-        <svg viewBox="0 0 24 24"><polyline points="5 9 2 12 5 15"/><polyline points="9 5 12 2 15 5"/><polyline points="15 19 12 22 9 19"/><polyline points="19 9 22 12 19 15"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="12" y1="2" x2="12" y2="22"/></svg>
-      </button>
-      <button class="float-btn" id="btnRotate" onclick="setMode('rotate')">
-        <span class="float-btn-label">Döndər</span>
-        <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
-      </button>
-      <button class="float-btn" id="btnScale" onclick="setMode('scale')">
-        <span class="float-btn-label">Ölçü</span>
-        <svg viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
-      </button>
-      <div style="width:1px;height:24px;background:rgba(244,239,230,0.1);align-self:center;"></div>
-      <button class="float-btn" onclick="saveResult()">
-        <span class="float-btn-label">Yadda Saxla</span>
-        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-      </button>
+    <div class="flb" id="fBar">
+      <button class="fbb act" id="fMv" onclick="sMode('m')"><span class="fbt">Hərəkət</span><svg viewBox="0 0 24 24"><polyline points="5 9 2 12 5 15"/><polyline points="9 5 12 2 15 5"/><polyline points="15 19 12 22 9 19"/><polyline points="19 9 22 12 19 15"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="12" y1="2" x2="12" y2="22"/></svg></button>
+      <button class="fbb" id="fSc" onclick="sMode('s')"><span class="fbt">Ölçü</span><svg viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
+      <button class="fbb" onclick="reAI()"><span class="fbt">Yenidən AI</span><svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg></button>
+      <div style="width:1px;height:22px;background:rgba(244,239,230,.08);align-self:center"></div>
+      <button class="fbb" onclick="saveI()"><span class="fbt">Yadda saxla</span><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button>
     </div>
   </div>
-
 </div>
+<button class="mtg" onclick="opMob()"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></button>
+<div class="tst" id="tst"></div>
 
-<!-- Mobile Panel Toggle -->
-<button class="mobile-panel-toggle" id="mobilePanelBtn" onclick="openMobilePanel()">
-  <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-</button>
-
-<!-- Notification -->
-<div class="notif" id="notif"></div>
-
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-core@4.17.0/dist/tf-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-converter@4.17.0/dist/tf-converter.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-webgl@4.17.0/dist/tf-backend-webgl.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/pose-detection@2.1.3/dist/pose-detection.min.js"></script>
 <script>
-// ═══ DRESS DATA ═══
-const dresses = [
-  { id: 1, name: 'Zümrüd Axşam', collection: 'emerald', type: 'Couture', color: '#1a4a30', gradient: 'linear-gradient(160deg,#0d2618,#1a4a30 30%,#2a6a48 60%,#1a4a30 90%)' },
-  { id: 2, name: 'Yaşıl İpək', collection: 'emerald', type: 'Kirayə', color: '#2a5a40', gradient: 'linear-gradient(160deg,#1a3a2a,#2a6a48 40%,#3a7a58 70%,#1a4a30)' },
-  { id: 3, name: 'Zümrüd Parıltı', collection: 'emerald', type: 'Couture', color: '#1a5a38', gradient: 'linear-gradient(160deg,#0a3020,#1a5a38 35%,#2a7050 65%,#0d3822)' },
-  { id: 4, name: 'Yaqut Gecə', collection: 'ruby', type: 'Couture', color: '#7a2020', gradient: 'linear-gradient(160deg,#3a1010,#7a2020 30%,#9a3030 60%,#5a1818 90%)' },
-  { id: 5, name: 'Qırmızı Saten', collection: 'ruby', type: 'Kirayə', color: '#8a2a2a', gradient: 'linear-gradient(160deg,#4a1414,#8a2a2a 40%,#aa3a3a 65%,#6a2020)' },
-  { id: 6, name: 'Yaqut Parıltı', collection: 'ruby', type: 'Couture', color: '#6a1a1a', gradient: 'linear-gradient(160deg,#3a0a0a,#6a1a1a 30%,#8a2828 55%,#4a1212 90%)' },
-  { id: 7, name: 'Fil Dişi Elegans', collection: 'ivory', type: 'Couture', color: '#d4cfc4', gradient: 'linear-gradient(160deg,#b8b0a0,#d4cfc4 30%,#e8e0d2 60%,#c8c0b4 90%)' },
-  { id: 8, name: 'Krem İpək', collection: 'ivory', type: 'Kirayə', color: '#e0d8c8', gradient: 'linear-gradient(160deg,#c0b8a8,#e0d8c8 40%,#f0e8d8 65%,#d0c8b8)' },
-  { id: 9, name: 'Ağ Saten', collection: 'ivory', type: 'Couture', color: '#e8e0d2', gradient: 'linear-gradient(160deg,#d0c8b8,#e8e0d2 35%,#f4efe6 60%,#d8d0c0)' },
-  { id: 10, name: 'Gümüşü Axşam', collection: 'ivory', type: 'Kirayə', color: '#c8c0b4', gradient: 'linear-gradient(160deg,#a8a098,#c8c0b4 30%,#d8d0c4 55%,#b8b0a4 90%)' },
+const DS=[
+{id:1,n:'Zümrüd Axşam',c:'emerald',t:'Couture',g:'linear-gradient(160deg,#0d2618,#1a4a30 30%,#2a6a48 60%,#1a4a30 90%)',cl:'#1a4a30',h:'rgba(255,255,255,.12)'},
+{id:2,n:'Yaşıl İpək',c:'emerald',t:'Kirayə',g:'linear-gradient(160deg,#1a3a2a,#2a6a48 40%,#3a7a58 70%,#1a4a30)',cl:'#2a5a40',h:'rgba(255,255,255,.1)'},
+{id:3,n:'Zümrüd Parıltı',c:'emerald',t:'Couture',g:'linear-gradient(160deg,#0a3020,#1a5a38 35%,#2a7050 65%,#0d3822)',cl:'#1a5a38',h:'rgba(255,255,255,.08)'},
+{id:4,n:'Yaqut Gecə',c:'ruby',t:'Couture',g:'linear-gradient(160deg,#3a1010,#7a2020 30%,#9a3030 60%,#5a1818 90%)',cl:'#7a2020',h:'rgba(255,255,255,.12)'},
+{id:5,n:'Qırmızı Saten',c:'ruby',t:'Kirayə',g:'linear-gradient(160deg,#4a1414,#8a2a2a 40%,#aa3a3a 65%,#6a2020)',cl:'#8a2a2a',h:'rgba(255,255,255,.1)'},
+{id:6,n:'Yaqut Parıltı',c:'ruby',t:'Couture',g:'linear-gradient(160deg,#3a0a0a,#6a1a1a 30%,#8a2828 55%,#4a1212 90%)',cl:'#6a1a1a',h:'rgba(255,255,255,.1)'},
+{id:7,n:'Fil Dişi Elegans',c:'ivory',t:'Couture',g:'linear-gradient(160deg,#b8b0a0,#d4cfc4 30%,#e8e0d2 60%,#c8c0b4 90%)',cl:'#d4cfc4',h:'rgba(0,0,0,.06)'},
+{id:8,n:'Krem İpək',c:'ivory',t:'Kirayə',g:'linear-gradient(160deg,#c0b8a8,#e0d8c8 40%,#f0e8d8 65%,#d0c8b8)',cl:'#e0d8c8',h:'rgba(0,0,0,.05)'},
+{id:9,n:'Ağ Saten',c:'ivory',t:'Couture',g:'linear-gradient(160deg,#d0c8b8,#e8e0d2 35%,#f4efe6 60%,#d8d0c0)',cl:'#e8e0d2',h:'rgba(0,0,0,.04)'},
+{id:10,n:'Gümüşü Axşam',c:'ivory',t:'Kirayə',g:'linear-gradient(160deg,#a8a098,#c8c0b4 30%,#d8d0c4 55%,#b8b0a4 90%)',cl:'#c8c0b4',h:'rgba(0,0,0,.06)'}
 ];
-
-// ═══ DRESS SVG GENERATOR ═══
-function generateDressSVG(dress, w = 400, h = 600) {
-  const isLight = dress.collection === 'ivory';
-  const strokeColor = isLight ? 'rgba(0,0,0,0.15)' : 'rgba(255,255,255,0.15)';
-  const highlightColor = isLight ? 'rgba(255,255,255,0.3)' : 'rgba(255,255,255,0.12)';
-
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}">
-    <defs>
-      <linearGradient id="dg${dress.id}" x1="0" y1="0" x2="0.3" y2="1">
-        <stop offset="0%" stop-color="${dress.color}" stop-opacity="0.9"/>
-        <stop offset="50%" stop-color="${dress.color}"/>
-        <stop offset="100%" stop-color="${dress.color}" stop-opacity="0.85"/>
-      </linearGradient>
-      <linearGradient id="hl${dress.id}" x1="0.3" y1="0" x2="0.7" y2="1">
-        <stop offset="0%" stop-color="${highlightColor}"/>
-        <stop offset="100%" stop-color="transparent"/>
-      </linearGradient>
-    </defs>
-    <!-- Dress Body -->
-    <path d="M${w*0.38} ${h*0.02}
-             C${w*0.35} ${h*0.05} ${w*0.28} ${h*0.08} ${w*0.25} ${h*0.12}
-             L${w*0.22} ${h*0.18}
-             C${w*0.20} ${h*0.22} ${w*0.18} ${h*0.28} ${w*0.16} ${h*0.35}
-             L${w*0.12} ${h*0.50}
-             C${w*0.08} ${h*0.65} ${w*0.05} ${h*0.78} ${w*0.06} ${h*0.88}
-             C${w*0.07} ${h*0.94} ${w*0.10} ${h*0.97} ${w*0.14} ${h*0.98}
-             L${w*0.86} ${h*0.98}
-             C${w*0.90} ${h*0.97} ${w*0.93} ${h*0.94} ${w*0.94} ${h*0.88}
-             C${w*0.95} ${h*0.78} ${w*0.92} ${h*0.65} ${w*0.88} ${h*0.50}
-             L${w*0.84} ${h*0.35}
-             C${w*0.82} ${h*0.28} ${w*0.80} ${h*0.22} ${w*0.78} ${h*0.18}
-             L${w*0.75} ${h*0.12}
-             C${w*0.72} ${h*0.08} ${w*0.65} ${h*0.05} ${w*0.62} ${h*0.02}
-             C${w*0.55} ${h*0.0} ${w*0.45} ${h*0.0} ${w*0.38} ${h*0.02}Z"
-          fill="url(#dg${dress.id})" stroke="${strokeColor}" stroke-width="1"/>
-    <!-- Highlight -->
-    <path d="M${w*0.38} ${h*0.02}
-             C${w*0.35} ${h*0.05} ${w*0.28} ${h*0.08} ${w*0.25} ${h*0.12}
-             L${w*0.22} ${h*0.18}
-             C${w*0.20} ${h*0.22} ${w*0.18} ${h*0.28} ${w*0.16} ${h*0.35}
-             L${w*0.12} ${h*0.50}
-             C${w*0.08} ${h*0.65} ${w*0.05} ${h*0.78} ${w*0.06} ${h*0.88}
-             C${w*0.07} ${h*0.94} ${w*0.10} ${h*0.97} ${w*0.14} ${h*0.98}
-             L${w*0.50} ${h*0.98}
-             L${w*0.50} ${h*0.0}
-             C${w*0.45} ${h*0.0} ${w*0.38} ${h*0.02} ${w*0.38} ${h*0.02}Z"
-          fill="url(#hl${dress.id})" opacity="0.5"/>
-    <!-- Waist line -->
-    <path d="M${w*0.22} ${h*0.35} Q${w*0.50} ${h*0.38} ${w*0.78} ${h*0.35}"
-          fill="none" stroke="${strokeColor}" stroke-width="0.8"/>
-    <!-- Neckline detail -->
-    <path d="M${w*0.38} ${h*0.02} Q${w*0.50} ${h*0.06} ${w*0.62} ${h*0.02}"
-          fill="none" stroke="${strokeColor}" stroke-width="1"/>
-    <!-- Fold lines -->
-    <path d="M${w*0.30} ${h*0.50} Q${w*0.28} ${h*0.70} ${w*0.20} ${h*0.90}" fill="none" stroke="${strokeColor}" stroke-width="0.5" opacity="0.5"/>
-    <path d="M${w*0.70} ${h*0.50} Q${w*0.72} ${h*0.70} ${w*0.80} ${h*0.90}" fill="none" stroke="${strokeColor}" stroke-width="0.5" opacity="0.5"/>
-    <path d="M${w*0.50} ${h*0.38} Q${w*0.48} ${h*0.60} ${w*0.45} ${h*0.95}" fill="none" stroke="${strokeColor}" stroke-width="0.4" opacity="0.3"/>
-  </svg>`;
-
-  return svg;
-}
-
-// ═══ STATE ═══
-let userPhoto = null;
-let selectedDress = null;
-let dressImg = null;
-let currentMode = 'move';
-
-let dressState = {
-  x: 0, y: 0,
-  scale: 1,
-  rotation: 0,
-  opacity: 1,
-  brightness: 1,
-  flipH: false,
-  flipV: false
-};
-
-let isDragging = false;
-let dragStart = { x: 0, y: 0 };
-let canvasW = 0, canvasH = 0;
-
-// ═══ INIT ═══
-function init() {
-  renderDressGrid('all');
-  const canvas = document.getElementById('mainCanvas');
-  setupCanvasEvents(canvas);
-}
-
-// ═══ DRESS GRID ═══
-function renderDressGrid(filter) {
-  const grid = document.getElementById('dressGrid');
-  const filtered = filter === 'all' ? dresses : dresses.filter(d => d.collection === filter);
-
-  grid.innerHTML = filtered.map(d => `
-    <div class="dress-card ${selectedDress?.id === d.id ? 'selected' : ''}" onclick="selectDress(${d.id})" id="dc${d.id}">
-      <div class="dress-card-bg" style="background:${d.gradient};"></div>
-      <div class="dress-card-overlay"></div>
-      <div class="dress-card-info">
-        <div class="dress-card-name">${d.name}</div>
-        <div class="dress-card-type">${d.type}</div>
-      </div>
-      <div class="dress-card-check">
-        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-      </div>
-    </div>
-  `).join('');
-}
-
-function filterCollection(col, btn) {
-  btn.parentElement.querySelectorAll('.angle-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  renderDressGrid(col);
-}
-
-function selectDress(id) {
-  selectedDress = dresses.find(d => d.id === id);
-  renderDressGrid(document.querySelector('#tab-dresses .angle-btn.active')?.textContent === 'Hamısı' ? 'all' :
-    document.querySelector('#tab-dresses .angle-btn.active')?.onclick?.toString().match(/'(\w+)'/)?.[1] || 'all');
-
-  // Generate dress image
-  const svgStr = generateDressSVG(selectedDress, 400, 600);
-  const blob = new Blob([svgStr], { type: 'image/svg+xml' });
-  const url = URL.createObjectURL(blob);
-  dressImg = new Image();
-  dressImg.onload = () => {
-    resetDressState();
-    drawCanvas();
-    showNotif('Geyim seçildi: ' + selectedDress.name);
-  };
-  dressImg.src = url;
-}
-
-// ═══ PHOTO UPLOAD ═══
-function loadUserPhoto(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-
-  const reader = new FileReader();
-  reader.onload = (e) => {
-    const img = new Image();
-    img.onload = () => {
-      userPhoto = img;
-      setupCanvas();
-      document.getElementById('canvasEmpty').style.display = 'none';
-      document.getElementById('canvasContainer').classList.add('visible');
-      document.getElementById('floatToolbar').classList.add('visible');
-      drawCanvas();
-      showNotif('Şəkil yükləndi! İndi geyim seçin →');
-    };
-    img.src = e.target.result;
-  };
-  reader.readAsDataURL(file);
-}
-
-function setupCanvas() {
-  const canvas = document.getElementById('mainCanvas');
-  const area = document.getElementById('canvasArea');
-  const maxW = area.clientWidth * 0.9;
-  const maxH = area.clientHeight * 0.9;
-
-  let w = userPhoto.naturalWidth;
-  let h = userPhoto.naturalHeight;
-
-  const ratio = Math.min(maxW / w, maxH / h, 1);
-  w = Math.round(w * ratio);
-  h = Math.round(h * ratio);
-
-  // Ensure minimum dimensions
-  if (w < 300) { const s = 300 / w; w = 300; h = Math.round(h * s); }
-
-  canvas.width = w;
-  canvas.height = h;
-  canvas.style.width = w + 'px';
-  canvas.style.height = h + 'px';
-  canvasW = w;
-  canvasH = h;
-}
-
-function resetDressState() {
-  dressState = {
-    x: canvasW / 2,
-    y: canvasH * 0.55,
-    scale: Math.min(canvasW, canvasH) * 0.6 / 600,
-    rotation: 0,
-    opacity: 1,
-    brightness: 1,
-    flipH: false,
-    flipV: false
-  };
-  syncControls();
-}
-
-function syncControls() {
-  const s = dressState;
-  document.getElementById('scaleSlider').value = Math.round(s.scale * 100);
-  document.getElementById('scaleVal').textContent = Math.round(s.scale * 100) + '%';
-  document.getElementById('rotSlider').value = s.rotation;
-  document.getElementById('rotVal').textContent = Math.round(s.rotation) + '°';
-  document.getElementById('dialNeedle').style.transform = `rotate(${s.rotation}deg)`;
-  document.getElementById('opacitySlider').value = Math.round(s.opacity * 100);
-  document.getElementById('opacityVal').textContent = Math.round(s.opacity * 100) + '%';
-  document.getElementById('brightSlider').value = Math.round(s.brightness * 100);
-  document.getElementById('brightVal').textContent = Math.round(s.brightness * 100) + '%';
-}
-
-// ═══ DRAW ═══
-function drawCanvas() {
-  const canvas = document.getElementById('mainCanvas');
-  const ctx = canvas.getContext('2d');
-
-  // Clear & draw photo
-  ctx.clearRect(0, 0, canvasW, canvasH);
-  if (userPhoto) {
-    ctx.drawImage(userPhoto, 0, 0, canvasW, canvasH);
-  }
-
-  // Draw dress
-  if (dressImg && selectedDress) {
-    ctx.save();
-    ctx.globalAlpha = dressState.opacity;
-
-    if (dressState.brightness !== 1) {
-      ctx.filter = `brightness(${dressState.brightness})`;
-    }
-
-    ctx.translate(dressState.x, dressState.y);
-    ctx.rotate(dressState.rotation * Math.PI / 180);
-
-    const sx = dressState.flipH ? -dressState.scale : dressState.scale;
-    const sy = dressState.flipV ? -dressState.scale : dressState.scale;
-    ctx.scale(sx, sy);
-
-    const dw = dressImg.naturalWidth || 400;
-    const dh = dressImg.naturalHeight || 600;
-    ctx.drawImage(dressImg, -dw / 2, -dh / 2, dw, dh);
-    ctx.restore();
-  }
-}
-
-// ═══ CONTROLS ═══
-function updateScale(v) {
-  dressState.scale = v / 100;
-  document.getElementById('scaleVal').textContent = v + '%';
-  drawCanvas();
-}
-function updateRotation(v) {
-  dressState.rotation = parseFloat(v);
-  document.getElementById('rotVal').textContent = Math.round(v) + '°';
-  document.getElementById('dialNeedle').style.transform = `rotate(${v}deg)`;
-  drawCanvas();
-}
-function setRotation(v) {
-  dressState.rotation = v;
-  document.getElementById('rotSlider').value = v;
-  updateRotation(v);
-}
-function updateOpacity(v) {
-  dressState.opacity = v / 100;
-  document.getElementById('opacityVal').textContent = v + '%';
-  drawCanvas();
-}
-function updateBrightness(v) {
-  dressState.brightness = v / 100;
-  document.getElementById('brightVal').textContent = v + '%';
-  drawCanvas();
-}
-function flipDress(dir) {
-  if (dir === 'h') dressState.flipH = !dressState.flipH;
-  if (dir === 'v') dressState.flipV = !dressState.flipV;
-  drawCanvas();
-  showNotif(dir === 'h' ? 'Üfüqi əks etdirildi' : 'Şaquli əks etdirildi');
-}
-function resetDress() {
-  if (canvasW > 0) resetDressState();
-  drawCanvas();
-  showNotif('Sıfırlandı');
-}
-
-// ═══ MODE ═══
-function setMode(mode) {
-  currentMode = mode;
-  document.querySelectorAll('.float-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('btn' + mode.charAt(0).toUpperCase() + mode.slice(1))?.classList.add('active');
-  document.body.className = mode === 'move' ? 'move-mode' : '';
-}
-
-// ═══ CANVAS INTERACTION ═══
-function setupCanvasEvents(canvas) {
-  // Mouse
-  canvas.addEventListener('mousedown', onPointerDown);
-  canvas.addEventListener('mousemove', onPointerMove);
-  canvas.addEventListener('mouseup', onPointerUp);
-  canvas.addEventListener('mouseleave', onPointerUp);
-  canvas.addEventListener('wheel', onWheel, { passive: false });
-
-  // Touch
-  canvas.addEventListener('touchstart', onTouchStart, { passive: false });
-  canvas.addEventListener('touchmove', onTouchMove, { passive: false });
-  canvas.addEventListener('touchend', onTouchEnd);
-
-  // Keyboard
-  document.addEventListener('keydown', onKey);
-}
-
-function getCanvasPos(e) {
-  const canvas = document.getElementById('mainCanvas');
-  const rect = canvas.getBoundingClientRect();
-  const scaleX = canvas.width / rect.width;
-  const scaleY = canvas.height / rect.height;
-  return {
-    x: (e.clientX - rect.left) * scaleX,
-    y: (e.clientY - rect.top) * scaleY
-  };
-}
-
-function onPointerDown(e) {
-  if (!dressImg) return;
-  isDragging = true;
-  const pos = getCanvasPos(e);
-  dragStart = { x: pos.x - dressState.x, y: pos.y - dressState.y };
-  document.body.classList.add('drag-active');
-}
-
-function onPointerMove(e) {
-  if (!isDragging || !dressImg) return;
-  const pos = getCanvasPos(e);
-
-  if (currentMode === 'move') {
-    dressState.x = pos.x - dragStart.x;
-    dressState.y = pos.y - dragStart.y;
-  } else if (currentMode === 'rotate') {
-    const dx = pos.x - dressState.x;
-    const dy = pos.y - dressState.y;
-    dressState.rotation = Math.atan2(dy, dx) * 180 / Math.PI + 90;
-    syncControls();
-  } else if (currentMode === 'scale') {
-    const dist = Math.sqrt(Math.pow(pos.x - dressState.x, 2) + Math.pow(pos.y - dressState.y, 2));
-    dressState.scale = Math.max(0.1, Math.min(3, dist / 200));
-    syncControls();
-  }
-
-  drawCanvas();
-}
-
-function onPointerUp() {
-  isDragging = false;
-  document.body.classList.remove('drag-active');
-}
-
-function onWheel(e) {
-  if (!dressImg) return;
-  e.preventDefault();
-  const delta = e.deltaY > 0 ? -0.03 : 0.03;
-  dressState.scale = Math.max(0.1, Math.min(3, dressState.scale + delta));
-  syncControls();
-  drawCanvas();
-}
-
-// Touch support
-let lastTouchDist = 0;
-let lastTouchAngle = 0;
-
-function onTouchStart(e) {
-  if (!dressImg) return;
-  e.preventDefault();
-
-  if (e.touches.length === 1) {
-    const touch = e.touches[0];
-    const pos = getCanvasPos(touch);
-    isDragging = true;
-    dragStart = { x: pos.x - dressState.x, y: pos.y - dressState.y };
-  } else if (e.touches.length === 2) {
-    const t1 = e.touches[0], t2 = e.touches[1];
-    lastTouchDist = Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY);
-    lastTouchAngle = Math.atan2(t2.clientY - t1.clientY, t2.clientX - t1.clientX);
-  }
-}
-
-function onTouchMove(e) {
-  if (!dressImg) return;
-  e.preventDefault();
-
-  if (e.touches.length === 1 && isDragging) {
-    const touch = e.touches[0];
-    const pos = getCanvasPos(touch);
-    dressState.x = pos.x - dragStart.x;
-    dressState.y = pos.y - dragStart.y;
-    drawCanvas();
-  } else if (e.touches.length === 2) {
-    const t1 = e.touches[0], t2 = e.touches[1];
-    const dist = Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY);
-    const angle = Math.atan2(t2.clientY - t1.clientY, t2.clientX - t1.clientX);
-
-    // Pinch to scale
-    const scaleDelta = dist / lastTouchDist;
-    dressState.scale = Math.max(0.1, Math.min(3, dressState.scale * scaleDelta));
-
-    // Rotate
-    const angleDelta = (angle - lastTouchAngle) * 180 / Math.PI;
-    dressState.rotation += angleDelta;
-
-    lastTouchDist = dist;
-    lastTouchAngle = angle;
-    syncControls();
-    drawCanvas();
-  }
-}
-
-function onTouchEnd() {
-  isDragging = false;
-}
-
-function onKey(e) {
-  if (!dressImg) return;
-  const step = e.shiftKey ? 10 : 2;
-  switch (e.key) {
-    case 'ArrowLeft': dressState.x -= step; break;
-    case 'ArrowRight': dressState.x += step; break;
-    case 'ArrowUp': dressState.y -= step; break;
-    case 'ArrowDown': dressState.y += step; break;
-    case '+': case '=': dressState.scale = Math.min(3, dressState.scale + 0.05); syncControls(); break;
-    case '-': dressState.scale = Math.max(0.1, dressState.scale - 0.05); syncControls(); break;
-    case 'r': dressState.rotation += 5; syncControls(); break;
-    case 'R': dressState.rotation -= 5; syncControls(); break;
-    default: return;
-  }
-  e.preventDefault();
-  drawCanvas();
-}
-
-// ═══ SAVE ═══
-function saveResult() {
-  if (!userPhoto) { showNotif('Əvvəlcə şəkil yükləyin'); return; }
-  const canvas = document.getElementById('mainCanvas');
-  const link = document.createElement('a');
-  link.download = 'avera-tryon-' + Date.now() + '.png';
-  link.href = canvas.toDataURL('image/png');
-  link.click();
-  showNotif('Şəkil yükləndi!');
-}
-
-// ═══ TABS ═══
-function switchTab(id, btn) {
-  document.querySelectorAll('.side-tab').forEach(t => t.classList.remove('active'));
-  btn.classList.add('active');
-  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-  document.getElementById('tab-' + id).classList.add('active');
-}
-
-// ═══ MOBILE PANEL ═══
-function openMobilePanel() {
-  document.getElementById('sidePanel').classList.add('open');
-  document.getElementById('mobileOverlay').classList.add('visible');
-}
-function closeMobilePanel() {
-  document.getElementById('sidePanel').classList.remove('open');
-  document.getElementById('mobileOverlay').classList.remove('visible');
-}
-
-// ═══ NOTIFICATION ═══
-function showNotif(msg) {
-  const el = document.getElementById('notif');
-  el.textContent = msg;
-  el.classList.add('show');
-  setTimeout(() => el.classList.remove('show'), 2500);
-}
-
-// ═══ START ═══
-init();
+let uPh=null,sD=null,dI=null,det=null,ps=null,shP=false,md='m';
+let W=0,H=0,drg=false,ds={x:0,y:0};
+let F={x:0,y:0,sc:1,rt:0,op:1,fh:false,fv:false,ox:0,oy:0};
+function mkSVG(d,w=400,h=600){const s=d.cl,l=d.h;return`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}"><defs><linearGradient id="g${d.id}" x1=".2" y1="0" x2=".8" y2="1"><stop offset="0%" stop-color="${s}" stop-opacity=".85"/><stop offset="100%" stop-color="${s}"/></linearGradient></defs><path d="M${w*.38} ${h*.02}C${w*.35} ${h*.05} ${w*.28} ${h*.08} ${w*.25} ${h*.12}L${w*.22} ${h*.18}C${w*.2} ${h*.22} ${w*.18} ${h*.28} ${w*.16} ${h*.35}L${w*.12} ${h*.5}C${w*.08} ${h*.65} ${w*.05} ${h*.78} ${w*.06} ${h*.88}C${w*.07} ${h*.94} ${w*.1} ${h*.97} ${w*.14} ${h*.98}L${w*.86} ${h*.98}C${w*.9} ${h*.97} ${w*.93} ${h*.94} ${w*.94} ${h*.88}C${w*.95} ${h*.78} ${w*.92} ${h*.65} ${w*.88} ${h*.5}L${w*.84} ${h*.35}C${w*.82} ${h*.28} ${w*.8} ${h*.22} ${w*.78} ${h*.18}L${w*.75} ${h*.12}C${w*.72} ${h*.08} ${w*.65} ${h*.05} ${w*.62} ${h*.02}C${w*.55} 0 ${w*.45} 0 ${w*.38} ${h*.02}Z" fill="url(#g${d.id})" stroke="${l}" stroke-width="1"/><path d="M${w*.38} ${h*.02}C${w*.35} ${h*.05} ${w*.28} ${h*.08} ${w*.25} ${h*.12}L${w*.22} ${h*.18}C${w*.2} ${h*.22} ${w*.18} ${h*.28} ${w*.16} ${h*.35}L${w*.12} ${h*.5}C${w*.08} ${h*.65} ${w*.05} ${h*.78} ${w*.06} ${h*.88}C${w*.07} ${h*.94} ${w*.1} ${h*.97} ${w*.14} ${h*.98}L${w*.5} ${h*.98}L${w*.5} 0C${w*.45} 0 ${w*.38} ${h*.02} ${w*.38} ${h*.02}Z" fill="${l}" opacity=".4"/><path d="M${w*.22} ${h*.35}Q${w*.5} ${h*.38} ${w*.78} ${h*.35}" fill="none" stroke="${l}" stroke-width=".8"/><path d="M${w*.38} ${h*.02}Q${w*.5} ${h*.06} ${w*.62} ${h*.02}" fill="none" stroke="${l}" stroke-width="1"/><path d="M${w*.3} ${h*.5}Q${w*.28} ${h*.7} ${w*.2} ${h*.9}" fill="none" stroke="${l}" stroke-width=".5" opacity=".5"/><path d="M${w*.7} ${h*.5}Q${w*.72} ${h*.7} ${w*.8} ${h*.9}" fill="none" stroke="${l}" stroke-width=".5" opacity=".5"/></svg>`}
+async function ldMod(){if(det)return det;try{await tf.setBackend('webgl');await tf.ready();det=await poseDetection.createDetector(poseDetection.SupportedModels.MoveNet,{modelType:poseDetection.movenet.modelType.SINGLEPOSE_THUNDER});return det}catch(e){console.error(e);noti('AI modeli yüklənə bilmədi','wr');return null}}
+async function detP(img){sLd(true);try{const d=await ldMod();if(!d){sLd(false);return null}const r=await d.estimatePoses(img);sLd(false);if(r&&r.length>0){ps=r[0];noti('Bədən nöqtələri tapıldı! Geyim seçin →');document.getElementById('pTg').classList.add('vis');return ps}else{noti('Bədən tapılmadı. Tam boy şəkil yükləyin.','wr');return null}}catch(e){sLd(false);console.error(e);noti('AI xəta. Manual rejim aktiv.','wr');return null}}
+function kp(n){if(!ps)return null;const m={nose:0,lSh:5,rSh:6,lHi:11,rHi:12,lKn:13,rKn:14,lAn:15,rAn:16};const i=m[n];if(i===undefined)return null;const p=ps.keypoints[i];return(p&&p.score>.3)?{x:p.x,y:p.y}:null}
+function calcFit(){const ls=kp('lSh'),rs=kp('rSh'),lh=kp('lHi'),rh=kp('rHi'),lk=kp('lKn'),rk=kp('rKn'),la=kp('lAn'),ra=kp('rAn');if(!ls||!rs)return null;const cx=(ls.x+rs.x)/2,cy=(ls.y+rs.y)/2;const sw=Math.hypot(rs.x-ls.x,rs.y-ls.y);const sa=Math.atan2(rs.y-ls.y,rs.x-ls.x)*180/Math.PI;let bl=sw*2.5;const hcy=lh&&rh?(lh.y+rh.y)/2:null;const kcy=lk&&rk?(lk.y+rk.y)/2:null;const acy=la&&ra?(la.y+ra.y)/2:null;if(acy)bl=acy-cy;else if(kcy)bl=(kcy-cy)*1.4;else if(hcy)bl=(hcy-cy)*2.2;const tW=sw*2.2;return{x:cx,y:cy+bl*.42,sc:tW/400,rt:sa}}
+function aFit(){const f=calcFit();if(!f){F.x=W/2;F.y=H*.55;F.sc=Math.min(W,H)*.5/600;F.rt=0}else{F.x=f.x;F.y=f.y;F.sc=f.sc;F.rt=f.rt}F.op=1;F.fh=false;F.fv=false;F.ox=0;F.oy=0;syncUI();draw()}
+function ldPh(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=async ev=>{const img=new Image();img.onload=async()=>{uPh=img;setupC();document.getElementById('uSt').classList.add('hid');document.getElementById('cW').classList.add('vis');document.getElementById('fBar').classList.add('vis');draw();await detP(img);if(sD)aFit();draw()};img.src=ev.target.result};r.readAsDataURL(f)}
+function setupC(){const c=document.getElementById('mc'),a=document.querySelector('.canvas-area');const mW=a.clientWidth*.92,mH=a.clientHeight*.92;let w=uPh.naturalWidth,h=uPh.naturalHeight;const r=Math.min(mW/w,mH/h,1);w=Math.round(w*r);h=Math.round(h*r);if(w<280){const s=280/w;w=280;h=Math.round(h*s)}c.width=w;c.height=h;c.style.width=w+'px';c.style.height=h+'px';W=w;H=h}
+function selD(id){sD=DS.find(d=>d.id===id);rGrid(cFlt);const svg=mkSVG(sD);const b=new Blob([svg],{type:'image/svg+xml'});dI=new Image();dI.onload=()=>{if(ps)aFit();else{F.x=W/2;F.y=H*.55;F.sc=Math.min(W,H)*.5/600;F.rt=0;F.op=1;F.fh=false;F.fv=false;F.ox=0;F.oy=0;syncUI()}draw();noti(ps?'AI geyimi əyninizə uyğunlaşdırdı!':'Geyim seçildi')};dI.src=URL.createObjectURL(b)}
+function draw(){const c=document.getElementById('mc'),x=c.getContext('2d');x.clearRect(0,0,W,H);if(uPh)x.drawImage(uPh,0,0,W,H);if(shP&&ps)drawP(x);if(dI&&sD){x.save();x.globalAlpha=F.op;const fx=F.x+F.ox,fy=F.y+F.oy;x.translate(fx,fy);x.rotate(F.rt*Math.PI/180);x.scale(F.fh?-F.sc:F.sc,F.fv?-F.sc:F.sc);const dw=dI.naturalWidth||400,dh=dI.naturalHeight||600;x.drawImage(dI,-dw/2,-dh/2,dw,dh);x.restore()}}
+function drawP(x){if(!ps)return;const k=ps.keypoints;const cn=[[5,6],[5,7],[7,9],[6,8],[8,10],[5,11],[6,12],[11,12],[11,13],[13,15],[12,14],[14,16]];x.strokeStyle='rgba(196,114,126,.6)';x.lineWidth=2;cn.forEach(([a,b])=>{if(k[a].score>.3&&k[b].score>.3){x.beginPath();x.moveTo(k[a].x,k[a].y);x.lineTo(k[b].x,k[b].y);x.stroke()}});k.forEach(p=>{if(p.score>.3){x.beginPath();x.arc(p.x,p.y,4,0,Math.PI*2);x.fillStyle='rgba(196,114,126,.9)';x.fill();x.strokeStyle='#fff';x.lineWidth=1.5;x.stroke()}})}
+function adjC(p,v){const bs=ps?calcFit()?.sc||1:Math.min(W,H)*.5/600;if(p==='s'){F.sc=v/100*bs;document.getElementById('vS').textContent=v+'%'}if(p==='y'){F.oy=+v;document.getElementById('vY').textContent=v}if(p==='x'){F.ox=+v;document.getElementById('vX').textContent=v}if(p==='r'){F.rt=+v;document.getElementById('vR').textContent=v+'°'}if(p==='o'){F.op=v/100;document.getElementById('vO').textContent=v+'%'}draw()}
+function flpH(){F.fh=!F.fh;draw()}function flpV(){F.fv=!F.fv;draw()}
+function rstFit(){if(ps)aFit();else{F={x:W/2,y:H*.55,sc:Math.min(W,H)*.5/600,rt:0,op:1,fh:false,fv:false,ox:0,oy:0};syncUI();draw()}}
+function syncUI(){const bs=ps?calcFit()?.sc||1:Math.min(W,H)*.5/600;const pc=Math.round(F.sc/bs*100);document.getElementById('sS').value=pc;document.getElementById('vS').textContent=pc+'%';document.getElementById('sY').value=F.oy;document.getElementById('vY').textContent=F.oy;document.getElementById('sX').value=F.ox;document.getElementById('vX').textContent=F.ox;document.getElementById('sR').value=Math.round(F.rt);document.getElementById('vR').textContent=Math.round(F.rt)+'°';document.getElementById('sO').value=Math.round(F.op*100);document.getElementById('vO').textContent=Math.round(F.op*100)+'%'}
+async function reAI(){if(!uPh)return;ps=null;det=null;await detP(uPh);if(sD)aFit();draw()}
+function tgPose(){shP=!shP;document.getElementById('bPose').classList.toggle('act',shP);draw()}
+const cv=document.getElementById('mc');
+function gp(e){const r=cv.getBoundingClientRect();return{x:(e.clientX-r.left)*cv.width/r.width,y:(e.clientY-r.top)*cv.height/r.height}}
+cv.addEventListener('mousedown',e=>{if(!dI)return;drg=true;const p=gp(e);ds={x:p.x-(F.x+F.ox),y:p.y-(F.y+F.oy)}});
+cv.addEventListener('mousemove',e=>{if(!drg||!dI)return;const p=gp(e);if(md==='m'){F.ox=p.x-ds.x-F.x;F.oy=p.y-ds.y-F.y;syncUI()}else{const d=Math.hypot(p.x-F.x,p.y-F.y);F.sc=Math.max(.05,Math.min(3,d/200));syncUI()}draw()});
+cv.addEventListener('mouseup',()=>drg=false);cv.addEventListener('mouseleave',()=>drg=false);
+cv.addEventListener('wheel',e=>{if(!dI)return;e.preventDefault();F.sc=Math.max(.05,Math.min(3,F.sc+(e.deltaY>0?-.02:.02)));syncUI();draw()},{passive:false});
+let lTD=0;cv.addEventListener('touchstart',e=>{if(!dI)return;e.preventDefault();if(e.touches.length===1){drg=true;const p=gp(e.touches[0]);ds={x:p.x-(F.x+F.ox),y:p.y-(F.y+F.oy)}}else if(e.touches.length===2)lTD=Math.hypot(e.touches[1].clientX-e.touches[0].clientX,e.touches[1].clientY-e.touches[0].clientY)},{passive:false});
+cv.addEventListener('touchmove',e=>{if(!dI)return;e.preventDefault();if(e.touches.length===1&&drg){const p=gp(e.touches[0]);F.ox=p.x-ds.x-F.x;F.oy=p.y-ds.y-F.y;syncUI();draw()}else if(e.touches.length===2){const d=Math.hypot(e.touches[1].clientX-e.touches[0].clientX,e.touches[1].clientY-e.touches[0].clientY);F.sc=Math.max(.05,Math.min(3,F.sc*(d/lTD)));lTD=d;syncUI();draw()}},{passive:false});
+cv.addEventListener('touchend',()=>drg=false);
+function sMode(m){md=m;document.querySelectorAll('.fbb').forEach(b=>b.classList.remove('act'));document.getElementById(m==='m'?'fMv':'fSc')?.classList.add('act')}
+let cFlt='all';function rGrid(f){cFlt=f;const g=document.getElementById('dg');const l=f==='all'?DS:DS.filter(d=>d.c===f);g.innerHTML=l.map(d=>`<div class="dc ${sD?.id===d.id?'sel':''}" onclick="selD(${d.id})"><div class="dc-bg" style="background:${d.g}"></div><div class="dc-ov"></div><div class="dc-info"><div class="dc-name">${d.n}</div><div class="dc-tp">${d.t}</div></div><div class="dc-chk"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div></div>`).join('')}
+function flt(c,b){b.parentElement.querySelectorAll('.fb').forEach(x=>x.classList.remove('act'));b.classList.add('act');rGrid(c)}
+function swTab(id,b){document.querySelectorAll('.sb-tab').forEach(t=>t.classList.remove('act'));b.classList.add('act');document.querySelectorAll('.tp').forEach(p=>p.classList.remove('act'));document.getElementById('tp-'+id).classList.add('act')}
+function saveI(){if(!uPh){noti('Əvvəlcə şəkil yükləyin','wr');return}const sp=shP;shP=false;draw();const a=document.createElement('a');a.download='avera-tryon-'+Date.now()+'.png';a.href=document.getElementById('mc').toDataURL('image/png');a.click();shP=sp;draw();noti('Şəkil yadda saxlandı!')}
+function opMob(){document.getElementById('sidebar').classList.add('open');document.getElementById('mOv').classList.add('vis')}
+function clMob(){document.getElementById('sidebar').classList.remove('open');document.getElementById('mOv').classList.remove('vis')}
+function sLd(v){document.getElementById('aLd').classList.toggle('vis',v)}
+function noti(m,t='ok'){const e=document.getElementById('tst');e.textContent=m;e.className='tst '+t+' show';setTimeout(()=>e.classList.remove('show'),3000)}
+rGrid('all');
 </script>
 </body>
 </html>
