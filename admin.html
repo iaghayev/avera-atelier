@@ -384,7 +384,9 @@ function login() {
 
 async function init() {
   updateClock(); setInterval(updateClock, 1000);
-  await Promise.all([loadProducts(), loadCollections(), loadCMS()]);
+  // Əvvəlcə kolleksiyaları yükləyirik ki, məhsul pəncərəsində seçmək olsun
+  await loadCollections();
+  await Promise.all([loadProducts(), loadCMS()]);
 }
 function updateClock() { document.getElementById('liveClock').textContent = new Date().toLocaleTimeString('az-AZ'); }
 
@@ -433,118 +435,17 @@ async function saveSettings() {
   notify('Sistem ayarları saxlanıldı');
 }
 
-// --- PRODUCTS ---
-async function loadProducts() {
-  const {data} = await supa.from('products').select('*').order('created_at', {ascending:false});
-  state.products = data || [];
-  
-  document.getElementById('stProd').textContent = state.products.length;
-
-  const buildTable = (arr) => {
-    let html = `<table><thead><tr><th>Şəkil</th><th>Ad (AZ)</th><th>Kateqoriya</th><th>Qiymət</th><th>Status</th><th></th></tr></thead><tbody>`;
-    arr.forEach(p => {
-      html += `<tr>
-        <td><img src="${p.images?.[0] || ''}" class="data-img"></td>
-        <td><strong>${p.name?.az || p.name || 'Adsız'}</strong></td>
-        <td><span class="badge ${p.type==='couture'?'':'green'}">${p.type}</span></td>
-        <td>${p.price} ₼</td>
-        <td><span class="badge ${p.status==='active'?'green':'red'}">${p.status}</span></td>
-        <td>
-          <button class="btn btn-sm btn-outline" onclick="editProd('${p.id}')">Düzəliş</button>
-          <button class="btn btn-sm btn-danger" onclick="deleteProd('${p.id}')">Sil</button>
-        </td>
-      </tr>`;
-    });
-    return html + `</tbody></table>`;
-  };
-
-  document.getElementById('productsTableContainer').innerHTML = buildTable(state.products);
-  document.getElementById('recentProductsTable').innerHTML = buildTable(state.products.slice(0, 4));
-}
-
-function switchTab(lang, btn) {
-  document.querySelectorAll('.form-tab').forEach(t=>t.classList.remove('active'));
-  btn.classList.add('active');
-  document.querySelectorAll('.lang-content').forEach(c=>c.classList.remove('active'));
-  document.getElementById(`lang-${lang}`).classList.add('active');
-}
-
-function openProductModal() {
-  document.getElementById('editId').value = '';
-  document.getElementById('mTitle').textContent = 'Yeni Məhsul';
-  ['pNameAZ','pNameRU','pNameEN','pDescAZ','pDescRU','pDescEN','pPrice','pSalePrice','pSizes','pFabric','pColor'].forEach(id => document.getElementById(id).value = '');
-  state.images = []; renderPreviews();
-  switchTab('az', document.querySelector('.form-tab'));
-  openModal('productModal');
-}
-
-async function editProd(id) {
-  const p = state.products.find(x => x.id === id);
-  if(!p) return;
-  document.getElementById('editId').value = p.id;
-  document.getElementById('mTitle').textContent = 'Məhsulu Yenilə';
-  
-  document.getElementById('pNameAZ').value = p.name?.az || p.name || '';
-  document.getElementById('pNameRU').value = p.name?.ru || '';
-  document.getElementById('pNameEN').value = p.name?.en || '';
-  document.getElementById('pDescAZ').value = p.description?.az || p.description || '';
-  document.getElementById('pDescRU').value = p.description?.ru || '';
-  document.getElementById('pDescEN').value = p.description?.en || '';
-  
-  document.getElementById('pPrice').value = p.price || '';
-  document.getElementById('pSalePrice').value = p.sale_price || '';
-  document.getElementById('pType').value = p.type || 'couture';
-  document.getElementById('pFeat').value = p.collection_id || '';
-  document.getElementById('pSizes').value = p.sizes?.join(', ') || '';
-  document.getElementById('pFabric').value = p.fabric || '';
-  document.getElementById('pColor').value = p.color || '';
-  
-  state.images = p.images || []; renderPreviews();
-  switchTab('az', document.querySelector('.form-tab'));
-  openModal('productModal');
-}
-
-async function commitProduct() {
-  const id = document.getElementById('editId').value;
-  const btn = document.getElementById('saveActionBtn');
-  btn.disabled = true; btn.textContent = 'Saxlanılır...';
-
-  const azN = document.getElementById('pNameAZ').value;
-  const azD = document.getElementById('pDescAZ').value;
-
-  const payload = {
-    name: { az: azN, ru: document.getElementById('pNameRU').value || azN, en: document.getElementById('pNameEN').value || azN },
-    description: { az: azD, ru: document.getElementById('pDescRU').value || azD, en: document.getElementById('pDescEN').value || azD },
-    price: parseFloat(document.getElementById('pPrice').value) || 0,
-    sale_price: parseFloat(document.getElementById('pSalePrice').value) || null,
-    type: document.getElementById('pType').value,
-    collection_id: document.getElementById('pFeat').value || null,
-    sizes: document.getElementById('pSizes').value.split(',').map(s=>s.trim()).filter(Boolean),
-    fabric: document.getElementById('pFabric').value,
-    color: document.getElementById('pColor').value,
-    images: state.images,
-    status: 'active'
-  };
-
-  if(id) await supa.from('products').update(payload).eq('id', id);
-  else await supa.from('products').insert([payload]);
-
-  btn.disabled = false; btn.textContent = 'Yadda Saxla';
-  closeModal('productModal');
-  await loadProducts();
-  notify('Məhsul bazaya yazıldı');
-}
-
-async function deleteProd(id) {
-  if(confirm('Əminsiniz?')) { await supa.from('products').delete().eq('id', id); await loadProducts(); notify('Silindi'); }
-}
-
-// --- COLLECTIONS ---
+// --- COLLECTIONS (Bazada Yükləmə) ---
 async function loadCollections() {
   const {data} = await supa.from('collections').select('*').order('created_at', {ascending:false});
   state.collections = data || [];
   document.getElementById('stColl').textContent = state.collections.length;
   
+  // Məhsul modalındakı "Kolleksiya" siyahısını yeniləyirik
+  const collSelect = document.getElementById('pFeat');
+  collSelect.innerHTML = `<option value="">— Heç biri —</option>` + 
+    state.collections.filter(c => c.status === 'active').map(c => `<option value="${c.id}">${c.name.az || 'Adsız Kolleksiya'}</option>`).join('');
+
   let html = `<table><thead><tr><th>Kolleksiya Adı (AZ)</th><th>Status</th><th></th></tr></thead><tbody>`;
   state.collections.forEach(c => {
     html += `<tr>
@@ -613,12 +514,122 @@ async function commitCollection() {
 
   btn.disabled = false; btn.textContent = 'Yadda Saxla';
   closeModal('collModal');
-  await loadCollections();
+  await loadCollections(); // Kolleksiyalar yenilənəndə Dropdown da yenilənəcək
   notify('Kolleksiya bazaya yazıldı');
 }
 
 async function deleteColl(id) {
   if(confirm('Əminsiniz?')) { await supa.from('collections').delete().eq('id', id); await loadCollections(); notify('Kolleksiya silindi'); }
+}
+
+
+// --- PRODUCTS ---
+async function loadProducts() {
+  const {data} = await supa.from('products').select('*').order('created_at', {ascending:false});
+  state.products = data || [];
+  document.getElementById('stProd').textContent = state.products.length;
+
+  const buildTable = (arr) => {
+    let html = `<table><thead><tr><th>Şəkil</th><th>Ad (AZ)</th><th>Kolleksiya</th><th>Növ</th><th>Qiymət</th><th>Status</th><th></th></tr></thead><tbody>`;
+    arr.forEach(p => {
+      // Məhsulun bağlandığı kolleksiyanın adını tapırıq
+      const collName = state.collections.find(c => c.id === p.collection_id)?.name?.az || '—';
+      html += `<tr>
+        <td><img src="${p.images?.[0] || ''}" class="data-img"></td>
+        <td><strong>${p.name?.az || p.name || 'Adsız'}</strong></td>
+        <td><span class="badge" style="background:#eee;color:#333;">${collName}</span></td>
+        <td><span class="badge ${p.type==='couture'?'':'green'}">${p.type}</span></td>
+        <td>${p.price} ₼</td>
+        <td><span class="badge ${p.status==='active'?'green':'red'}">${p.status}</span></td>
+        <td>
+          <button class="btn btn-sm btn-outline" onclick="editProd('${p.id}')">Düzəliş</button>
+          <button class="btn btn-sm btn-danger" onclick="deleteProd('${p.id}')">Sil</button>
+        </td>
+      </tr>`;
+    });
+    return html + `</tbody></table>`;
+  };
+
+  document.getElementById('productsTableContainer').innerHTML = buildTable(state.products);
+  document.getElementById('recentProductsTable').innerHTML = buildTable(state.products.slice(0, 4));
+}
+
+function switchTab(lang, btn) {
+  document.querySelectorAll('#productModal .form-tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.lang-content').forEach(c=>c.classList.remove('active'));
+  document.getElementById(`lang-${lang}`).classList.add('active');
+}
+
+function openProductModal() {
+  document.getElementById('editId').value = '';
+  document.getElementById('mTitle').textContent = 'Yeni Məhsul';
+  ['pNameAZ','pNameRU','pNameEN','pDescAZ','pDescRU','pDescEN','pPrice','pSalePrice','pSizes','pFabric','pColor'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('pFeat').value = ''; // Kolleksiya seçimi sıfırlanır
+  state.images = []; renderPreviews();
+  switchTab('az', document.querySelector('#productModal .form-tab'));
+  openModal('productModal');
+}
+
+async function editProd(id) {
+  const p = state.products.find(x => x.id === id);
+  if(!p) return;
+  document.getElementById('editId').value = p.id;
+  document.getElementById('mTitle').textContent = 'Məhsulu Yenilə';
+  
+  document.getElementById('pNameAZ').value = p.name?.az || p.name || '';
+  document.getElementById('pNameRU').value = p.name?.ru || '';
+  document.getElementById('pNameEN').value = p.name?.en || '';
+  document.getElementById('pDescAZ').value = p.description?.az || p.description || '';
+  document.getElementById('pDescRU').value = p.description?.ru || '';
+  document.getElementById('pDescEN').value = p.description?.en || '';
+  
+  document.getElementById('pPrice').value = p.price || '';
+  document.getElementById('pSalePrice').value = p.sale_price || '';
+  document.getElementById('pType').value = p.type || 'couture';
+  document.getElementById('pFeat').value = p.collection_id || ''; // Məhsulun kolleksiyası seçilir
+  document.getElementById('pSizes').value = p.sizes?.join(', ') || '';
+  document.getElementById('pFabric').value = p.fabric || '';
+  document.getElementById('pColor').value = p.color || '';
+  
+  state.images = p.images || []; renderPreviews();
+  switchTab('az', document.querySelector('#productModal .form-tab'));
+  openModal('productModal');
+}
+
+async function commitProduct() {
+  const id = document.getElementById('editId').value;
+  const btn = document.getElementById('saveActionBtn');
+  btn.disabled = true; btn.textContent = 'Saxlanılır...';
+
+  const azN = document.getElementById('pNameAZ').value;
+  const azD = document.getElementById('pDescAZ').value;
+
+  const payload = {
+    name: { az: azN, ru: document.getElementById('pNameRU').value || azN, en: document.getElementById('pNameEN').value || azN },
+    description: { az: azD, ru: document.getElementById('pDescRU').value || azD, en: document.getElementById('pDescEN').value || azD },
+    price: parseFloat(document.getElementById('pPrice').value) || 0,
+    sale_price: parseFloat(document.getElementById('pSalePrice').value) || null,
+    type: document.getElementById('pType').value,
+    collection_id: document.getElementById('pFeat').value || null, // Seçilmiş kolleksiyanın ID-si yazılır
+    sizes: document.getElementById('pSizes').value.split(',').map(s=>s.trim()).filter(Boolean),
+    fabric: document.getElementById('pFabric').value,
+    color: document.getElementById('pColor').value,
+    images: state.images,
+    status: 'active'
+  };
+
+  if(id) await supa.from('products').update(payload).eq('id', id);
+  else await supa.from('products').insert([payload]);
+
+  btn.disabled = false; btn.textContent = 'Yadda Saxla';
+  closeModal('productModal');
+  await loadProducts();
+  notify('Məhsul bazaya yazıldı');
+}
+
+async function deleteProd(id) {
+  if(confirm('Əminsiniz?')) { await supa.from('products').delete().eq('id', id); await loadProducts(); notify('Silindi'); }
 }
 
 // --- CLOUDINARY UPLOAD ---
