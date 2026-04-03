@@ -2,358 +2,294 @@
 <html lang="az">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Avera Atelier — Premium Fashion Rental</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Nunito+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Avera Atelier — Fashion & Style by Anvaril</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-/* --- TƏMƏL AYARLAR VƏ RƏNGLƏR --- */
-:root {
-  --black: #111111; --white: #ffffff; --off-white: #fdfbf7; --gray-light: #f4f4f4;
-  --gray-mid: #e2e2e2; --text-muted: #666666; --accent: #b08968;
-  --font-serif: 'Playfair Display', serif; --font-sans: 'Nunito Sans', sans-serif;
-  --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#faf9f6;--bg2:#f3f0ea;--bg3:#e8e3da;--ink:#141210;--ink2:#2d2a26;--ink3:#5e5850;--ink4:#9a9288;--rose:#a85060;--rose2:#c8808a;--gold:#a08050;--red:#c04040;--green:#408050;--serif:'Cormorant Garamond',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;--ease:cubic-bezier(.22,1,.36,1)}
+html{scroll-behavior:smooth}body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:400;-webkit-font-smoothing:antialiased;overflow-x:hidden;font-size:15px}
+::selection{background:var(--rose);color:#fff}::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--ink4);border-radius:2px}
+a{text-decoration:none;color:inherit}img{display:block;max-width:100%}
 
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body { background: var(--off-white); color: var(--black); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
-a { text-decoration: none; color: inherit; }
-button { background: none; border: none; cursor: pointer; font-family: inherit; }
+/* ANNOUNCEMENT */
+.ann{background:var(--ink);color:#fff;text-align:center;padding:.55rem 1rem;font-size:.68rem;font-weight:500;letter-spacing:.15em;text-transform:uppercase}
 
-/* --- TOP BAR & NAVİQASİYA --- */
-.topbar { background: var(--black); color: var(--white); text-align: center; padding: 8px 20px; font-size: 0.65rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+/* NAV */
+nav{position:sticky;top:0;z-index:1000;background:rgba(250,249,246,.97);backdrop-filter:blur(20px);border-bottom:1px solid rgba(0,0,0,.04);display:flex;align-items:center;padding:.9rem 4%;transition:padding .3s}
+nav.sc{padding:.65rem 4%;box-shadow:0 2px 20px rgba(0,0,0,.03)}
+.n-left,.n-right{flex:1;display:flex;align-items:center;gap:1.8rem}
+.n-right{justify-content:flex-end;gap:1rem}
+.n-center{text-align:center}
+.n-link{font-size:.72rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);transition:.3s;position:relative}
+.n-link:hover{color:var(--ink)}
+.n-link::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:1px;background:var(--ink);transition:width .35s var(--ease)}.n-link:hover::after{width:100%}
+.logo{font-family:var(--serif);font-size:2rem;font-weight:400;font-style:italic;color:var(--ink);letter-spacing:-.02em}
+.lb{font-size:.7rem;font-weight:600;color:var(--ink4);background:none;border:none;cursor:pointer;transition:.3s;padding-bottom:2px}.lb.on{color:var(--ink);border-bottom:2px solid var(--ink)}.lb:hover{color:var(--ink)}
+.hamburger{display:none;flex-direction:column;gap:4px;cursor:pointer;background:none;border:none}.hamburger span{width:18px;height:1.5px;background:var(--ink);transition:.3s}
+.hamburger.on span:nth-child(1){transform:rotate(45deg) translate(3px,3px)}.hamburger.on span:nth-child(2){opacity:0}.hamburger.on span:nth-child(3){transform:rotate(-45deg) translate(3px,-3px)}
+.mob{position:fixed;inset:0;z-index:999;background:rgba(250,249,246,.98);display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:.4s}.mob.on{opacity:1;visibility:visible}
+.mob ul{list-style:none;text-align:center;display:flex;flex-direction:column;gap:1.2rem}.mob a{font-family:var(--serif);font-size:1.6rem;color:var(--ink)}
 
-nav { padding: 1.2rem 4%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; background: rgba(253, 251, 247, 0.95); backdrop-filter: blur(10px); z-index: 1000; border-bottom: 1px solid var(--gray-light); transition: var(--transition); }
-nav.scrolled { padding: 0.8rem 4%; box-shadow: 0 4px 20px rgba(0,0,0,0.03); }
+/* HERO */
+.hero{height:88vh;min-height:500px;display:flex;align-items:center;justify-content:center;text-align:center;background-color:var(--bg2);background-size:cover;background-position:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:rgba(0,0,0,.28)}
+.hero-c{position:relative;z-index:2;color:#fff;max-width:700px;padding:0 1.5rem}
+.hero-lab{font-size:.72rem;font-weight:500;letter-spacing:.35em;text-transform:uppercase;margin-bottom:1.2rem;opacity:.85;display:block}
+.hero-t{font-family:var(--serif);font-size:clamp(2.8rem,7vw,5.5rem);font-weight:300;font-style:italic;line-height:1;margin-bottom:2rem;text-shadow:0 4px 30px rgba(0,0,0,.2)}
+.hero-btn{display:inline-block;background:#fff;color:var(--ink);padding:1rem 2.8rem;font-size:.72rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;transition:.4s var(--ease)}.hero-btn:hover{background:var(--ink);color:#fff;transform:translateY(-2px);box-shadow:0 8px 25px rgba(0,0,0,.2)}
+.hero-anim{animation:fu .8s ease both}
+@keyframes fu{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
 
-.nav-left, .nav-right { flex: 1; display: flex; align-items: center; gap: 2rem; }
-.nav-right { justify-content: flex-end; gap: 1rem; }
-.nav-center { flex: 1; text-align: center; }
+/* SECTIONS */
+section{padding:4.5rem 0;overflow:hidden}
+.s-pad{padding:0 4%}
+.s-hdr{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:1.8rem;padding:0 4%;flex-wrap:wrap;gap:.8rem}
+.s-lab{font-size:.6rem;font-weight:600;letter-spacing:.4em;text-transform:uppercase;color:var(--rose);margin-bottom:.2rem}
+.s-ttl{font-family:var(--serif);font-size:clamp(1.5rem,3vw,2.2rem);font-weight:300}
+.s-more{font-size:.68rem;font-weight:500;color:var(--ink3);letter-spacing:.1em;text-transform:uppercase;transition:.3s;cursor:pointer;background:none;border:none;font-family:var(--sans)}.s-more:hover{color:var(--ink)}
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .5s,transform .5s}.reveal.vis{opacity:1;transform:none}
 
-.nav-link { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); transition: var(--transition); position: relative; }
-.nav-link:hover { color: var(--black); }
-.nav-link::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px; background: var(--black); transition: var(--transition); }
-.nav-link:hover::after { width: 100%; }
+/* CAROUSEL */
+.crl{display:flex;gap:1rem;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:0 4% 1rem 4%}
+.crl::-webkit-scrollbar{display:none}
 
-.logo { font-family: var(--font-serif); font-size: 2.2rem; font-style: italic; color: var(--black); font-weight: 500; letter-spacing: -0.5px; }
+/* PRODUCT CARD */
+.pc{min-width:260px;max-width:280px;flex:0 0 auto;scroll-snap-align:start;cursor:pointer;position:relative;transition:transform .5s var(--ease)}
+.pc:hover{transform:translateY(-5px)}
+.pc-img-w{width:100%;aspect-ratio:3/4;overflow:hidden;position:relative;background:var(--bg2);margin-bottom:.8rem}
+.pc-img{width:100%;height:100%;object-fit:cover;transition:transform .7s var(--ease)}.pc:hover .pc-img{transform:scale(1.05)}
+.pc-badges{position:absolute;top:.6rem;left:.6rem;display:flex;flex-direction:column;gap:.25rem;z-index:2}
+.bdg{padding:.2rem .55rem;font-size:.52rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#fff;border-radius:1px}
+.bdg-new{background:var(--green)}.bdg-sale{background:var(--red)}.bdg-best{background:var(--gold)}.bdg-trend{background:var(--rose)}.bdg-feat{background:var(--ink)}
+.pc-fav{position:absolute;top:.6rem;right:.6rem;width:28px;height:28px;background:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.9rem;color:var(--ink4);z-index:2;transition:.3s;box-shadow:0 2px 8px rgba(0,0,0,.08)}.pc:hover .pc-fav{color:var(--rose)}
+.pc-qv{position:absolute;bottom:0;left:0;right:0;padding:.7rem;background:linear-gradient(to top,rgba(20,18,16,.6),transparent);display:flex;justify-content:center;transform:translateY(100%);transition:transform .35s var(--ease);z-index:2}.pc:hover .pc-qv{transform:none}
+.qv-b{padding:.4rem 1.2rem;background:rgba(255,255,255,.95);color:var(--ink);font-size:.6rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;border:none;cursor:pointer;border-radius:1px}
+.pc-brand{font-size:.62rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink4);margin-bottom:.2rem}
+.pc-name{font-family:var(--serif);font-size:1.05rem;font-weight:400;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:.3rem}
+.pc-pr{display:flex;align-items:baseline;gap:.4rem}.pc-rent{font-size:.88rem;font-weight:600}.pc-rrp{font-size:.72rem;color:var(--ink4);text-decoration:line-through}
+.pc-sz{font-size:.62rem;color:var(--ink4);margin-top:.4rem;border-top:1px solid var(--bg3);padding-top:.4rem}
 
-.lang-btn { font-size: 0.7rem; font-weight: 700; color: var(--text-muted); transition: var(--transition); padding-bottom: 2px; }
-.lang-btn.active { color: var(--black); border-bottom: 2px solid var(--black); }
-.lang-btn:hover { color: var(--black); }
+/* FULL GRID */
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1.5rem;padding:0 4%}
+.pgrid .pc{min-width:0;max-width:none}
+.tabs{display:flex;justify-content:center;gap:.4rem;flex-wrap:wrap;margin-bottom:2rem;padding:0 4%}
+.tab{padding:.5rem 1.3rem;border:1px solid var(--bg3);border-radius:24px;font-size:.68rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);cursor:pointer;transition:.3s;background:none;font-family:var(--sans)}.tab:hover{border-color:var(--ink);color:var(--ink)}.tab.on{background:var(--ink);color:#fff;border-color:var(--ink)}
 
-/* --- HERO BÖLMƏSİ --- */
-.hero { height: 85vh; min-height: 500px; display: flex; align-items: center; justify-content: center; text-align: center; background-color: var(--gray-light); background-size: cover; background-position: center; position: relative; }
-.hero::before { content: ''; position: absolute; inset: 0; background: rgba(0,0,0,0.3); } /* Qaranlıq filter */
-.hero-content { position: relative; z-index: 2; color: var(--white); max-width: 800px; padding: 0 20px; animation: fadeUp 1s ease forwards; }
+/* ABOUT */
+#about{background:var(--bg2)}.abt-w{max-width:750px;margin:0 auto;text-align:center;padding:0 4%}
+.abt-t{font-family:var(--serif);font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:300;margin-bottom:1.5rem}
+.abt-txt{font-size:.92rem;line-height:1.85;color:var(--ink3)}
 
-.hero-sub { font-size: 0.85rem; font-weight: 600; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 1.5rem; display: block; text-shadow: 0 2px 10px rgba(0,0,0,0.2); }
-.hero-title { font-family: var(--font-serif); font-size: clamp(3.5rem, 8vw, 6.5rem); font-style: italic; line-height: 1.05; margin-bottom: 2.5rem; text-shadow: 0 4px 20px rgba(0,0,0,0.3); }
-.hero-btn { display: inline-block; background: var(--white); color: var(--black); padding: 1.2rem 3rem; font-size: 0.8rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; transition: var(--transition); }
-.hero-btn:hover { background: var(--black); color: var(--white); }
+/* MODAL */
+.mo{position:fixed;inset:0;z-index:3000;background:rgba(0,0,0,.55);backdrop-filter:blur(5px);display:none;align-items:center;justify-content:center;opacity:0;transition:.4s;padding:1rem}.mo.on{display:flex;opacity:1}
+.mo-box{background:var(--bg);width:100%;max-width:1020px;height:85vh;display:flex;position:relative;box-shadow:0 20px 60px rgba(0,0,0,.2);border-radius:2px;overflow:hidden}
+.mo-x{position:absolute;top:.8rem;right:.8rem;z-index:10;width:36px;height:36px;background:#fff;border:none;border-radius:50%;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(0,0,0,.1);transition:.3s}.mo-x:hover{background:var(--ink);color:#fff}
+.mo-gal{flex:1.2;background:var(--bg2);position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.mo-img{width:100%;height:100%;object-fit:contain}
+.mo-arr{position:absolute;top:50%;transform:translateY(-50%);background:#fff;width:40px;height:40px;border:none;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;box-shadow:0 3px 12px rgba(0,0,0,.1);cursor:pointer;z-index:5;transition:.3s}.mo-arr:hover{background:var(--ink);color:#fff}.mo-prev{left:.8rem}.mo-next{right:.8rem}
+.mo-ths{position:absolute;bottom:.8rem;left:50%;transform:translateX(-50%);display:flex;gap:.3rem;z-index:5}
+.mo-th{width:40px;height:50px;background-size:cover;background-position:center;border:2px solid transparent;border-radius:2px;cursor:pointer;opacity:.4;transition:.3s}.mo-th.on{border-color:var(--rose);opacity:1}
+.mo-info{flex:1;padding:2.5rem;overflow-y:auto;display:flex;flex-direction:column}.mo-info::-webkit-scrollbar{width:3px}
+.mo-brand{font-size:.65rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--ink4);margin-bottom:.3rem}
+.mo-name{font-family:var(--serif);font-size:clamp(1.3rem,2.5vw,1.8rem);font-weight:400;margin-bottom:.8rem}
+.mo-pbox{padding-bottom:1rem;border-bottom:1px solid var(--bg3);margin-bottom:1rem}
+.mo-rent{font-size:1.15rem;font-weight:600;display:block;margin-bottom:.2rem}.mo-rrp{font-size:.8rem;color:var(--ink4);text-decoration:line-through}
+.mo-desc{font-size:.88rem;line-height:1.8;color:var(--ink3);margin-bottom:1.5rem}
+.mo-meta{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-bottom:1.5rem;background:var(--bg2);padding:1.1rem;border-radius:4px}
+.mo-meta span{display:block;font-size:.6rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink4);margin-bottom:.2rem}.mo-meta strong{font-size:.82rem}
+.mo-btn{margin-top:auto;padding:1rem;background:var(--ink);color:#fff;text-align:center;font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.15em;border:none;cursor:pointer;border-radius:2px;transition:.4s var(--ease)}.mo-btn:hover{background:var(--ink2);transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.12)}
 
-/* --- KOLLEKSİYALAR VƏ KARUSEL --- */
-.section { padding: 6rem 0 4rem; overflow: hidden; }
-.section-header { text-align: center; margin-bottom: 3rem; padding: 0 20px; }
-.section-title { font-family: var(--font-serif); font-size: 2.5rem; margin-bottom: 1rem; }
+/* FOOTER */
+footer{background:var(--ink);color:#fff;padding:3.5rem 4% 1.5rem;text-align:center}
+.ft-logo{font-family:var(--serif);font-size:1.8rem;font-style:italic;margin-bottom:.6rem;display:block}
+.ft-txt{font-size:.65rem;color:rgba(255,255,255,.35);letter-spacing:.08em}
 
-.coll-tabs { display: flex; justify-content: center; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 3rem; padding: 0 20px; }
-.coll-tab { padding: 0.6rem 1.5rem; border: 1px solid var(--gray-mid); border-radius: 30px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); transition: var(--transition); }
-.coll-tab:hover { border-color: var(--black); color: var(--black); }
-.coll-tab.active { background: var(--black); color: var(--white); border-color: var(--black); }
-
-/* Swipeable Product Grid */
-.carousel-wrap { width: 100%; padding: 0 4%; }
-.product-grid { display: flex; gap: 1.5rem; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding-bottom: 2rem; }
-.product-grid::-webkit-scrollbar { display: none; }
-
-.product-card { min-width: 280px; max-width: 320px; flex: 0 0 auto; scroll-snap-align: start; cursor: pointer; position: relative; }
-.p-img-box { width: 100%; aspect-ratio: 3/4; background: var(--gray-light); overflow: hidden; position: relative; margin-bottom: 1.2rem; }
-.p-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s ease; }
-.product-card:hover .p-img { transform: scale(1.06); }
-
-/* Etiketlər və İkonlar */
-.p-badge { position: absolute; top: 10px; left: 10px; background: var(--white); color: var(--black); font-size: 0.6rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; padding: 4px 8px; z-index: 2; }
-.p-like { position: absolute; top: 10px; right: 10px; width: 32px; height: 32px; background: var(--white); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: var(--gray-mid); z-index: 2; transition: 0.3s; }
-.product-card:hover .p-like { color: var(--black); }
-
-.p-brand { font-size: 0.7rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px; }
-.p-name { font-family: var(--font-serif); font-size: 1.2rem; margin-bottom: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.p-price-wrap { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
-.p-rent { font-size: 1rem; font-weight: 700; }
-.p-rrp { font-size: 0.8rem; color: var(--text-muted); text-decoration: line-through; }
-.p-sizes { font-size: 0.7rem; color: var(--text-muted); margin-top: 10px; border-top: 1px solid var(--gray-light); padding-top: 10px; }
-
-/* --- HAQQIMIZDA --- */
-.about { background: var(--white); padding: 6rem 4%; text-align: center; }
-.about-content { max-width: 800px; margin: 0 auto; }
-.about-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 1.5rem; display: block; }
-.about-title { font-family: var(--font-serif); font-size: 2.8rem; margin-bottom: 2rem; }
-.about-text { font-size: 1.05rem; line-height: 1.8; color: var(--text-muted); }
-
-/* --- MODAL (SÜRƏTLİ BAXIŞ) --- */
-.modal-overlay { position: fixed; inset: 0; z-index: 3000; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); display: none; align-items: center; justify-content: center; opacity: 0; transition: var(--transition); padding: 20px; }
-.modal-overlay.active { display: flex; opacity: 1; }
-.modal-box { background: var(--white); width: 100%; max-width: 1000px; height: 85vh; display: flex; position: relative; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
-.modal-close { position: absolute; top: 15px; right: 15px; background: var(--white); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; z-index: 10; box-shadow: 0 2px 10px rgba(0,0,0,0.1); transition: 0.3s; }
-.modal-close:hover { background: var(--black); color: var(--white); }
-
-.m-gallery { flex: 1.2; background: var(--gray-light); position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-.m-img { width: 100%; height: 100%; object-fit: contain; }
-.m-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: var(--white); width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; box-shadow: 0 4px 15px rgba(0,0,0,0.1); z-index: 5; transition: 0.3s; }
-.m-arrow:hover { background: var(--black); color: var(--white); }
-.m-prev { left: 15px; } .m-next { right: 15px; }
-
-.m-info { flex: 1; padding: 4rem; overflow-y: auto; display: flex; flex-direction: column; }
-.m-brand { font-size: 0.8rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px; }
-.m-title { font-family: var(--font-serif); font-size: 2.2rem; line-height: 1.1; margin-bottom: 20px; }
-.m-price-box { padding-bottom: 1.5rem; border-bottom: 1px solid var(--gray-mid); margin-bottom: 1.5rem; }
-.m-rent { font-size: 1.4rem; font-weight: 700; display: block; margin-bottom: 5px; }
-.m-rrp { font-size: 0.9rem; color: var(--text-muted); text-decoration: line-through; }
-.m-desc { font-size: 0.95rem; line-height: 1.7; color: var(--text-muted); margin-bottom: 2rem; }
-
-.m-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem; background: var(--off-white); padding: 1.5rem; border-radius: 4px; }
-.m-meta span { display: block; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 5px; }
-.m-meta strong { font-size: 0.9rem; }
-
-.m-btn { margin-top: auto; padding: 1.2rem; background: var(--black); color: var(--white); text-align: center; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; transition: var(--transition); }
-.m-btn:hover { background: var(--accent); }
-
-/* --- FOOTER --- */
-footer { background: var(--black); color: var(--white); padding: 4rem 4%; text-align: center; }
-.f-logo { font-family: var(--font-serif); font-size: 2rem; font-style: italic; margin-bottom: 1rem; display: block; }
-.f-text { font-size: 0.75rem; color: rgba(255,255,255,0.5); letter-spacing: 1px; }
-
-/* --- RESPONSIVE --- */
-@keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-
-@media (max-width: 900px) {
-  .nav-left { display: none; }
-  .modal-box { flex-direction: column; height: 95vh; }
-  .m-gallery { height: 45vh; flex: none; }
-  .m-info { padding: 2rem; }
-  .hero-title { font-size: 3.5rem; }
-}
+/* RESPONSIVE */
+@media(max-width:900px){.n-left{display:none}.mo-box{flex-direction:column;height:95vh}.mo-gal{height:45vh;flex:none}.mo-info{padding:1.5rem}}
+@media(max-width:600px){.pc{min-width:200px;max-width:220px}.pgrid{grid-template-columns:1fr 1fr;gap:.8rem}.pgrid .pc .pc-name{font-size:.9rem}.hamburger{display:flex}.hero{height:75vh}}
 </style>
 </head>
 <body>
 
-<div class="topbar" id="ui-topbar">MÖHTƏŞƏM DONLARI İCARƏYƏ GÖTÜRÜN</div>
+<div class="ann" id="uiTop">MÖHTƏŞƏM DONLARI İCARƏYƏ GÖTÜRÜN</div>
 
 <nav id="nav">
-  <div class="nav-left">
-    <a href="#collections" class="nav-link" id="ui-nav-1">Yeni Gələnlər</a>
-    <a href="#about" class="nav-link" id="ui-nav-2">Haqqımızda</a>
-  </div>
-  <div class="nav-center">
-    <a href="#" class="logo">Avera</a>
-  </div>
-  <div class="nav-right">
-    <button class="lang-btn active" onclick="switchLang('az')">AZ</button>
-    <button class="lang-btn" onclick="switchLang('ru')">RU</button>
-    <button class="lang-btn" onclick="switchLang('en')">EN</button>
-  </div>
+<div class="n-left"><a href="#collections" class="n-link" id="uiNav1">Yeni Gələnlər</a><a href="#about" class="n-link" id="uiNav2">Haqqımızda</a></div>
+<div class="n-center"><a href="#" class="logo">Avera</a></div>
+<div class="n-right"><button class="lb on" onclick="setL('az')">AZ</button><button class="lb" onclick="setL('ru')">RU</button><button class="lb" onclick="setL('en')">EN</button><button class="hamburger" id="hb"><span></span><span></span><span></span></button></div>
 </nav>
 
-<section class="hero" id="ui-hero">
-  <div class="hero-content">
-    <span class="hero-sub" id="ui-hero-sub">Premium Kolleksiya</span>
-    <h1 class="hero-title" id="ui-hero-title">Lüksü İcarəyə Götür</h1>
-    <a href="#collections" class="hero-btn" id="ui-hero-btn">Kəşf Et</a>
-  </div>
+<div class="mob" id="mm"><ul><li><a href="#collections" onclick="clM()">Kolleksiyalar</a></li><li><a href="#about" onclick="clM()">Haqqımızda</a></li></ul></div>
+
+<section class="hero" id="uiHero">
+<div class="hero-c hero-anim"><span class="hero-lab" id="uiHeroSub">Premium Kolleksiya</span><h1 class="hero-t" id="uiHeroT">Lüksü İcarəyə Götür</h1><a href="#collections" class="hero-btn" id="uiHeroBtn">Kəşf Et</a></div>
 </section>
 
-<section class="section" id="collections">
-  <div class="section-header">
-    <h2 class="section-title" id="ui-coll-title">Kolleksiyalar</h2>
-  </div>
-  
-  <div class="coll-tabs" id="collTabs">
-    </div>
-  
-  <div class="carousel-wrap">
-    <div class="product-grid" id="grid">
-      <p style="text-align:center; width:100%; color:var(--text-muted);" id="ui-loading">Məhsullar yüklənir...</p>
-    </div>
-  </div>
-</section>
+<!-- YENİ GƏLƏNLƏR -->
+<section id="sec-new"><div class="s-hdr"><div><p class="s-lab" id="tNewL">Yeni gələnlər</p><h2 class="s-ttl" id="tNewT">Son Əlavə Olunanlar</h2></div><button class="s-more" onclick="goAll()" id="tMore">Hamısına bax →</button></div><div class="crl" id="newC"></div></section>
 
-<section class="about" id="about">
-  <div class="about-content">
-    <span class="about-label" id="ui-abt-label">Haqqımızda</span>
-    <h2 class="about-title" id="ui-abt-title">Zamansız Zəriflik</h2>
-    <p class="about-text" id="ui-abt-text"></p>
-  </div>
-</section>
+<!-- ƏN ÇOX SATILAN -->
+<section id="sec-best" style="background:var(--bg2)"><div class="s-hdr"><div><p class="s-lab" style="color:var(--gold)" id="tBestL">Ən çox sevilən</p><h2 class="s-ttl" id="tBestT">Bestsellerlər</h2></div><button class="s-more" onclick="goAll()" id="tMore2">Hamısına bax →</button></div><div class="crl" id="bestC"></div></section>
 
-<div class="modal-overlay" id="pm">
-  <div class="modal-box">
-    <button class="modal-close" onclick="closePm()">&times;</button>
-    <div class="m-gallery">
-      <button class="m-arrow m-prev" onclick="slide(-1)">&#10094;</button>
-      <img src="" class="m-img" id="pmImg">
-      <button class="m-arrow m-next" onclick="slide(1)">&#10095;</button>
-    </div>
-    <div class="m-info">
-      <div class="m-brand" id="pmBrand">AVERA</div>
-      <h2 class="m-title" id="pmTitle">Məhsul Adı</h2>
-      
-      <div class="m-price-box">
-        <span class="m-rent" id="pmRent">Kirayə: 0 ₼</span>
-        <span class="m-rrp" id="pmRrp">Orijinal: 0 ₼</span>
-      </div>
-      
-      <p class="m-desc" id="pmDesc">Təsvir</p>
-      
-      <div class="m-meta">
-        <div><span id="ui-m-fab">Parça</span><strong id="pmFabric">—</strong></div>
-        <div><span id="ui-m-size">Ölçülər</span><strong id="pmSizes">—</strong></div>
-      </div>
+<!-- ENDİRİMDƏ -->
+<section id="sec-sale"><div class="s-hdr"><div><p class="s-lab" style="color:var(--red)" id="tSaleL">Xüsusi endirim</p><h2 class="s-ttl" id="tSaleT">Fürsəti Qaçırmayın</h2></div></div><div class="crl" id="saleC"></div></section>
 
-      <button class="m-btn" onclick="orderWA()" id="pmBtn">Sifariş üçün Əlaqə</button>
-    </div>
-  </div>
-</div>
+<!-- TREND -->
+<section id="sec-trend" style="background:var(--bg2)"><div class="s-hdr"><div><p class="s-lab" style="color:var(--rose)" id="tTrendL">Trend</p><h2 class="s-ttl" id="tTrendT">Ayın Modası</h2></div></div><div class="crl" id="trendC"></div></section>
 
-<footer>
-  <span class="f-logo">Avera</span>
-  <p class="f-text">© 2026 Avera Atelier. Bütün hüquqlar qorunur.</p>
-</footer>
+<!-- BÜTÜN MƏHSULLAR -->
+<section id="collections"><div style="text-align:center;padding:0 4%;margin-bottom:1.5rem"><p class="s-lab" id="uiCollLab">Kolleksiyalar</p><h2 class="s-ttl" id="uiCollT" style="font-size:clamp(1.6rem,3.5vw,2.4rem)">Bütün Kolleksiya</h2></div><div class="tabs" id="collTabs"></div><div class="pgrid" id="grid"></div></section>
+
+<!-- HAQQIMIZDA -->
+<section id="about"><div class="abt-w"><p class="s-lab" id="uiAbtL">Haqqımızda</p><h2 class="abt-t" id="uiAbtT">Zamansız Zəriflik</h2><p class="abt-txt" id="uiAbtTxt"></p></div></section>
+
+<footer><span class="ft-logo">Avera</span><p class="ft-txt">© 2026 Avera Atelier. Bütün hüquqlar qorunur.</p></footer>
+
+<!-- MODAL -->
+<div class="mo" id="pm">
+<div class="mo-box">
+<button class="mo-x" onclick="clPm()">×</button>
+<div class="mo-gal"><button class="mo-arr mo-prev" onclick="sl(-1)">&#10094;</button><img src="" class="mo-img" id="pmImg"><button class="mo-arr mo-next" onclick="sl(1)">&#10095;</button><div class="mo-ths" id="pmTh"></div></div>
+<div class="mo-info"><div class="mo-brand" id="pmBrand">AVERA</div><h2 class="mo-name" id="pmTtl"></h2><div class="mo-pbox"><span class="mo-rent" id="pmRent"></span><span class="mo-rrp" id="pmRrp"></span></div><p class="mo-desc" id="pmDesc"></p><div class="mo-meta"><div><span id="uiFab">Parça</span><strong id="pmFab">—</strong></div><div><span id="uiSz">Ölçülər</span><strong id="pmSz">—</strong></div></div><button class="mo-btn" onclick="orderWA()" id="pmBtn">Sifariş üçün Əlaqə</button></div>
+</div></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-const supa = supabase.createClient('https://ijljnzqigtfonvqlkhkr.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlqbGpuenFpZ3Rmb252cWxraGtyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUxMjY5NzAsImV4cCI6MjA5MDcwMjk3MH0.KDnvL1F-Zwae5fyEzEyGNAT7QYT0L7KKy1g84LQTLDU');
+const supa=supabase.createClient('https://ijljnzqigtfonvqlkhkr.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlqbGpuenFpZ3Rmb252cWxraGtyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUxMjY5NzAsImV4cCI6MjA5MDcwMjk3MH0.KDnvL1F-Zwae5fyEzEyGNAT7QYT0L7KKy1g84LQTLDU');
 
-let state = { products: [], colls: [], settings: null, lang: 'az', activeP: null, imgIdx: 0, activeColl: 'all' };
+let S={prods:[],colls:[],set:null,lang:'az',ap:null,ii:0,acoll:'all'};
 
-// SABİT SÖZLÜK (DİNAMİK OLMAYAN KİÇİK YAZILAR ÜÇÜN)
-const dict = {
-  az: { all: "Bütün Məhsullar", coll: "Kolleksiyalar", rent: "Kirayə:", rrp: "Orijinal Qiymət:", fab: "Parça", size: "Ölçülər", btn: "Sifariş üçün Əlaqə", msg: "Salam, maraqlanıram: ", abt: "Haqqımızda", load: "Məhsullar yüklənir..." },
-  ru: { all: "Все Товары", coll: "Коллекции", rent: "Аренда от:", rrp: "Ориг. цена:", fab: "Ткань", size: "Размеры", btn: "Заказать по WhatsApp", msg: "Здравствуйте, интересует: ", abt: "О нас", load: "Загрузка..." },
-  en: { all: "All Items", coll: "Collections", rent: "Rent from", rrp: "RRP", fab: "Fabric", size: "Sizes", btn: "Contact to Order", msg: "Hello, I'm interested in: ", abt: "About Us", load: "Loading..." }
+const D={
+az:{all:"Bütün Məhsullar",coll:"Kolleksiyalar",rent:"Kirayə:",rrp:"Orijinal:",fab:"Parça",size:"Ölçülər",btn:"Sifariş üçün Əlaqə",msg:"Salam, maraqlanıram: ",abt:"Haqqımızda",qv:"Ətraflı Bax",more:"Hamısına bax →",newL:"Yeni gələnlər",newT:"Son Əlavə Olunanlar",bestL:"Ən çox sevilən",bestT:"Bestsellerlər",saleL:"Xüsusi endirim",saleT:"Fürsəti Qaçırmayın",trendL:"Trend",trendT:"Ayın Modası",couture:"Fərdi Tikiliş",rental:"Kirayə"},
+ru:{all:"Все товары",coll:"Коллекции",rent:"Аренда от:",rrp:"Ориг. цена:",fab:"Ткань",size:"Размеры",btn:"Заказать по WhatsApp",msg:"Здравствуйте, интересует: ",abt:"О нас",qv:"Подробнее",more:"Смотреть все →",newL:"Новинки",newT:"Последние поступления",bestL:"Хит продаж",bestT:"Бестселлеры",saleL:"Скидки",saleT:"Не упустите момент",trendL:"Тренд",trendT:"Модный выбор месяца",couture:"Индивидуальный Пошив",rental:"Аренда"},
+en:{all:"All Items",coll:"Collections",rent:"Rent from",rrp:"RRP",fab:"Fabric",size:"Sizes",btn:"Contact to Order",msg:"Hello, I'm interested in: ",abt:"About Us",qv:"Quick View",more:"View all →",newL:"New arrivals",newT:"Just Landed",bestL:"Most loved",bestT:"Bestsellers",saleL:"On sale",saleT:"Don't Miss Out",trendL:"Trending",trendT:"Monthly Picks",couture:"Custom Tailoring",rental:"Rental"}
 };
+function t(k){return D[S.lang]?.[k]||D.az[k]||k}
+function sT(o){if(!o)return'';if(typeof o==='string'){try{o=JSON.parse(o)}catch(e){return o}}return o[S.lang]||o.az||o.en||''}
 
-function safeTxt(obj) {
-  if(!obj) return '';
-  if(typeof obj === 'string') { try { obj = JSON.parse(obj); } catch(e) { return obj; } }
-  return obj[state.lang] || obj.az || obj.en || '';
+function hasTag(p,tag){return p.tags&&p.tags.toLowerCase().includes(tag)}
+
+// BOOT
+async function boot(){
+  const{data:set}=await supa.from('app_settings').select('*').eq('id',1).single();S.set=set||{};
+  const{data:c}=await supa.from('collections').select('*').eq('status','active').order('created_at',{ascending:false});S.colls=c||[];
+  const{data:p}=await supa.from('products').select('*').eq('status','active').order('created_at',{ascending:false});S.prods=p||[];
+  setL('az');
 }
 
-async function boot() {
-  const {data: set} = await supa.from('app_settings').select('*').eq('id',1).single();
-  state.settings = set || {};
-
-  const {data: c} = await supa.from('collections').select('*').eq('status','active').order('created_at', {ascending: false});
-  state.colls = c || [];
-  
-  const {data: p} = await supa.from('products').select('*').eq('status','active').order('created_at', {ascending: false});
-  state.products = p || [];
-
-  switchLang('az');
+function applyCMS(){
+  const s=S.set,l=S.lang,d=D[l];
+  if(s.hero_bg)document.getElementById('uiHero').style.backgroundImage=`url('${s.hero_bg}')`;
+  document.getElementById('uiTop').textContent=sT(s.topbar_text)||d.newL.toUpperCase();
+  document.getElementById('uiNav1').textContent=sT(s.nav_link_1)||d.newL;
+  document.getElementById('uiNav2').textContent=sT(s.nav_link_2)||d.abt;
+  document.getElementById('uiHeroSub').textContent=sT(s.hero_sub)||d.newL;
+  document.getElementById('uiHeroT').textContent=sT(s.hero_title)||'Avera Atelier';
+  document.getElementById('uiHeroBtn').textContent=sT(s.hero_btn)||d.qv;
+  document.getElementById('uiAbtT').textContent=sT(s.about_title)||d.abt;
+  document.getElementById('uiAbtTxt').innerHTML=(sT(s.about_text)||'').replace(/\n/g,'<br>');
+  // Section labels
+  document.getElementById('tNewL').textContent=d.newL;document.getElementById('tNewT').textContent=d.newT;
+  document.getElementById('tBestL').textContent=d.bestL;document.getElementById('tBestT').textContent=d.bestT;
+  document.getElementById('tSaleL').textContent=d.saleL;document.getElementById('tSaleT').textContent=d.saleT;
+  document.getElementById('tTrendL').textContent=d.trendL;document.getElementById('tTrendT').textContent=d.trendT;
+  document.getElementById('uiCollLab').textContent=d.coll;document.getElementById('uiCollT').textContent=d.coll;
+  document.getElementById('uiAbtL').textContent=d.abt;document.getElementById('uiFab').textContent=d.fab;document.getElementById('uiSz').textContent=d.size;
+  document.getElementById('pmBtn').textContent=d.btn;
+  document.querySelectorAll('.s-more').forEach(b=>b.textContent=d.more);
 }
 
-function applyCMS() {
-  const s = state.settings;
-  const l = state.lang;
-  const d = dict[l];
-
-  if(s.hero_bg) document.getElementById('ui-hero').style.backgroundImage = `url('${s.hero_bg}')`;
-
-  // Dinamik Mətnlər (Supabase-dən gələn)
-  document.getElementById('ui-topbar').textContent = safeTxt(s.topbar_text) || (l==='az' ? "MÖHTƏŞƏM DONLARI İCARƏYƏ GÖTÜRÜN" : l==='ru' ? "АРЕНДА РОСКОШНЫХ ПЛАТЬЕВ" : "RENT GORGEOUS DRESSES");
-  document.getElementById('ui-nav-1').textContent = safeTxt(s.nav_link_1) || (l==='az' ? "Yeni Gələnlər" : l==='ru' ? "Новинки" : "New Arrivals");
-  document.getElementById('ui-nav-2').textContent = safeTxt(s.nav_link_2) || d.abt;
-  document.getElementById('ui-hero-sub').textContent = safeTxt(s.hero_sub) || (l==='az' ? "Premium Kolleksiya" : l==='ru' ? "Премиум Коллекция" : "Premium Collection");
-  document.getElementById('ui-hero-title').textContent = safeTxt(s.hero_title) || (l==='az' ? "Lüksü İcarəyə Götür" : l==='ru' ? "Арендуй Роскошь" : "Rent The Luxury");
-  document.getElementById('ui-hero-btn').textContent = safeTxt(s.hero_btn) || (l==='az' ? "Kəşf Et" : l==='ru' ? "Исследовать" : "Explore");
-  document.getElementById('ui-abt-title').textContent = safeTxt(s.about_title) || (l==='az' ? "Zamansız Zəriflik" : l==='ru' ? "Вечная Элегантность" : "Timeless Elegance");
-  document.getElementById('ui-abt-text').innerHTML = safeTxt(s.about_text).replace(/\n/g, '<br>') || '';
-
-  // Sabit Mətnlər (Lüğətdən gələn)
-  document.getElementById('ui-coll-title').textContent = d.coll;
-  document.getElementById('ui-abt-label').textContent = d.abt;
-  document.getElementById('ui-m-fab').textContent = d.fab;
-  document.getElementById('ui-m-size').textContent = d.size;
-  document.getElementById('pmBtn').textContent = d.btn;
+// CARDS
+function card(p){
+  const img=p.images?.[0]||'',n=sT(p.name),d=D[S.lang];
+  let badges='';
+  if(hasTag(p,'yeni')||hasTag(p,'new'))badges+=`<span class="bdg bdg-new">${d.newL}</span>`;
+  if(hasTag(p,'best')||hasTag(p,'hit'))badges+=`<span class="bdg bdg-best">${d.bestL}</span>`;
+  if(hasTag(p,'sale')||hasTag(p,'endirim'))badges+=`<span class="bdg bdg-sale">${d.saleL}</span>`;
+  if(hasTag(p,'trend'))badges+=`<span class="bdg bdg-trend">${d.trendL}</span>`;
+  const rentH=p.rental_price?`<span style="font-size:.65rem;color:var(--ink4);font-weight:400">${d.rent}</span> ₼${p.rental_price}`:`₼${p.price}`;
+  const rrpH=p.price&&p.rental_price?`<span class="pc-rrp">₼${p.price}</span>`:'';
+  const tp=p.type==='couture'?d.couture:d.rental;
+  const sizes=p.sizes?.length?p.sizes.join(', '):'';
+  return`<div class="pc reveal" onclick="openPm('${p.id}')"><div class="pc-img-w"><div class="pc-badges">${badges}</div><div class="pc-fav">♡</div><img src="${img}" class="pc-img" loading="lazy" alt="${n}"><div class="pc-qv"><button class="qv-b">${d.qv}</button></div></div><div class="pc-brand">${p.brand||'AVERA'} · ${tp}</div><h3 class="pc-name">${n}</h3><div class="pc-pr"><span class="pc-rent">${rentH}</span>${rrpH}</div>${sizes?`<div class="pc-sz">${sizes}</div>`:''}</div>`;
 }
 
-function renderTabs() {
-  let html = `<button class="coll-tab ${state.activeColl==='all'?'active':''}" onclick="filt('all')">${dict[state.lang].all}</button>`;
-  state.colls.forEach(c => { html += `<button class="coll-tab ${state.activeColl===c.id?'active':''}" onclick="filt('${c.id}')">${safeTxt(c.name)}</button>`; });
-  document.getElementById('collTabs').innerHTML = html;
+// SECTIONS
+function renderSections(){
+  fill('newC',S.prods.filter(p=>hasTag(p,'yeni')||hasTag(p,'new')).slice(0,10));
+  fill('bestC',S.prods.filter(p=>hasTag(p,'best')||hasTag(p,'hit')).slice(0,10));
+  fill('saleC',S.prods.filter(p=>hasTag(p,'sale')||hasTag(p,'endirim')).slice(0,10));
+  fill('trendC',S.prods.filter(p=>hasTag(p,'trend')).slice(0,10));
+  // also show recently added in newC if no tag matches
+  if(!document.getElementById('newC').children.length){fill('newC',S.prods.slice(0,8))}
+  ['sec-new','sec-best','sec-sale','sec-trend'].forEach(id=>{
+    const s=document.getElementById(id);if(!s)return;
+    const crl=s.querySelector('.crl');
+    s.style.display=crl&&crl.children.length?'':'none';
+  });
+}
+function fill(id,items){const el=document.getElementById(id);if(!el)return;el.innerHTML=items.map(card).join('');initR()}
+
+// ALL GRID
+function renderTabs(){
+  let h=`<button class="tab ${S.acoll==='all'?'on':''}" onclick="filt('all')">${t('all')}</button>`;
+  S.colls.forEach(c=>{h+=`<button class="tab ${S.acoll===c.id?'on':''}" onclick="filt('${c.id}')">${sT(c.name)}</button>`});
+  document.getElementById('collTabs').innerHTML=h;
+}
+function filt(id){S.acoll=id;renderTabs();renderGrid()}
+function renderGrid(){
+  let list=S.acoll==='all'?S.prods:S.prods.filter(p=>p.collection_id===S.acoll);
+  const el=document.getElementById('grid');
+  if(!list.length){el.innerHTML=`<p style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--ink4);font-family:var(--serif);font-size:1.1rem;font-style:italic">Məhsul tapılmadı.</p>`;return}
+  el.innerHTML=list.map(card).join('');initR();
+}
+function goAll(){document.getElementById('collections').scrollIntoView({behavior:'smooth'})}
+
+// MODAL
+function openPm(id){S.ap=S.prods.find(x=>x.id===id);if(!S.ap)return;S.ii=0;updPm();document.getElementById('pm').classList.add('on');document.body.style.overflow='hidden'}
+function clPm(){document.getElementById('pm').classList.remove('on');document.body.style.overflow=''}
+function updPm(){
+  const p=S.ap,d=D[S.lang];
+  document.getElementById('pmBrand').textContent=(p.brand||'AVERA')+' · '+(p.type==='couture'?d.couture:d.rental);
+  document.getElementById('pmTtl').textContent=sT(p.name);
+  document.getElementById('pmRent').innerHTML=p.rental_price?`${d.rent} <strong>₼${p.rental_price}</strong>`:`₼${p.price}`;
+  document.getElementById('pmRrp').textContent=p.price&&p.rental_price?`${d.rrp} ₼${p.price}`:'';
+  document.getElementById('pmDesc').innerHTML=(sT(p.description)||'').replace(/\n/g,'<br>');
+  document.getElementById('pmFab').textContent=p.fabric||'—';
+  document.getElementById('pmSz').textContent=p.sizes?p.sizes.join(', '):'—';
+  document.getElementById('pmImg').src=p.images[S.ii];
+  const th=document.getElementById('pmTh');
+  if(p.images.length>1){th.innerHTML=p.images.map((img,i)=>`<div class="mo-th ${i===S.ii?'on':''}" style="background-image:url('${img}')" onclick="goSl(${i})"></div>`).join('');th.style.display='flex'}else th.style.display='none';
+  document.querySelectorAll('.mo-arr').forEach(a=>a.style.display=p.images.length>1?'flex':'none');
+}
+function sl(d){const l=S.ap.images.length;S.ii=(S.ii+d+l)%l;updSl()}
+function goSl(i){S.ii=i;updSl()}
+function updSl(){document.getElementById('pmImg').src=S.ap.images[S.ii];document.querySelectorAll('.mo-th').forEach((t,i)=>t.classList.toggle('on',i===S.ii))}
+function orderWA(){const wa=S.set?.whatsapp;if(!wa){alert("WhatsApp nömrəsi qeyd olunmayıb.");return}window.open(`https://wa.me/${wa}?text=${encodeURIComponent(t('msg')+sT(S.ap.name))}`,'_blank')}
+
+// LANG
+function setL(l){
+  S.lang=l;
+  document.querySelectorAll('.lb').forEach(b=>b.classList.toggle('on',b.textContent.toLowerCase()===l));
+  applyCMS();renderSections();renderTabs();renderGrid();
+  if(S.ap)updPm();
 }
 
-function filt(id) { state.activeColl = id; renderTabs(); renderGrid(); }
+// NAV
+const hb=document.getElementById('hb'),mm=document.getElementById('mm');
+hb.addEventListener('click',()=>{hb.classList.toggle('on');mm.classList.toggle('on');document.body.style.overflow=mm.classList.contains('on')?'hidden':''});
+function clM(){hb.classList.remove('on');mm.classList.remove('on');document.body.style.overflow=''}
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('sc',window.scrollY>30));
 
-function renderGrid() {
-  const d = dict[state.lang];
-  let prods = state.activeColl === 'all' ? state.products : state.products.filter(p => p.collection_id === state.activeColl);
-  const container = document.getElementById('grid');
-  
-  if(prods.length === 0) {
-    container.innerHTML = `<p style="text-align:center; width:100%; color:var(--text-muted); padding:3rem;">Məhsul tapılmadı.</p>`; return;
-  }
+// REVEALS
+function initR(){const o=new IntersectionObserver(es=>{es.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('vis'),i*40);o.unobserve(e.target)}})},{threshold:.08});document.querySelectorAll('.reveal:not(.vis)').forEach(el=>o.observe(el))}
 
-  container.innerHTML = prods.map(p => {
-    let badge = p.tags ? `<div class="p-badge">${p.tags.split(',')[0]}</div>` : '';
-    let rentHTML = p.rental_price ? `<span style="font-size:0.75rem; color:var(--text-muted); font-weight:400;">${d.rent}</span> ₼${p.rental_price}` : `₼${p.price}`;
-    let rrpHTML = p.price && p.rental_price ? `₼${p.price}` : ``;
-    let sizes = p.sizes && p.sizes.length > 0 ? p.sizes.join(', ') : '';
+// KEYBOARD
+document.addEventListener('keydown',e=>{if(!document.getElementById('pm').classList.contains('on'))return;if(e.key==='Escape')clPm();if(e.key==='ArrowLeft')sl(-1);if(e.key==='ArrowRight')sl(1)});
 
-    return `
-    <div class="product-card" onclick="openPm('${p.id}')">
-      <div class="p-img-box">
-        ${badge}
-        <div class="p-like">♡</div>
-        <img src="${p.images?.[0]||''}" class="p-img">
-      </div>
-      <div class="p-brand">${p.brand || 'AVERA'}</div>
-      <h3 class="p-name">${safeTxt(p.name)}</h3>
-      <div class="p-price-wrap">
-        <span class="p-rent">${rentHTML}</span>
-        <span class="p-rrp">${rrpHTML}</span>
-      </div>
-      <div class="p-sizes">${sizes}</div>
-    </div>`;
-  }).join('');
-}
-
-function openPm(id) { state.activeP = state.products.find(x=>x.id===id); state.imgIdx = 0; updatePm(); document.getElementById('pm').classList.add('active'); document.body.style.overflow='hidden'; }
-
-function updatePm() {
-  const p = state.activeP; const d = dict[state.lang];
-  document.getElementById('pmBrand').textContent = p.brand || 'AVERA';
-  document.getElementById('pmTitle').textContent = safeTxt(p.name);
-  document.getElementById('pmRent').innerHTML = p.rental_price ? `${d.rent} <strong style="color:var(--black)">₼${p.rental_price}</strong>` : `₼${p.price}`;
-  document.getElementById('pmRrp').textContent = p.price && p.rental_price ? `${d.rrp} ₼${p.price}` : '';
-  document.getElementById('pmDesc').innerHTML = safeTxt(p.description).replace(/\n/g, '<br>');
-  document.getElementById('pmFabric').textContent = p.fabric || '—';
-  document.getElementById('pmSizes').textContent = p.sizes ? p.sizes.join(', ') : '—';
-  
-  document.getElementById('pmImg').src = p.images[state.imgIdx];
-  document.querySelectorAll('.m-arrow').forEach(a => a.style.display = p.images.length > 1 ? 'flex' : 'none');
-}
-
-function slide(dir) { const l = state.activeP.images.length; state.imgIdx = (state.imgIdx + dir + l) % l; document.getElementById('pmImg').src = state.activeP.images[state.imgIdx]; }
-function closePm() { document.getElementById('pm').classList.remove('active'); document.body.style.overflow=''; }
-
-function switchLang(l) {
-  state.lang = l;
-  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.textContent.toLowerCase()===l));
-  applyCMS(); renderTabs(); renderGrid(); if(state.activeP) updatePm();
-}
-
-function orderWA() { 
-  const wa = state.settings?.whatsapp;
-  if(!wa) { alert("WhatsApp nömrəsi qeyd olunmayıb."); return; }
-  window.open(`https://wa.me/${wa}?text=${encodeURIComponent(dict[state.lang].msg + safeTxt(state.activeP.name))}`, '_blank'); 
-}
-
-window.addEventListener('scroll', () => {
-  const nav = document.querySelector('nav');
-  if (window.scrollY > 50) nav.classList.add('scrolled'); else nav.classList.remove('scrolled');
-});
-
-window.onload = boot;
+window.onload=boot;
 </script>
 </body>
 </html>

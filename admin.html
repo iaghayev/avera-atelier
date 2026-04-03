@@ -248,7 +248,7 @@ td{padding:1rem;border-bottom:1px solid var(--border);vertical-align:middle;}
       </div>
       <div class="grid-2">
         <div class="form-group"><label class="label">Brend</label><input class="input" id="pBrand"></div>
-        <div class="form-group"><label class="label">Etiket (Məs: TRENDING)</label><input class="input" id="pTags"></div>
+        <div class="form-group"><label class="label">Sayt Etiketləri (vergüllə: new, best, sale, trend)</label><input class="input" id="pTags" placeholder="Məs: new, best"><div style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap"><button type="button" class="btn btn-sm btn-outline" onclick="addTag('new')" style="font-size:.65rem">🆕 Yeni</button><button type="button" class="btn btn-sm btn-outline" onclick="addTag('best')" style="font-size:.65rem">🔥 Bestseller</button><button type="button" class="btn btn-sm btn-outline" onclick="addTag('sale')" style="font-size:.65rem">💰 Endirim</button><button type="button" class="btn btn-sm btn-outline" onclick="addTag('trend')" style="font-size:.65rem">✨ Trend</button></div></div>
       </div>
       
       <div class="tabs"><button class="tab active" onclick="switchPTab('az',this)">AZ</button><button class="tab" onclick="switchPTab('ru',this)">RU</button><button class="tab" onclick="switchPTab('en',this)">EN</button></div>
@@ -385,6 +385,7 @@ function renImgs(){document.getElementById('pImgs').innerHTML=db.imgs.map((img,i
 
 function switchCmsTab(l,b){document.querySelectorAll('#page-cms .tab').forEach(t=>t.classList.remove('active'));b.classList.add('active');document.querySelectorAll('#page-cms .tab-content').forEach(c=>c.classList.remove('active'));document.getElementById(`cms${l.toUpperCase()}`).classList.add('active');}
 function switchPTab(l,b){document.querySelectorAll('#prodModal .tab').forEach(t=>t.classList.remove('active'));b.classList.add('active');document.querySelectorAll('#prodModal .tab-content').forEach(c=>c.classList.remove('active'));document.getElementById(`pLang${l.toUpperCase()}`).classList.add('active');}
+function addTag(tag){const el=document.getElementById('pTags');const cur=el.value.split(',').map(x=>x.trim()).filter(Boolean);if(!cur.includes(tag)){cur.push(tag);el.value=cur.join(', ');}}
 </script>
 </body>
 </html>
