@@ -3,292 +3,265 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Avera Atelier — Fashion & Style by Anvaril</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<title>Avera Atelier — Fashion & Style</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#faf9f6;--bg2:#f3f0ea;--bg3:#e8e3da;--ink:#141210;--ink2:#2d2a26;--ink3:#5e5850;--ink4:#9a9288;--rose:#a85060;--rose2:#c8808a;--gold:#a08050;--red:#c04040;--green:#408050;--serif:'Cormorant Garamond',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;--ease:cubic-bezier(.22,1,.36,1)}
-html{scroll-behavior:smooth}body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:400;-webkit-font-smoothing:antialiased;overflow-x:hidden;font-size:15px}
-::selection{background:var(--rose);color:#fff}::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--ink4);border-radius:2px}
+:root{
+  --bg:#faf9f6;--bg2:#f3f0ea;--bg3:#e8e3da;
+  --ink:#141210;--ink2:#2d2a26;--ink3:#6b6460;--ink4:#9a9288;
+  --rose:#a85060;--gold:#a08050;--red:#c04040;--green:#2d8a54;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'DM Sans',system-ui,sans-serif;
+  --ease:cubic-bezier(.22,1,.36,1)
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:400;-webkit-font-smoothing:antialiased;overflow-x:hidden;font-size:15px}
 a{text-decoration:none;color:inherit}img{display:block;max-width:100%}
+::selection{background:var(--rose);color:#fff}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--ink4);border-radius:2px}
 
-/* ANNOUNCEMENT */
-.ann{background:var(--ink);color:#fff;text-align:center;padding:.55rem 1rem;font-size:.68rem;font-weight:500;letter-spacing:.15em;text-transform:uppercase}
+/* ── Announcement ── */
+.ann{background:var(--ink);color:#fff;text-align:center;padding:.5rem 1rem;font-size:.65rem;font-weight:500;letter-spacing:.15em;text-transform:uppercase}
 
-/* NAV */
-nav{position:sticky;top:0;z-index:1000;background:rgba(250,249,246,.97);backdrop-filter:blur(20px);border-bottom:1px solid rgba(0,0,0,.04);display:flex;align-items:center;padding:.9rem 4%;transition:padding .3s}
-nav.sc{padding:.65rem 4%;box-shadow:0 2px 20px rgba(0,0,0,.03)}
-.n-left,.n-right{flex:1;display:flex;align-items:center;gap:1.8rem}
-.n-right{justify-content:flex-end;gap:1rem}
-.n-center{text-align:center}
-.n-link{font-size:.72rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);transition:.3s;position:relative}
-.n-link:hover{color:var(--ink)}
-.n-link::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:1px;background:var(--ink);transition:width .35s var(--ease)}.n-link:hover::after{width:100%}
-.logo{font-family:var(--serif);font-size:2rem;font-weight:400;font-style:italic;color:var(--ink);letter-spacing:-.02em}
-.lb{font-size:.7rem;font-weight:600;color:var(--ink4);background:none;border:none;cursor:pointer;transition:.3s;padding-bottom:2px}.lb.on{color:var(--ink);border-bottom:2px solid var(--ink)}.lb:hover{color:var(--ink)}
-.hamburger{display:none;flex-direction:column;gap:4px;cursor:pointer;background:none;border:none}.hamburger span{width:18px;height:1.5px;background:var(--ink);transition:.3s}
-.hamburger.on span:nth-child(1){transform:rotate(45deg) translate(3px,3px)}.hamburger.on span:nth-child(2){opacity:0}.hamburger.on span:nth-child(3){transform:rotate(-45deg) translate(3px,-3px)}
-.mob{position:fixed;inset:0;z-index:999;background:rgba(250,249,246,.98);display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:.4s}.mob.on{opacity:1;visibility:visible}
-.mob ul{list-style:none;text-align:center;display:flex;flex-direction:column;gap:1.2rem}.mob a{font-family:var(--serif);font-size:1.6rem;color:var(--ink)}
+/* ── Nav ── */
+nav{position:sticky;top:0;z-index:1000;background:rgba(250,249,246,.97);backdrop-filter:blur(16px);border-bottom:1px solid rgba(0,0,0,.04);padding:.85rem 4%;display:flex;align-items:center;transition:padding .3s}
+nav.sc{padding:.6rem 4%;box-shadow:0 2px 15px rgba(0,0,0,.03)}
+.n-l,.n-r{flex:1;display:flex;align-items:center;gap:1.8rem}.n-r{justify-content:flex-end;gap:.8rem}
+.n-c{text-align:center;flex:0}
+.nk{font-size:.7rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);transition:.3s;position:relative}
+.nk:hover{color:var(--ink)}.nk::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:1px;background:var(--ink);transition:width .35s var(--ease)}.nk:hover::after{width:100%}
+.logo{font-family:var(--serif);font-size:2rem;font-weight:400;font-style:italic;letter-spacing:-.02em}
+.lb{font-size:.68rem;font-weight:600;color:var(--ink4);background:none;border:none;cursor:pointer;padding-bottom:2px;transition:.3s}.lb.on{color:var(--ink);border-bottom:2px solid var(--ink)}.lb:hover{color:var(--ink)}
+.hb{display:none;flex-direction:column;gap:4px;cursor:pointer;background:none;border:none}.hb span{width:18px;height:1.5px;background:var(--ink);transition:.3s}
+.hb.on span:nth-child(1){transform:rotate(45deg) translate(3px,3px)}.hb.on span:nth-child(2){opacity:0}.hb.on span:nth-child(3){transform:rotate(-45deg) translate(3px,-3px)}
+.mm{position:fixed;inset:0;z-index:999;background:rgba(250,249,246,.98);display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:.4s}.mm.on{opacity:1;visibility:visible}
+.mm ul{list-style:none;text-align:center;display:flex;flex-direction:column;gap:1.2rem}.mm a{font-family:var(--serif);font-size:1.6rem}
 
-/* HERO */
-.hero{height:88vh;min-height:500px;display:flex;align-items:center;justify-content:center;text-align:center;background-color:var(--bg2);background-size:cover;background-position:center;position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;inset:0;background:rgba(0,0,0,.28)}
-.hero-c{position:relative;z-index:2;color:#fff;max-width:700px;padding:0 1.5rem}
-.hero-lab{font-size:.72rem;font-weight:500;letter-spacing:.35em;text-transform:uppercase;margin-bottom:1.2rem;opacity:.85;display:block}
-.hero-t{font-family:var(--serif);font-size:clamp(2.8rem,7vw,5.5rem);font-weight:300;font-style:italic;line-height:1;margin-bottom:2rem;text-shadow:0 4px 30px rgba(0,0,0,.2)}
-.hero-btn{display:inline-block;background:#fff;color:var(--ink);padding:1rem 2.8rem;font-size:.72rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;transition:.4s var(--ease)}.hero-btn:hover{background:var(--ink);color:#fff;transform:translateY(-2px);box-shadow:0 8px 25px rgba(0,0,0,.2)}
-.hero-anim{animation:fu .8s ease both}
-@keyframes fu{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+/* ── Hero ── */
+.hero{height:85vh;min-height:480px;display:flex;align-items:center;justify-content:center;text-align:center;background:var(--bg2);background-size:cover;background-position:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:rgba(0,0,0,.3)}
+.hero-c{position:relative;z-index:2;color:#fff;max-width:680px;padding:0 1.5rem;animation:fu .8s ease both}
+.hero-lab{font-size:.7rem;font-weight:500;letter-spacing:.35em;text-transform:uppercase;margin-bottom:1rem;opacity:.85}
+.hero-t{font-family:var(--serif);font-size:clamp(2.6rem,7vw,5rem);font-weight:300;font-style:italic;line-height:1;margin-bottom:1.8rem;text-shadow:0 3px 20px rgba(0,0,0,.2)}
+.hero-btn{display:inline-block;background:#fff;color:var(--ink);padding:.95rem 2.6rem;font-size:.7rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;transition:.4s var(--ease)}.hero-btn:hover{background:var(--ink);color:#fff;transform:translateY(-2px);box-shadow:0 8px 25px rgba(0,0,0,.2)}
+@keyframes fu{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
 
-/* SECTIONS */
+/* ── Section Layout ── */
 section{padding:4.5rem 0;overflow:hidden}
-.s-pad{padding:0 4%}
-.s-hdr{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:1.8rem;padding:0 4%;flex-wrap:wrap;gap:.8rem}
-.s-lab{font-size:.6rem;font-weight:600;letter-spacing:.4em;text-transform:uppercase;color:var(--rose);margin-bottom:.2rem}
-.s-ttl{font-family:var(--serif);font-size:clamp(1.5rem,3vw,2.2rem);font-weight:300}
-.s-more{font-size:.68rem;font-weight:500;color:var(--ink3);letter-spacing:.1em;text-transform:uppercase;transition:.3s;cursor:pointer;background:none;border:none;font-family:var(--sans)}.s-more:hover{color:var(--ink)}
-.reveal{opacity:0;transform:translateY(20px);transition:opacity .5s,transform .5s}.reveal.vis{opacity:1;transform:none}
+.s-hdr{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:1.5rem;padding:0 4%;flex-wrap:wrap;gap:.6rem}
+.s-lab{font-size:.58rem;font-weight:600;letter-spacing:.4em;text-transform:uppercase;color:var(--rose);margin-bottom:.15rem}
+.s-ttl{font-family:var(--serif);font-size:clamp(1.4rem,3vw,2rem);font-weight:300}
+.s-more{font-size:.65rem;font-weight:500;color:var(--ink3);cursor:pointer;background:none;border:none;font-family:var(--sans);transition:.3s}.s-more:hover{color:var(--ink)}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .5s,transform .5s}.reveal.vis{opacity:1;transform:none}
 
-/* CAROUSEL */
-.crl{display:flex;gap:1rem;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:0 4% 1rem 4%}
+/* ── Carousel ── */
+.crl{display:flex;gap:1rem;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding:0 4% .5rem}
 .crl::-webkit-scrollbar{display:none}
 
-/* PRODUCT CARD */
-.pc{min-width:260px;max-width:280px;flex:0 0 auto;scroll-snap-align:start;cursor:pointer;position:relative;transition:transform .5s var(--ease)}
-.pc:hover{transform:translateY(-5px)}
-.pc-img-w{width:100%;aspect-ratio:3/4;overflow:hidden;position:relative;background:var(--bg2);margin-bottom:.8rem}
-.pc-img{width:100%;height:100%;object-fit:cover;transition:transform .7s var(--ease)}.pc:hover .pc-img{transform:scale(1.05)}
-.pc-badges{position:absolute;top:.6rem;left:.6rem;display:flex;flex-direction:column;gap:.25rem;z-index:2}
-.bdg{padding:.2rem .55rem;font-size:.52rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#fff;border-radius:1px}
-.bdg-new{background:var(--green)}.bdg-sale{background:var(--red)}.bdg-best{background:var(--gold)}.bdg-trend{background:var(--rose)}.bdg-feat{background:var(--ink)}
-.pc-fav{position:absolute;top:.6rem;right:.6rem;width:28px;height:28px;background:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.9rem;color:var(--ink4);z-index:2;transition:.3s;box-shadow:0 2px 8px rgba(0,0,0,.08)}.pc:hover .pc-fav{color:var(--rose)}
-.pc-qv{position:absolute;bottom:0;left:0;right:0;padding:.7rem;background:linear-gradient(to top,rgba(20,18,16,.6),transparent);display:flex;justify-content:center;transform:translateY(100%);transition:transform .35s var(--ease);z-index:2}.pc:hover .pc-qv{transform:none}
-.qv-b{padding:.4rem 1.2rem;background:rgba(255,255,255,.95);color:var(--ink);font-size:.6rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;border:none;cursor:pointer;border-radius:1px}
-.pc-brand{font-size:.62rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink4);margin-bottom:.2rem}
-.pc-name{font-family:var(--serif);font-size:1.05rem;font-weight:400;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:.3rem}
-.pc-pr{display:flex;align-items:baseline;gap:.4rem}.pc-rent{font-size:.88rem;font-weight:600}.pc-rrp{font-size:.72rem;color:var(--ink4);text-decoration:line-through}
-.pc-sz{font-size:.62rem;color:var(--ink4);margin-top:.4rem;border-top:1px solid var(--bg3);padding-top:.4rem}
+/* ── Product Card ── */
+.pc{min-width:240px;max-width:260px;flex:0 0 auto;scroll-snap-align:start;cursor:pointer;position:relative;transition:transform .5s var(--ease)}.pc:hover{transform:translateY(-4px)}
+.pc-iw{width:100%;aspect-ratio:3/4;overflow:hidden;position:relative;background:var(--bg2);margin-bottom:.7rem}
+.pc-im{width:100%;height:100%;object-fit:cover;transition:transform .6s var(--ease)}.pc:hover .pc-im{transform:scale(1.04)}
+.pc-badges{position:absolute;top:.5rem;left:.5rem;display:flex;flex-direction:column;gap:.2rem;z-index:2}
+.bdg{padding:.15rem .45rem;font-size:.5rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#fff;border-radius:1px}
+.bdg-n{background:var(--green)}.bdg-b{background:var(--gold)}.bdg-s{background:var(--red)}.bdg-t{background:var(--rose)}
+.pc-qv{position:absolute;bottom:0;left:0;right:0;padding:.6rem;background:linear-gradient(to top,rgba(20,18,16,.55),transparent);display:flex;justify-content:center;transform:translateY(100%);transition:transform .35s var(--ease);z-index:2}.pc:hover .pc-qv{transform:none}
+.qvb{padding:.35rem 1rem;background:rgba(255,255,255,.93);font-size:.58rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;border:none;cursor:pointer;border-radius:1px}
+.pc-br{font-size:.6rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:.15rem}
+.pc-nm{font-family:var(--serif);font-size:1rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:.2rem}
+.pc-pr{display:flex;align-items:baseline;gap:.3rem}.pc-rn{font-size:.85rem;font-weight:600}.pc-rr{font-size:.7rem;color:var(--ink4);text-decoration:line-through}
+.pc-sz{font-size:.6rem;color:var(--ink4);margin-top:.3rem;border-top:1px solid var(--bg3);padding-top:.3rem}
 
-/* FULL GRID */
-.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1.5rem;padding:0 4%}
+/* ── Grid & Tabs ── */
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:1.2rem;padding:0 4%}
 .pgrid .pc{min-width:0;max-width:none}
-.tabs{display:flex;justify-content:center;gap:.4rem;flex-wrap:wrap;margin-bottom:2rem;padding:0 4%}
-.tab{padding:.5rem 1.3rem;border:1px solid var(--bg3);border-radius:24px;font-size:.68rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);cursor:pointer;transition:.3s;background:none;font-family:var(--sans)}.tab:hover{border-color:var(--ink);color:var(--ink)}.tab.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.tabs{display:flex;justify-content:center;gap:.3rem;flex-wrap:wrap;margin-bottom:1.5rem;padding:0 4%}
+.tab{padding:.45rem 1.2rem;border:1px solid var(--bg3);border-radius:20px;font-size:.65rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);cursor:pointer;transition:.3s;background:none;font-family:var(--sans)}.tab:hover{border-color:var(--ink);color:var(--ink)}.tab.on{background:var(--ink);color:#fff;border-color:var(--ink)}
 
-/* ABOUT */
-#about{background:var(--bg2)}.abt-w{max-width:750px;margin:0 auto;text-align:center;padding:0 4%}
-.abt-t{font-family:var(--serif);font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:300;margin-bottom:1.5rem}
-.abt-txt{font-size:.92rem;line-height:1.85;color:var(--ink3)}
+/* ── About ── */
+#about{background:var(--bg2)}.abt{max-width:700px;margin:0 auto;text-align:center;padding:0 4%}
+.abt-t{font-family:var(--serif);font-size:clamp(1.5rem,3.5vw,2.2rem);font-weight:300;margin-bottom:1.2rem}
+.abt-x{font-size:.9rem;line-height:1.85;color:var(--ink3)}
 
-/* MODAL */
-.mo{position:fixed;inset:0;z-index:3000;background:rgba(0,0,0,.55);backdrop-filter:blur(5px);display:none;align-items:center;justify-content:center;opacity:0;transition:.4s;padding:1rem}.mo.on{display:flex;opacity:1}
-.mo-box{background:var(--bg);width:100%;max-width:1020px;height:85vh;display:flex;position:relative;box-shadow:0 20px 60px rgba(0,0,0,.2);border-radius:2px;overflow:hidden}
-.mo-x{position:absolute;top:.8rem;right:.8rem;z-index:10;width:36px;height:36px;background:#fff;border:none;border-radius:50%;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(0,0,0,.1);transition:.3s}.mo-x:hover{background:var(--ink);color:#fff}
+/* ── Marquee ── */
+.mq{padding:1.8rem 0;overflow:hidden;background:var(--ink)}.mq-t{display:flex;animation:mqa 28s linear infinite;width:max-content}
+.mq-i{font-family:var(--serif);font-size:clamp(1rem,2vw,1.5rem);font-weight:300;font-style:italic;color:rgba(250,249,246,.07);white-space:nowrap;padding:0 1.5rem}
+.mq-d{width:3px;height:3px;background:var(--rose);border-radius:50%;opacity:.3;align-self:center;margin:0 .5rem;flex-shrink:0}
+@keyframes mqa{to{transform:translateX(-50%)}}
+
+/* ── Modal ── */
+.mo{position:fixed;inset:0;z-index:3000;background:rgba(0,0,0,.5);backdrop-filter:blur(5px);display:none;align-items:center;justify-content:center;opacity:0;transition:.35s;padding:1rem}.mo.on{display:flex;opacity:1}
+.mo-box{background:var(--bg);width:100%;max-width:980px;height:82vh;display:flex;position:relative;box-shadow:0 16px 50px rgba(0,0,0,.18);border-radius:2px;overflow:hidden}
+.mo-x{position:absolute;top:.7rem;right:.7rem;z-index:10;width:34px;height:34px;background:#fff;border:none;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.1);transition:.3s}.mo-x:hover{background:var(--ink);color:#fff}
 .mo-gal{flex:1.2;background:var(--bg2);position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
-.mo-img{width:100%;height:100%;object-fit:contain}
-.mo-arr{position:absolute;top:50%;transform:translateY(-50%);background:#fff;width:40px;height:40px;border:none;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;box-shadow:0 3px 12px rgba(0,0,0,.1);cursor:pointer;z-index:5;transition:.3s}.mo-arr:hover{background:var(--ink);color:#fff}.mo-prev{left:.8rem}.mo-next{right:.8rem}
-.mo-ths{position:absolute;bottom:.8rem;left:50%;transform:translateX(-50%);display:flex;gap:.3rem;z-index:5}
-.mo-th{width:40px;height:50px;background-size:cover;background-position:center;border:2px solid transparent;border-radius:2px;cursor:pointer;opacity:.4;transition:.3s}.mo-th.on{border-color:var(--rose);opacity:1}
-.mo-info{flex:1;padding:2.5rem;overflow-y:auto;display:flex;flex-direction:column}.mo-info::-webkit-scrollbar{width:3px}
-.mo-brand{font-size:.65rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--ink4);margin-bottom:.3rem}
-.mo-name{font-family:var(--serif);font-size:clamp(1.3rem,2.5vw,1.8rem);font-weight:400;margin-bottom:.8rem}
-.mo-pbox{padding-bottom:1rem;border-bottom:1px solid var(--bg3);margin-bottom:1rem}
-.mo-rent{font-size:1.15rem;font-weight:600;display:block;margin-bottom:.2rem}.mo-rrp{font-size:.8rem;color:var(--ink4);text-decoration:line-through}
-.mo-desc{font-size:.88rem;line-height:1.8;color:var(--ink3);margin-bottom:1.5rem}
-.mo-meta{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-bottom:1.5rem;background:var(--bg2);padding:1.1rem;border-radius:4px}
-.mo-meta span{display:block;font-size:.6rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink4);margin-bottom:.2rem}.mo-meta strong{font-size:.82rem}
-.mo-btn{margin-top:auto;padding:1rem;background:var(--ink);color:#fff;text-align:center;font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.15em;border:none;cursor:pointer;border-radius:2px;transition:.4s var(--ease)}.mo-btn:hover{background:var(--ink2);transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.12)}
+.mo-im{width:100%;height:100%;object-fit:contain}
+.mo-ar{position:absolute;top:50%;transform:translateY(-50%);background:#fff;width:38px;height:38px;border:none;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;box-shadow:0 2px 10px rgba(0,0,0,.1);cursor:pointer;z-index:5;transition:.3s}.mo-ar:hover{background:var(--ink);color:#fff}
+.mo-pv{left:.7rem}.mo-nx{right:.7rem}
+.mo-ths{position:absolute;bottom:.7rem;left:50%;transform:translateX(-50%);display:flex;gap:.25rem;z-index:5}
+.mo-th{width:38px;height:48px;background-size:cover;background-position:center;border:2px solid transparent;border-radius:2px;cursor:pointer;opacity:.4;transition:.3s}.mo-th.on{border-color:var(--rose);opacity:1}
+.mo-inf{flex:1;padding:2.2rem;overflow-y:auto;display:flex;flex-direction:column}.mo-inf::-webkit-scrollbar{width:3px}
+.mo-br{font-size:.62rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--ink4);margin-bottom:.2rem}
+.mo-nm{font-family:var(--serif);font-size:clamp(1.2rem,2.5vw,1.7rem);font-weight:400;margin-bottom:.7rem}
+.mo-pb{padding-bottom:.8rem;border-bottom:1px solid var(--bg3);margin-bottom:.8rem}
+.mo-rn{font-size:1.1rem;font-weight:600;display:block;margin-bottom:.15rem}.mo-rr{font-size:.78rem;color:var(--ink4);text-decoration:line-through}
+.mo-ds{font-size:.85rem;line-height:1.8;color:var(--ink3);margin-bottom:1.2rem}
+.mo-mt{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:1.2rem;background:var(--bg2);padding:1rem;border-radius:4px}
+.mo-mt span{display:block;font-size:.58rem;text-transform:uppercase;letter-spacing:.08em;color:var(--ink4);margin-bottom:.15rem}.mo-mt strong{font-size:.8rem}
+.mo-bt{margin-top:auto;padding:.9rem;background:var(--ink);color:#fff;text-align:center;font-size:.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.15em;border:none;cursor:pointer;border-radius:2px;transition:.4s var(--ease)}.mo-bt:hover{background:var(--ink2);transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.1)}
 
-/* FOOTER */
-footer{background:var(--ink);color:#fff;padding:3.5rem 4% 1.5rem;text-align:center}
-.ft-logo{font-family:var(--serif);font-size:1.8rem;font-style:italic;margin-bottom:.6rem;display:block}
-.ft-txt{font-size:.65rem;color:rgba(255,255,255,.35);letter-spacing:.08em}
+/* ── Footer ── */
+footer{background:var(--ink);color:#fff;padding:3rem 4% 1.2rem;text-align:center}
+.ft-l{font-family:var(--serif);font-size:1.6rem;font-style:italic;margin-bottom:.5rem;display:block}
+.ft-t{font-size:.6rem;color:rgba(255,255,255,.3);letter-spacing:.08em}
 
-/* RESPONSIVE */
-@media(max-width:900px){.n-left{display:none}.mo-box{flex-direction:column;height:95vh}.mo-gal{height:45vh;flex:none}.mo-info{padding:1.5rem}}
-@media(max-width:600px){.pc{min-width:200px;max-width:220px}.pgrid{grid-template-columns:1fr 1fr;gap:.8rem}.pgrid .pc .pc-name{font-size:.9rem}.hamburger{display:flex}.hero{height:75vh}}
+/* ── Responsive ── */
+@media(max-width:900px){.n-l{display:none}.mo-box{flex-direction:column;height:92vh}.mo-gal{height:45vh;flex:none}.mo-inf{padding:1.5rem}}
+@media(max-width:600px){.pc{min-width:190px;max-width:210px}.pgrid{grid-template-columns:1fr 1fr;gap:.6rem}.hb{display:flex}.hero{height:70vh}}
 </style>
 </head>
 <body>
-
 <div class="ann" id="uiTop">MÖHTƏŞƏM DONLARI İCARƏYƏ GÖTÜRÜN</div>
 
 <nav id="nav">
-<div class="n-left"><a href="#collections" class="n-link" id="uiNav1">Yeni Gələnlər</a><a href="#about" class="n-link" id="uiNav2">Haqqımızda</a></div>
-<div class="n-center"><a href="#" class="logo">Avera</a></div>
-<div class="n-right"><button class="lb on" onclick="setL('az')">AZ</button><button class="lb" onclick="setL('ru')">RU</button><button class="lb" onclick="setL('en')">EN</button><button class="hamburger" id="hb"><span></span><span></span><span></span></button></div>
+<div class="n-l"><a href="#collections" class="nk" id="uiN1">Yeni Gələnlər</a><a href="#about" class="nk" id="uiN2">Haqqımızda</a></div>
+<div class="n-c"><a href="#" class="logo">Avera</a></div>
+<div class="n-r"><button class="lb on" onclick="lang('az')">AZ</button><button class="lb" onclick="lang('ru')">RU</button><button class="lb" onclick="lang('en')">EN</button><button class="hb" id="hb"><span></span><span></span><span></span></button></div>
 </nav>
 
-<div class="mob" id="mm"><ul><li><a href="#collections" onclick="clM()">Kolleksiyalar</a></li><li><a href="#about" onclick="clM()">Haqqımızda</a></li></ul></div>
+<div class="mm" id="mm"><ul><li><a href="#collections" onclick="clM()">Kolleksiyalar</a></li><li><a href="#about" onclick="clM()">Haqqımızda</a></li></ul></div>
 
-<section class="hero" id="uiHero">
-<div class="hero-c hero-anim"><span class="hero-lab" id="uiHeroSub">Premium Kolleksiya</span><h1 class="hero-t" id="uiHeroT">Lüksü İcarəyə Götür</h1><a href="#collections" class="hero-btn" id="uiHeroBtn">Kəşf Et</a></div>
-</section>
+<section class="hero" id="uiHero"><div class="hero-c"><div class="hero-lab" id="uiHSub">Premium Kolleksiya</div><h1 class="hero-t" id="uiHT">Lüksü İcarəyə Götür</h1><a href="#collections" class="hero-btn" id="uiHBtn">Kəşf Et</a></div></section>
 
-<!-- YENİ GƏLƏNLƏR -->
-<section id="sec-new"><div class="s-hdr"><div><p class="s-lab" id="tNewL">Yeni gələnlər</p><h2 class="s-ttl" id="tNewT">Son Əlavə Olunanlar</h2></div><button class="s-more" onclick="goAll()" id="tMore">Hamısına bax →</button></div><div class="crl" id="newC"></div></section>
+<section id="sec-new"><div class="s-hdr"><div><p class="s-lab" id="tNL">Yeni gələnlər</p><h2 class="s-ttl" id="tNT">Son Əlavə Olunanlar</h2></div><button class="s-more" onclick="goAll()" id="tM1">Hamısına bax →</button></div><div class="crl" id="cNew"></div></section>
 
-<!-- ƏN ÇOX SATILAN -->
-<section id="sec-best" style="background:var(--bg2)"><div class="s-hdr"><div><p class="s-lab" style="color:var(--gold)" id="tBestL">Ən çox sevilən</p><h2 class="s-ttl" id="tBestT">Bestsellerlər</h2></div><button class="s-more" onclick="goAll()" id="tMore2">Hamısına bax →</button></div><div class="crl" id="bestC"></div></section>
+<section id="sec-best" style="background:var(--bg2)"><div class="s-hdr"><div><p class="s-lab" style="color:var(--gold)" id="tBL">Ən çox sevilən</p><h2 class="s-ttl" id="tBT">Bestsellerlər</h2></div><button class="s-more" onclick="goAll()" id="tM2">Hamısına bax →</button></div><div class="crl" id="cBest"></div></section>
 
-<!-- ENDİRİMDƏ -->
-<section id="sec-sale"><div class="s-hdr"><div><p class="s-lab" style="color:var(--red)" id="tSaleL">Xüsusi endirim</p><h2 class="s-ttl" id="tSaleT">Fürsəti Qaçırmayın</h2></div></div><div class="crl" id="saleC"></div></section>
+<section id="sec-sale"><div class="s-hdr"><div><p class="s-lab" style="color:var(--red)" id="tSL">Xüsusi endirim</p><h2 class="s-ttl" id="tST">Fürsəti Qaçırmayın</h2></div></div><div class="crl" id="cSale"></div></section>
 
-<!-- TREND -->
-<section id="sec-trend" style="background:var(--bg2)"><div class="s-hdr"><div><p class="s-lab" style="color:var(--rose)" id="tTrendL">Trend</p><h2 class="s-ttl" id="tTrendT">Ayın Modası</h2></div></div><div class="crl" id="trendC"></div></section>
+<section id="sec-trend" style="background:var(--bg2)"><div class="s-hdr"><div><p class="s-lab" style="color:var(--rose)" id="tTL">Trend</p><h2 class="s-ttl" id="tTT">Ayın Modası</h2></div></div><div class="crl" id="cTrend"></div></section>
 
-<!-- BÜTÜN MƏHSULLAR -->
-<section id="collections"><div style="text-align:center;padding:0 4%;margin-bottom:1.5rem"><p class="s-lab" id="uiCollLab">Kolleksiyalar</p><h2 class="s-ttl" id="uiCollT" style="font-size:clamp(1.6rem,3.5vw,2.4rem)">Bütün Kolleksiya</h2></div><div class="tabs" id="collTabs"></div><div class="pgrid" id="grid"></div></section>
+<div class="mq"><div class="mq-t"><span class="mq-i">Timeless Elegance</span><div class="mq-d"></div><span class="mq-i">Fərdi Tikiliş</span><div class="mq-d"></div><span class="mq-i">By Anvaril</span><div class="mq-d"></div><span class="mq-i">Made in Baku</span><div class="mq-d"></div><span class="mq-i">Kirayə Donlar</span><div class="mq-d"></div><span class="mq-i">Timeless Elegance</span><div class="mq-d"></div><span class="mq-i">Fərdi Tikiliş</span><div class="mq-d"></div><span class="mq-i">By Anvaril</span><div class="mq-d"></div><span class="mq-i">Made in Baku</span><div class="mq-d"></div><span class="mq-i">Kirayə Donlar</span><div class="mq-d"></div></div></div>
 
-<!-- HAQQIMIZDA -->
-<section id="about"><div class="abt-w"><p class="s-lab" id="uiAbtL">Haqqımızda</p><h2 class="abt-t" id="uiAbtT">Zamansız Zəriflik</h2><p class="abt-txt" id="uiAbtTxt"></p></div></section>
+<section id="collections"><div style="text-align:center;padding:0 4%;margin-bottom:1.2rem"><p class="s-lab" id="uiCL">Kolleksiyalar</p><h2 class="s-ttl" id="uiCT" style="font-size:clamp(1.5rem,3.5vw,2.2rem)">Bütün Kolleksiya</h2></div><div class="tabs" id="tabs"></div><div class="pgrid" id="grid"></div></section>
 
-<footer><span class="ft-logo">Avera</span><p class="ft-txt">© 2026 Avera Atelier. Bütün hüquqlar qorunur.</p></footer>
+<section id="about"><div class="abt"><p class="s-lab" id="uiAL">Haqqımızda</p><h2 class="abt-t" id="uiAT">Zamansız Zəriflik</h2><p class="abt-x" id="uiAX"></p></div></section>
 
-<!-- MODAL -->
-<div class="mo" id="pm">
-<div class="mo-box">
-<button class="mo-x" onclick="clPm()">×</button>
-<div class="mo-gal"><button class="mo-arr mo-prev" onclick="sl(-1)">&#10094;</button><img src="" class="mo-img" id="pmImg"><button class="mo-arr mo-next" onclick="sl(1)">&#10095;</button><div class="mo-ths" id="pmTh"></div></div>
-<div class="mo-info"><div class="mo-brand" id="pmBrand">AVERA</div><h2 class="mo-name" id="pmTtl"></h2><div class="mo-pbox"><span class="mo-rent" id="pmRent"></span><span class="mo-rrp" id="pmRrp"></span></div><p class="mo-desc" id="pmDesc"></p><div class="mo-meta"><div><span id="uiFab">Parça</span><strong id="pmFab">—</strong></div><div><span id="uiSz">Ölçülər</span><strong id="pmSz">—</strong></div></div><button class="mo-btn" onclick="orderWA()" id="pmBtn">Sifariş üçün Əlaqə</button></div>
-</div></div>
+<footer><span class="ft-l">Avera</span><p class="ft-t">© 2026 Avera Atelier. Bütün hüquqlar qorunur.</p></footer>
+
+<div class="mo" id="pm"><div class="mo-box"><button class="mo-x" onclick="clPm()">×</button><div class="mo-gal"><button class="mo-ar mo-pv" onclick="sl(-1)">&#10094;</button><img src="" class="mo-im" id="pmI"><button class="mo-ar mo-nx" onclick="sl(1)">&#10095;</button><div class="mo-ths" id="pmTh"></div></div><div class="mo-inf"><div class="mo-br" id="pmBr">AVERA</div><h2 class="mo-nm" id="pmNm"></h2><div class="mo-pb"><span class="mo-rn" id="pmRn"></span><span class="mo-rr" id="pmRr"></span></div><p class="mo-ds" id="pmDs"></p><div class="mo-mt"><div><span id="uiF">Parça</span><strong id="pmFb">—</strong></div><div><span id="uiS">Ölçülər</span><strong id="pmSz">—</strong></div></div><button class="mo-bt" onclick="wa()" id="pmBt">Sifariş üçün Əlaqə</button></div></div></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-const supa=supabase.createClient('https://ijljnzqigtfonvqlkhkr.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlqbGpuenFpZ3Rmb252cWxraGtyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUxMjY5NzAsImV4cCI6MjA5MDcwMjk3MH0.KDnvL1F-Zwae5fyEzEyGNAT7QYT0L7KKy1g84LQTLDU');
-
-let S={prods:[],colls:[],set:null,lang:'az',ap:null,ii:0,acoll:'all'};
+const S=supabase.createClient('https://ijljnzqigtfonvqlkhkr.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlqbGpuenFpZ3Rmb252cWxraGtyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUxMjY5NzAsImV4cCI6MjA5MDcwMjk3MH0.KDnvL1F-Zwae5fyEzEyGNAT7QYT0L7KKy1g84LQTLDU');
+let P=[],C=[],ST=null,LN='az',AP=null,II=0,AC='all';
 
 const D={
-az:{all:"Bütün Məhsullar",coll:"Kolleksiyalar",rent:"Kirayə:",rrp:"Orijinal:",fab:"Parça",size:"Ölçülər",btn:"Sifariş üçün Əlaqə",msg:"Salam, maraqlanıram: ",abt:"Haqqımızda",qv:"Ətraflı Bax",more:"Hamısına bax →",newL:"Yeni gələnlər",newT:"Son Əlavə Olunanlar",bestL:"Ən çox sevilən",bestT:"Bestsellerlər",saleL:"Xüsusi endirim",saleT:"Fürsəti Qaçırmayın",trendL:"Trend",trendT:"Ayın Modası",couture:"Fərdi Tikiliş",rental:"Kirayə"},
-ru:{all:"Все товары",coll:"Коллекции",rent:"Аренда от:",rrp:"Ориг. цена:",fab:"Ткань",size:"Размеры",btn:"Заказать по WhatsApp",msg:"Здравствуйте, интересует: ",abt:"О нас",qv:"Подробнее",more:"Смотреть все →",newL:"Новинки",newT:"Последние поступления",bestL:"Хит продаж",bestT:"Бестселлеры",saleL:"Скидки",saleT:"Не упустите момент",trendL:"Тренд",trendT:"Модный выбор месяца",couture:"Индивидуальный Пошив",rental:"Аренда"},
-en:{all:"All Items",coll:"Collections",rent:"Rent from",rrp:"RRP",fab:"Fabric",size:"Sizes",btn:"Contact to Order",msg:"Hello, I'm interested in: ",abt:"About Us",qv:"Quick View",more:"View all →",newL:"New arrivals",newT:"Just Landed",bestL:"Most loved",bestT:"Bestsellers",saleL:"On sale",saleT:"Don't Miss Out",trendL:"Trending",trendT:"Monthly Picks",couture:"Custom Tailoring",rental:"Rental"}
+az:{all:"Hamısı",rent:"Kirayə:",rrp:"Orijinal:",fab:"Parça",sz:"Ölçülər",btn:"Sifariş üçün Əlaqə",msg:"Salam, maraqlanıram: ",abt:"Haqqımızda",qv:"Ətraflı",more:"Hamısına bax →",nL:"Yeni gələnlər",nT:"Son Əlavə Olunanlar",bL:"Ən çox sevilən",bT:"Bestsellerlər",sL:"Xüsusi endirim",sT:"Fürsəti Qaçırmayın",tL:"Trend",tT:"Ayın Modası",coll:"Kolleksiyalar",couture:"Fərdi Tikiliş",rental:"Kirayə"},
+ru:{all:"Все",rent:"Аренда от:",rrp:"Ориг.:",fab:"Ткань",sz:"Размеры",btn:"Заказать",msg:"Здравствуйте, интересует: ",abt:"О нас",qv:"Подробнее",more:"Все →",nL:"Новинки",nT:"Последние",bL:"Хит продаж",bT:"Бестселлеры",sL:"Скидки",sT:"Не упустите",tL:"Тренд",tT:"Модный выбор",coll:"Коллекции",couture:"Индив. Пошив",rental:"Аренда"},
+en:{all:"All",rent:"Rent:",rrp:"RRP:",fab:"Fabric",sz:"Sizes",btn:"Order via WhatsApp",msg:"Hello, I'm interested in: ",abt:"About",qv:"View",more:"View all →",nL:"New arrivals",nT:"Just Landed",bL:"Most loved",bT:"Bestsellers",sL:"On sale",sT:"Don't Miss Out",tL:"Trending",tT:"Monthly Picks",coll:"Collections",couture:"Custom Tailoring",rental:"Rental"}
 };
-function t(k){return D[S.lang]?.[k]||D.az[k]||k}
-function sT(o){if(!o)return'';if(typeof o==='string'){try{o=JSON.parse(o)}catch(e){return o}}return o[S.lang]||o.az||o.en||''}
+function t(k){return D[LN]?.[k]||D.az[k]||k}
+function tx(o){if(!o)return'';if(typeof o==='string'){try{o=JSON.parse(o)}catch{return o}}return o[LN]||o.az||o.en||''}
+function hasT(p,tag){return p.tags&&p.tags.toLowerCase().includes(tag)}
+function tpL(p){return p.type==='couture'?t('couture'):t('rental')}
 
-function hasTag(p,tag){return p.tags&&p.tags.toLowerCase().includes(tag)}
-
-// BOOT
 async function boot(){
-  const{data:set}=await supa.from('app_settings').select('*').eq('id',1).single();S.set=set||{};
-  const{data:c}=await supa.from('collections').select('*').eq('status','active').order('created_at',{ascending:false});S.colls=c||[];
-  const{data:p}=await supa.from('products').select('*').eq('status','active').order('created_at',{ascending:false});S.prods=p||[];
-  setL('az');
+  const[{data:st},{data:c},{data:p}]=await Promise.all([
+    S.from('app_settings').select('*').eq('id',1).single(),
+    S.from('collections').select('*').eq('status','active').order('created_at',{ascending:false}),
+    S.from('products').select('*').eq('status','active').order('created_at',{ascending:false})
+  ]);
+  ST=st||{};C=c||[];P=p||[];
+  applyCMS();sections();mkTabs();mkGrid();initR();
 }
 
 function applyCMS(){
-  const s=S.set,l=S.lang,d=D[l];
+  const s=ST;
   if(s.hero_bg)document.getElementById('uiHero').style.backgroundImage=`url('${s.hero_bg}')`;
-  document.getElementById('uiTop').textContent=sT(s.topbar_text)||d.newL.toUpperCase();
-  document.getElementById('uiNav1').textContent=sT(s.nav_link_1)||d.newL;
-  document.getElementById('uiNav2').textContent=sT(s.nav_link_2)||d.abt;
-  document.getElementById('uiHeroSub').textContent=sT(s.hero_sub)||d.newL;
-  document.getElementById('uiHeroT').textContent=sT(s.hero_title)||'Avera Atelier';
-  document.getElementById('uiHeroBtn').textContent=sT(s.hero_btn)||d.qv;
-  document.getElementById('uiAbtT').textContent=sT(s.about_title)||d.abt;
-  document.getElementById('uiAbtTxt').innerHTML=(sT(s.about_text)||'').replace(/\n/g,'<br>');
+  document.getElementById('uiTop').textContent=tx(s.topbar_text)||t('nL').toUpperCase();
+  document.getElementById('uiN1').textContent=tx(s.nav_link_1)||t('nL');
+  document.getElementById('uiN2').textContent=tx(s.nav_link_2)||t('abt');
+  document.getElementById('uiHSub').textContent=tx(s.hero_sub)||t('nL');
+  document.getElementById('uiHT').textContent=tx(s.hero_title)||'Avera Atelier';
+  document.getElementById('uiHBtn').textContent=tx(s.hero_btn)||t('qv');
+  document.getElementById('uiAT').textContent=tx(s.about_title)||t('abt');
+  document.getElementById('uiAX').innerHTML=(tx(s.about_text)||'').replace(/\n/g,'<br>');
   // Section labels
-  document.getElementById('tNewL').textContent=d.newL;document.getElementById('tNewT').textContent=d.newT;
-  document.getElementById('tBestL').textContent=d.bestL;document.getElementById('tBestT').textContent=d.bestT;
-  document.getElementById('tSaleL').textContent=d.saleL;document.getElementById('tSaleT').textContent=d.saleT;
-  document.getElementById('tTrendL').textContent=d.trendL;document.getElementById('tTrendT').textContent=d.trendT;
-  document.getElementById('uiCollLab').textContent=d.coll;document.getElementById('uiCollT').textContent=d.coll;
-  document.getElementById('uiAbtL').textContent=d.abt;document.getElementById('uiFab').textContent=d.fab;document.getElementById('uiSz').textContent=d.size;
-  document.getElementById('pmBtn').textContent=d.btn;
-  document.querySelectorAll('.s-more').forEach(b=>b.textContent=d.more);
+  const ids=[['tNL','nL'],['tNT','nT'],['tBL','bL'],['tBT','bT'],['tSL','sL'],['tST','sT'],['tTL','tL'],['tTT','tT'],['uiCL','coll'],['uiCT','coll'],['uiAL','abt'],['uiF','fab'],['uiS','sz'],['pmBt','btn']];
+  ids.forEach(([el,k])=>{const e=document.getElementById(el);if(e)e.textContent=t(k)});
+  document.querySelectorAll('.s-more').forEach(b=>b.textContent=t('more'));
 }
 
-// CARDS
 function card(p){
-  const img=p.images?.[0]||'',n=sT(p.name),d=D[S.lang];
-  let badges='';
-  if(hasTag(p,'yeni')||hasTag(p,'new'))badges+=`<span class="bdg bdg-new">${d.newL}</span>`;
-  if(hasTag(p,'best')||hasTag(p,'hit'))badges+=`<span class="bdg bdg-best">${d.bestL}</span>`;
-  if(hasTag(p,'sale')||hasTag(p,'endirim'))badges+=`<span class="bdg bdg-sale">${d.saleL}</span>`;
-  if(hasTag(p,'trend'))badges+=`<span class="bdg bdg-trend">${d.trendL}</span>`;
-  const rentH=p.rental_price?`<span style="font-size:.65rem;color:var(--ink4);font-weight:400">${d.rent}</span> ₼${p.rental_price}`:`₼${p.price}`;
-  const rrpH=p.price&&p.rental_price?`<span class="pc-rrp">₼${p.price}</span>`:'';
-  const tp=p.type==='couture'?d.couture:d.rental;
-  const sizes=p.sizes?.length?p.sizes.join(', '):'';
-  return`<div class="pc reveal" onclick="openPm('${p.id}')"><div class="pc-img-w"><div class="pc-badges">${badges}</div><div class="pc-fav">♡</div><img src="${img}" class="pc-img" loading="lazy" alt="${n}"><div class="pc-qv"><button class="qv-b">${d.qv}</button></div></div><div class="pc-brand">${p.brand||'AVERA'} · ${tp}</div><h3 class="pc-name">${n}</h3><div class="pc-pr"><span class="pc-rent">${rentH}</span>${rrpH}</div>${sizes?`<div class="pc-sz">${sizes}</div>`:''}</div>`;
+  const im=p.images?.[0]||'',n=tx(p.name);
+  let bd='';
+  if(hasT(p,'new')||hasT(p,'yeni'))bd+=`<span class="bdg bdg-n">${t('nL')}</span>`;
+  if(hasT(p,'best')||hasT(p,'hit'))bd+=`<span class="bdg bdg-b">${t('bL')}</span>`;
+  if(hasT(p,'sale')||hasT(p,'endirim'))bd+=`<span class="bdg bdg-s">${t('sL')}</span>`;
+  if(hasT(p,'trend'))bd+=`<span class="bdg bdg-t">${t('tL')}</span>`;
+  const rn=p.rental_price?`<small style="font-size:.6rem;color:var(--ink4);font-weight:400">${t('rent')}</small> ₼${p.rental_price}`:`₼${p.price}`;
+  const rr=p.price&&p.rental_price?`<span class="pc-rr">₼${p.price}</span>`:'';
+  const sz=p.sizes?.length?p.sizes.join(', '):'';
+  return`<div class="pc reveal" onclick="openPm('${p.id}')"><div class="pc-iw"><div class="pc-badges">${bd}</div><img src="${im}" class="pc-im" loading="lazy" alt="${n}"><div class="pc-qv"><button class="qvb">${t('qv')}</button></div></div><div class="pc-br">${p.brand||'AVERA'}</div><h3 class="pc-nm">${n}</h3><div class="pc-pr"><span class="pc-rn">${rn}</span>${rr}</div>${sz?`<div class="pc-sz">${sz}</div>`:''}</div>`;
 }
 
-// SECTIONS
-function renderSections(){
-  fill('newC',S.prods.filter(p=>hasTag(p,'yeni')||hasTag(p,'new')).slice(0,10));
-  fill('bestC',S.prods.filter(p=>hasTag(p,'best')||hasTag(p,'hit')).slice(0,10));
-  fill('saleC',S.prods.filter(p=>hasTag(p,'sale')||hasTag(p,'endirim')).slice(0,10));
-  fill('trendC',S.prods.filter(p=>hasTag(p,'trend')).slice(0,10));
-  // also show recently added in newC if no tag matches
-  if(!document.getElementById('newC').children.length){fill('newC',S.prods.slice(0,8))}
+function fill(id,items){const e=document.getElementById(id);if(e)e.innerHTML=items.map(card).join('')}
+function sections(){
+  const nw=P.filter(p=>hasT(p,'new')||hasT(p,'yeni'));
+  fill('cNew',nw.length?nw:P.slice(0,8));
+  fill('cBest',P.filter(p=>hasT(p,'best')||hasT(p,'hit')));
+  fill('cSale',P.filter(p=>hasT(p,'sale')||hasT(p,'endirim')));
+  fill('cTrend',P.filter(p=>hasT(p,'trend')));
   ['sec-new','sec-best','sec-sale','sec-trend'].forEach(id=>{
     const s=document.getElementById(id);if(!s)return;
-    const crl=s.querySelector('.crl');
-    s.style.display=crl&&crl.children.length?'':'none';
+    const c=s.querySelector('.crl');
+    s.style.display=c&&c.children.length?'':'none';
   });
 }
-function fill(id,items){const el=document.getElementById(id);if(!el)return;el.innerHTML=items.map(card).join('');initR()}
 
-// ALL GRID
-function renderTabs(){
-  let h=`<button class="tab ${S.acoll==='all'?'on':''}" onclick="filt('all')">${t('all')}</button>`;
-  S.colls.forEach(c=>{h+=`<button class="tab ${S.acoll===c.id?'on':''}" onclick="filt('${c.id}')">${sT(c.name)}</button>`});
-  document.getElementById('collTabs').innerHTML=h;
+function mkTabs(){
+  let h=`<button class="tab ${AC==='all'?'on':''}" onclick="filt('all')">${t('all')}</button>`;
+  C.forEach(c=>{h+=`<button class="tab ${AC===c.id?'on':''}" onclick="filt('${c.id}')">${tx(c.name)}</button>`});
+  document.getElementById('tabs').innerHTML=h;
 }
-function filt(id){S.acoll=id;renderTabs();renderGrid()}
-function renderGrid(){
-  let list=S.acoll==='all'?S.prods:S.prods.filter(p=>p.collection_id===S.acoll);
-  const el=document.getElementById('grid');
-  if(!list.length){el.innerHTML=`<p style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--ink4);font-family:var(--serif);font-size:1.1rem;font-style:italic">Məhsul tapılmadı.</p>`;return}
-  el.innerHTML=list.map(card).join('');initR();
+function filt(id){AC=id;mkTabs();mkGrid()}
+function mkGrid(){
+  const list=AC==='all'?P:P.filter(p=>p.collection_id===AC);
+  const g=document.getElementById('grid');
+  g.innerHTML=list.length?list.map(card).join(''):`<p style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--ink4);font-family:var(--serif);font-size:1rem;font-style:italic">Məhsul tapılmadı.</p>`;
+  initR();
 }
 function goAll(){document.getElementById('collections').scrollIntoView({behavior:'smooth'})}
 
-// MODAL
-function openPm(id){S.ap=S.prods.find(x=>x.id===id);if(!S.ap)return;S.ii=0;updPm();document.getElementById('pm').classList.add('on');document.body.style.overflow='hidden'}
+function openPm(id){AP=P.find(x=>x.id===id);if(!AP)return;II=0;updPm();document.getElementById('pm').classList.add('on');document.body.style.overflow='hidden'}
 function clPm(){document.getElementById('pm').classList.remove('on');document.body.style.overflow=''}
 function updPm(){
-  const p=S.ap,d=D[S.lang];
-  document.getElementById('pmBrand').textContent=(p.brand||'AVERA')+' · '+(p.type==='couture'?d.couture:d.rental);
-  document.getElementById('pmTtl').textContent=sT(p.name);
-  document.getElementById('pmRent').innerHTML=p.rental_price?`${d.rent} <strong>₼${p.rental_price}</strong>`:`₼${p.price}`;
-  document.getElementById('pmRrp').textContent=p.price&&p.rental_price?`${d.rrp} ₼${p.price}`:'';
-  document.getElementById('pmDesc').innerHTML=(sT(p.description)||'').replace(/\n/g,'<br>');
-  document.getElementById('pmFab').textContent=p.fabric||'—';
+  const p=AP;
+  document.getElementById('pmBr').textContent=(p.brand||'AVERA');
+  document.getElementById('pmNm').textContent=tx(p.name);
+  document.getElementById('pmRn').innerHTML=p.rental_price?`${t('rent')} <strong>₼${p.rental_price}</strong>`:`₼${p.price}`;
+  document.getElementById('pmRr').textContent=p.price&&p.rental_price?`${t('rrp')} ₼${p.price}`:'';
+  document.getElementById('pmDs').innerHTML=(tx(p.description)||'').replace(/\n/g,'<br>');
+  document.getElementById('pmFb').textContent=p.fabric||'—';
   document.getElementById('pmSz').textContent=p.sizes?p.sizes.join(', '):'—';
-  document.getElementById('pmImg').src=p.images[S.ii];
+  document.getElementById('pmI').src=p.images[II];
   const th=document.getElementById('pmTh');
-  if(p.images.length>1){th.innerHTML=p.images.map((img,i)=>`<div class="mo-th ${i===S.ii?'on':''}" style="background-image:url('${img}')" onclick="goSl(${i})"></div>`).join('');th.style.display='flex'}else th.style.display='none';
-  document.querySelectorAll('.mo-arr').forEach(a=>a.style.display=p.images.length>1?'flex':'none');
+  if(p.images.length>1){th.innerHTML=p.images.map((im,i)=>`<div class="mo-th ${i===II?'on':''}" style="background-image:url('${im}')" onclick="goSl(${i})"></div>`).join('');th.style.display='flex'}else th.style.display='none';
+  document.querySelectorAll('.mo-ar').forEach(a=>a.style.display=p.images.length>1?'flex':'none');
 }
-function sl(d){const l=S.ap.images.length;S.ii=(S.ii+d+l)%l;updSl()}
-function goSl(i){S.ii=i;updSl()}
-function updSl(){document.getElementById('pmImg').src=S.ap.images[S.ii];document.querySelectorAll('.mo-th').forEach((t,i)=>t.classList.toggle('on',i===S.ii))}
-function orderWA(){const wa=S.set?.whatsapp;if(!wa){alert("WhatsApp nömrəsi qeyd olunmayıb.");return}window.open(`https://wa.me/${wa}?text=${encodeURIComponent(t('msg')+sT(S.ap.name))}`,'_blank')}
+function sl(d){const l=AP.images.length;II=(II+d+l)%l;uSl()}function goSl(i){II=i;uSl()}
+function uSl(){document.getElementById('pmI').src=AP.images[II];document.querySelectorAll('.mo-th').forEach((t,i)=>t.classList.toggle('on',i===II))}
+function wa(){const w=ST?.whatsapp;if(!w){alert("WhatsApp nömrəsi qeyd olunmayıb.");return}window.open(`https://wa.me/${w}?text=${encodeURIComponent(t('msg')+tx(AP.name))}`,'_blank')}
 
-// LANG
-function setL(l){
-  S.lang=l;
-  document.querySelectorAll('.lb').forEach(b=>b.classList.toggle('on',b.textContent.toLowerCase()===l));
-  applyCMS();renderSections();renderTabs();renderGrid();
-  if(S.ap)updPm();
-}
+function lang(l){LN=l;document.querySelectorAll('.lb').forEach(b=>b.classList.toggle('on',b.textContent.toLowerCase()===l));applyCMS();sections();mkTabs();mkGrid();if(AP)updPm()}
 
-// NAV
 const hb=document.getElementById('hb'),mm=document.getElementById('mm');
 hb.addEventListener('click',()=>{hb.classList.toggle('on');mm.classList.toggle('on');document.body.style.overflow=mm.classList.contains('on')?'hidden':''});
 function clM(){hb.classList.remove('on');mm.classList.remove('on');document.body.style.overflow=''}
 window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('sc',window.scrollY>30));
-
-// REVEALS
 function initR(){const o=new IntersectionObserver(es=>{es.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('vis'),i*40);o.unobserve(e.target)}})},{threshold:.08});document.querySelectorAll('.reveal:not(.vis)').forEach(el=>o.observe(el))}
-
-// KEYBOARD
 document.addEventListener('keydown',e=>{if(!document.getElementById('pm').classList.contains('on'))return;if(e.key==='Escape')clPm();if(e.key==='ArrowLeft')sl(-1);if(e.key==='ArrowRight')sl(1)});
-
 window.onload=boot;
 </script>
 </body>
