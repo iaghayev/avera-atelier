@@ -3,415 +3,194 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Avera Atelier — Admin Panel</title>
+<title>Avera — Admin</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#f5f3ef;--card:#fff;--ink:#1a1816;--ink2:#3d3835;--ink3:#6b6460;--ink4:#9a9288;--border:#e5e0d8;--rose:#a85060;--rose-bg:#fdf2f4;--green:#2d8a54;--green-bg:#edf7f0;--red:#c04040;--red-bg:#fef0f0;--blue:#3070b0;--blue-bg:#eef4fb;--gold:#a08050;--radius:8px;--shadow:0 1px 3px rgba(0,0,0,.04),0 4px 12px rgba(0,0,0,.03);--font:'DM Sans',system-ui,sans-serif}
-body{background:var(--bg);color:var(--ink);font-family:var(--font);display:flex;min-height:100vh;font-size:14px}
-
-/* AUTH */
-.auth{position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;align-items:center;justify-content:center}.auth.hide{display:none}
-.auth-box{width:100%;max-width:380px;padding:2.5rem;background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);text-align:center}
-.auth-title{font-size:1.6rem;font-weight:700;margin-bottom:.3rem}.auth-sub{font-size:.8rem;color:var(--ink3);margin-bottom:2rem}
-
-/* SIDEBAR */
-.sb{width:240px;background:var(--ink);color:#fff;display:flex;flex-direction:column;position:fixed;height:100vh;z-index:100}
-.sb-logo{padding:1.5rem 1.2rem;font-size:1.1rem;font-weight:700;border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;gap:.5rem}
-.sb-logo span{font-size:.55rem;font-weight:500;padding:.15rem .4rem;background:var(--rose);border-radius:3px;letter-spacing:.05em}
-.sb-nav{flex:1;padding:.8rem 0;overflow-y:auto}
-.sb-label{padding:.8rem 1.2rem .3rem;font-size:.58rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:rgba(255,255,255,.25)}
-.sb-item{width:100%;padding:.6rem 1.2rem;display:flex;align-items:center;gap:.6rem;background:none;border:none;color:rgba(255,255,255,.5);cursor:pointer;text-align:left;font-size:.82rem;font-weight:500;font-family:var(--font);transition:.2s;border-left:3px solid transparent}
-.sb-item:hover{background:rgba(255,255,255,.04);color:rgba(255,255,255,.8)}
-.sb-item.on{background:rgba(255,255,255,.06);color:#fff;border-left-color:var(--rose)}
-.sb-item .icon{font-size:1rem;width:20px;text-align:center;flex-shrink:0}
-.sb-footer{padding:1rem 1.2rem;border-top:1px solid rgba(255,255,255,.06);font-size:.65rem;color:rgba(255,255,255,.2)}
-
-/* MAIN */
-.main{flex:1;margin-left:240px;padding:1.5rem 2rem;min-height:100vh}
-.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem}
-.topbar-title{font-size:1.15rem;font-weight:700}
-.topbar-right{display:flex;align-items:center;gap:1rem}
-.topbar-clock{font-size:.78rem;font-weight:600;color:var(--ink3)}
-.topbar-badge{font-size:.6rem;font-weight:600;background:var(--green-bg);color:var(--green);padding:.2rem .6rem;border-radius:12px}
-
-.page{display:none;animation:fadeIn .3s}.page.on{display:block}
-@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-
-/* STATS */
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;margin-bottom:1.5rem}
-.st{background:var(--card);padding:1.2rem;border-radius:var(--radius);box-shadow:var(--shadow);border-left:3px solid var(--border)}
-.st-green{border-color:var(--green)}.st-red{border-color:var(--red)}.st-blue{border-color:var(--blue)}.st-rose{border-color:var(--rose)}
-.st-label{font-size:.62rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--ink4);margin-bottom:.3rem}
-.st-val{font-size:1.5rem;font-weight:700}
-
-/* CARDS */
-.card{background:var(--card);border-radius:var(--radius);padding:1.2rem;box-shadow:var(--shadow);margin-bottom:1.2rem;overflow-x:auto}
-.card-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;padding-bottom:.8rem;border-bottom:1px solid var(--border)}
-.card-title{font-size:.92rem;font-weight:700}
-
-/* CHART */
-.chart-wrap{height:180px;position:relative}
-
-/* TABLES */
+:root{--bg:#f5f3ef;--c:#fff;--ink:#1a1816;--ink2:#3d3835;--ink3:#6b6460;--ink4:#9a9288;--bd:#e5e0d8;--rose:#a85060;--rbg:#fdf2f4;--grn:#2d8a54;--gbg:#edf7f0;--red:#c04040;--rbg2:#fef0f0;--blu:#3070b0;--bbg:#eef4fb;--gld:#a08050;--r:8px;--sh:0 1px 3px rgba(0,0,0,.04),0 4px 12px rgba(0,0,0,.03);--f:'DM Sans',system-ui,sans-serif}
+body{background:var(--bg);color:var(--ink);font-family:var(--f);display:flex;min-height:100vh;font-size:14px}
+.auth{position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;align-items:center;justify-content:center}.auth.h{display:none}
+.auth-b{width:100%;max-width:360px;padding:2.5rem;background:var(--c);border-radius:var(--r);box-shadow:var(--sh);text-align:center}
+.auth-t{font-size:1.5rem;font-weight:700;margin-bottom:.3rem}.auth-s{font-size:.78rem;color:var(--ink3);margin-bottom:1.8rem}
+.sb{width:230px;background:var(--ink);color:#fff;display:flex;flex-direction:column;position:fixed;height:100vh;z-index:100}
+.sb-l{padding:1.3rem 1rem;font-size:1rem;font-weight:700;border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;gap:.4rem}
+.sb-l span{font-size:.5rem;font-weight:600;padding:.12rem .35rem;background:var(--rose);border-radius:3px}
+.sb-n{flex:1;padding:.6rem 0;overflow-y:auto}
+.sb-lb{padding:.6rem 1rem .2rem;font-size:.55rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:rgba(255,255,255,.2)}
+.sb-i{width:100%;padding:.55rem 1rem;display:flex;align-items:center;gap:.5rem;background:none;border:none;color:rgba(255,255,255,.45);cursor:pointer;text-align:left;font-size:.8rem;font-weight:500;font-family:var(--f);transition:.2s;border-left:3px solid transparent}
+.sb-i:hover{background:rgba(255,255,255,.04);color:rgba(255,255,255,.7)}.sb-i.on{background:rgba(255,255,255,.06);color:#fff;border-left-color:var(--rose)}
+.main{flex:1;margin-left:230px;padding:1.2rem 1.5rem}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.2rem}
+.top-t{font-size:1.1rem;font-weight:700}
+.top-c{font-size:.75rem;font-weight:600;color:var(--ink3)}
+.pg{display:none;animation:fi .3s}.pg.on{display:block}
+@keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.sts{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.8rem;margin-bottom:1.2rem}
+.st{background:var(--c);padding:1rem;border-radius:var(--r);box-shadow:var(--sh);border-left:3px solid var(--bd)}
+.st-g{border-color:var(--grn)}.st-r{border-color:var(--red)}.st-b{border-color:var(--blu)}.st-rs{border-color:var(--rose)}
+.st-lb{font-size:.58rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--ink4);margin-bottom:.2rem}
+.st-v{font-size:1.4rem;font-weight:700}
+.cd{background:var(--c);border-radius:var(--r);padding:1rem;box-shadow:var(--sh);margin-bottom:1rem;overflow-x:auto}
+.cd-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:.8rem;padding-bottom:.6rem;border-bottom:1px solid var(--bd)}
+.cd-t{font-size:.88rem;font-weight:700}
+.chw{height:170px;position:relative}
 table{width:100%;border-collapse:collapse;white-space:nowrap}
-th{text-align:left;padding:.7rem .6rem;font-size:.62rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--ink4);border-bottom:2px solid var(--border)}
-td{padding:.6rem;border-bottom:1px solid var(--border);vertical-align:middle;font-size:.82rem}
-tr:hover td{background:rgba(0,0,0,.01)}
-.t-img{width:40px;height:52px;object-fit:cover;border-radius:4px;background:var(--bg)}
-.badge{display:inline-block;padding:.15rem .5rem;border-radius:12px;font-size:.6rem;font-weight:600}
-.b-green{background:var(--green-bg);color:var(--green)}.b-red{background:var(--red-bg);color:var(--red)}.b-gray{background:var(--bg);color:var(--ink3)}.b-rose{background:var(--rose-bg);color:var(--rose)}.b-blue{background:var(--blue-bg);color:var(--blue)}.b-gold{background:#fdf6ec;color:var(--gold)}
-
-/* BUTTONS */
-.btn{padding:.55rem 1rem;border-radius:5px;border:none;cursor:pointer;font-weight:600;font-family:var(--font);font-size:.75rem;transition:.2s;display:inline-flex;align-items:center;gap:.3rem}
-.btn-p{background:var(--ink);color:#fff}.btn-p:hover{opacity:.9;transform:translateY(-1px)}
-.btn-o{background:transparent;border:1px solid var(--border);color:var(--ink3)}.btn-o:hover{border-color:var(--ink);color:var(--ink)}
-.btn-d{background:var(--red-bg);color:var(--red)}.btn-d:hover{background:var(--red);color:#fff}
-.btn-sm{padding:.35rem .6rem;font-size:.68rem}
-.btn-tag{padding:.25rem .5rem;font-size:.6rem;border-radius:3px;background:var(--bg);border:1px solid var(--border);cursor:pointer;transition:.2s}.btn-tag:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
-
-/* FORMS */
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
-.fg{margin-bottom:.8rem}
-.label{display:block;font-size:.65rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--ink4);margin-bottom:.3rem}
-.input,.select,.textarea{width:100%;padding:.6rem .8rem;border:1.5px solid var(--border);border-radius:5px;font-family:var(--font);font-size:.82rem;transition:.2s;background:var(--card);color:var(--ink)}
-.input:focus,.select:focus,.textarea:focus{border-color:var(--rose);outline:none;box-shadow:0 0 0 3px rgba(168,80,96,.08)}
-.textarea{height:80px;resize:vertical}
-.tabs-row{display:flex;gap:3px;border-bottom:2px solid var(--border);margin-bottom:1rem}
-.tab-b{padding:.45rem 1.2rem;background:none;border:none;cursor:pointer;font-weight:600;font-size:.72rem;color:var(--ink4);margin-bottom:-2px;border-bottom:2px solid transparent;font-family:var(--font);transition:.2s}
-.tab-b.on{color:var(--rose);border-color:var(--rose)}
+th{text-align:left;padding:.55rem .5rem;font-size:.58rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--ink4);border-bottom:2px solid var(--bd)}
+td{padding:.5rem;border-bottom:1px solid var(--bd);vertical-align:middle;font-size:.8rem}
+.ti{width:38px;height:48px;object-fit:cover;border-radius:3px;background:var(--bg)}
+.badge{display:inline-block;padding:.12rem .4rem;border-radius:10px;font-size:.55rem;font-weight:600}
+.bg{background:var(--gbg);color:var(--grn)}.br{background:var(--rbg2);color:var(--red)}.by{background:var(--bg);color:var(--ink3)}.bp{background:var(--rbg);color:var(--rose)}.bb{background:var(--bbg);color:var(--blu)}.bo{background:#fdf6ec;color:var(--gld)}
+.btn{padding:.5rem .9rem;border-radius:5px;border:none;cursor:pointer;font-weight:600;font-family:var(--f);font-size:.72rem;transition:.2s;display:inline-flex;align-items:center;gap:.25rem}
+.bp2{background:var(--ink);color:#fff}.bp2:hover{opacity:.9}
+.bt-o{background:transparent;border:1px solid var(--bd);color:var(--ink3)}.bt-o:hover{border-color:var(--ink);color:var(--ink)}
+.bt-d{background:var(--rbg2);color:var(--red)}.bt-d:hover{background:var(--red);color:#fff}
+.btn-s{padding:.3rem .5rem;font-size:.65rem}
+.bt-tag{padding:.2rem .4rem;font-size:.55rem;border-radius:3px;background:var(--bg);border:1px solid var(--bd);cursor:pointer;transition:.2s;font-family:var(--f)}.bt-tag:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+.fg{margin-bottom:.7rem}
+.lb2{display:block;font-size:.6rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--ink4);margin-bottom:.2rem}
+.inp,.sel,.ta{width:100%;padding:.55rem .7rem;border:1.5px solid var(--bd);border-radius:5px;font-family:var(--f);font-size:.8rem;background:var(--c);color:var(--ink);transition:.2s}
+.inp:focus,.sel:focus,.ta:focus{border-color:var(--rose);outline:none;box-shadow:0 0 0 3px rgba(168,80,96,.06)}
+.ta{height:70px;resize:vertical}
+.tr{display:flex;gap:2px;border-bottom:2px solid var(--bd);margin-bottom:.8rem}
+.tb{padding:.4rem 1rem;background:none;border:none;cursor:pointer;font-weight:600;font-size:.68rem;color:var(--ink4);margin-bottom:-2px;border-bottom:2px solid transparent;font-family:var(--f);transition:.2s}.tb.on{color:var(--rose);border-color:var(--rose)}
 .tc{display:none}.tc.on{display:block}
-
-/* UPLOAD */
-.ubox{border:2px dashed var(--border);padding:1.5rem;text-align:center;border-radius:5px;position:relative;background:var(--bg);cursor:pointer;transition:.2s}
-.ubox:hover{border-color:var(--rose);background:var(--rose-bg)}
-.ubox input{position:absolute;inset:0;opacity:0;cursor:pointer}
-.ubox p{font-size:.75rem;font-weight:500;color:var(--ink3)}
-.prev-grid{display:flex;gap:6px;flex-wrap:wrap;margin-top:.6rem}
-.prev-item{width:65px;height:82px;position:relative;border-radius:4px;overflow:hidden;border:1px solid var(--border)}
-.prev-item img{width:100%;height:100%;object-fit:cover}
-.prev-rm{position:absolute;top:2px;right:2px;background:var(--red);color:#fff;border:none;width:16px;height:16px;border-radius:50%;cursor:pointer;font-size:.6rem;display:flex;align-items:center;justify-content:center}
-
-/* MODAL */
-.modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:2000;display:none;align-items:center;justify-content:center;backdrop-filter:blur(3px)}.modal-ov.on{display:flex}
-.modal{background:var(--card);width:95%;max-width:750px;max-height:90vh;border-radius:var(--radius);overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.15)}
-.m-hdr{padding:1.2rem 1.5rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
-.m-hdr h3{font-size:.95rem;font-weight:700}
-.m-x{background:none;border:none;font-size:1.3rem;cursor:pointer;color:var(--ink3);transition:.2s;padding:.2rem}.m-x:hover{color:var(--ink)}
-.m-body{padding:1.5rem}
-.m-foot{padding:1rem 1.5rem;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:.5rem;background:var(--bg)}
-
-/* TOAST */
-#toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--ink);color:#fff;padding:.8rem 1.5rem;border-radius:5px;transform:translateY(80px);transition:.3s;z-index:9999;font-size:.8rem;font-weight:500;box-shadow:0 4px 15px rgba(0,0,0,.15)}
+.ub{border:2px dashed var(--bd);padding:1.2rem;text-align:center;border-radius:5px;position:relative;background:var(--bg);cursor:pointer;transition:.2s}.ub:hover{border-color:var(--rose);background:var(--rbg)}
+.ub input{position:absolute;inset:0;opacity:0;cursor:pointer}.ub p{font-size:.72rem;font-weight:500;color:var(--ink3)}
+.pvg{display:flex;gap:5px;flex-wrap:wrap;margin-top:.4rem}
+.pvi{width:55px;height:68px;position:relative;border-radius:3px;overflow:hidden;border:1px solid var(--bd)}
+.pvi img{width:100%;height:100%;object-fit:cover}
+.pvr{position:absolute;top:1px;right:1px;background:var(--red);color:#fff;border:none;width:14px;height:14px;border-radius:50%;cursor:pointer;font-size:.5rem;display:flex;align-items:center;justify-content:center}
+.mov{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:2000;display:none;align-items:center;justify-content:center;backdrop-filter:blur(3px)}.mov.on{display:flex}
+.mdl{background:var(--c);width:95%;max-width:700px;max-height:88vh;border-radius:var(--r);overflow-y:auto;box-shadow:0 16px 50px rgba(0,0,0,.12)}
+.mh{padding:1rem 1.2rem;border-bottom:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center}
+.mh h3{font-size:.9rem;font-weight:700}
+.mx{background:none;border:none;font-size:1.2rem;cursor:pointer;color:var(--ink3)}.mx:hover{color:var(--ink)}
+.mb{padding:1.2rem}
+.mf{padding:.8rem 1.2rem;border-top:1px solid var(--bd);display:flex;justify-content:flex-end;gap:.4rem;background:var(--bg)}
+#toast{position:fixed;bottom:1.2rem;right:1.2rem;background:var(--ink);color:#fff;padding:.65rem 1.2rem;border-radius:5px;transform:translateY(70px);transition:.3s;z-index:9999;font-size:.78rem;font-weight:500;box-shadow:0 3px 12px rgba(0,0,0,.12)}
 #toast.show{transform:translateY(0)}
-
-/* RESPONSIVE */
-@media(max-width:768px){.sb{width:200px}.main{margin-left:200px;padding:1rem}.g2{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}}
+@media(max-width:768px){.sb{width:190px}.main{margin-left:190px;padding:.8rem}.g2{grid-template-columns:1fr}.sts{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
+<div class="auth" id="au"><div class="auth-b"><div class="auth-t">Avera</div><div class="auth-s">Admin Panel</div><input type="password" id="lp" class="inp" placeholder="Şifrə" style="text-align:center;margin-bottom:.6rem"><button class="btn bp2" style="width:100%" onclick="login()">Daxil Ol</button></div></div>
+<aside class="sb"><div class="sb-l">Avera <span>ADMIN</span></div><nav class="sb-n"><div class="sb-lb">Ümumi</div><button class="sb-i on" onclick="go('dash',this)">📊 Dashboard</button><button class="sb-i" onclick="go('fin',this)">💰 Maliyyə</button><div class="sb-lb">Kataloq</div><button class="sb-i" onclick="go('prod',this)">👗 Məhsullar</button><button class="sb-i" onclick="go('coll',this)">📁 Kolleksiyalar</button><div class="sb-lb">Sayt</div><button class="sb-i" onclick="go('cms',this)">🎨 Dizayn</button><button class="sb-i" onclick="go('set',this)">⚙️ Parametrlər</button></nav></aside>
+<div class="main"><div class="top"><div class="top-t" id="pt">Dashboard</div><div class="top-c" id="ck"></div></div>
 
-<div class="auth" id="authScreen">
-<div class="auth-box">
-<div class="auth-title">Avera</div>
-<div class="auth-sub">Admin Paneli</div>
-<input type="password" id="loginPass" class="input" placeholder="Şifrənizi daxil edin" style="text-align:center;margin-bottom:.8rem">
-<button class="btn btn-p" style="width:100%" onclick="login()">Daxil Ol</button>
-</div>
-</div>
+<div class="pg on" id="pg-dash"><div class="sts"><div class="st st-g"><div class="st-lb">Gəlir</div><div class="st-v" id="sI">0 ₼</div></div><div class="st st-r"><div class="st-lb">Xərc</div><div class="st-v" id="sE">0 ₼</div></div><div class="st st-b"><div class="st-lb">Mənfəət</div><div class="st-v" id="sP">0 ₼</div></div><div class="st st-rs"><div class="st-lb">Məhsul</div><div class="st-v" id="sC">0</div></div></div><div class="cd"><div class="cd-h"><div class="cd-t">Gəlir / Xərc</div></div><div class="chw"><canvas id="ch"></canvas></div></div><div class="cd"><div class="cd-h"><div class="cd-t">Son Məhsullar</div></div><div id="rP">Yüklənir...</div></div></div>
 
-<aside class="sb">
-<div class="sb-logo">Avera Atelier <span>ADMIN</span></div>
-<nav class="sb-nav">
-<div class="sb-label">Ümumi</div>
-<button class="sb-item on" onclick="go('dashboard',this)"><span class="icon">📊</span>Dashboard</button>
-<button class="sb-item" onclick="go('finance',this)"><span class="icon">💰</span>Maliyyə</button>
-<div class="sb-label">Kataloq</div>
-<button class="sb-item" onclick="go('products',this)"><span class="icon">👗</span>Məhsullar</button>
-<button class="sb-item" onclick="go('collections',this)"><span class="icon">📁</span>Kolleksiyalar</button>
-<div class="sb-label">Sayt İdarəsi</div>
-<button class="sb-item" onclick="go('cms',this)"><span class="icon">🎨</span>Sayt Dizaynı</button>
-<button class="sb-item" onclick="go('settings',this)"><span class="icon">⚙️</span>Parametrlər</button>
-</nav>
-<div class="sb-footer">© 2026 Avera Atelier</div>
-</aside>
+<div class="pg" id="pg-fin"><div class="cd"><div class="cd-h"><div class="cd-t">Maliyyə</div><button class="btn bp2" onclick="oM('fM')">+ Əməliyyat</button></div><div id="fT"></div></div></div>
 
-<div class="main">
-<div class="topbar">
-<div class="topbar-title" id="pageTitle">Dashboard</div>
-<div class="topbar-right"><span class="topbar-badge">● Online</span><span class="topbar-clock" id="clock"></span></div>
-</div>
+<div class="pg" id="pg-prod"><div class="cd"><div class="cd-h"><div class="cd-t">Məhsullar</div><button class="btn bp2" onclick="oPM()">+ Yeni Məhsul</button></div><div id="pT"></div></div></div>
 
-<!-- DASHBOARD -->
-<div class="page on" id="page-dashboard">
-<div class="stats">
-<div class="st st-green"><div class="st-label">Ümumi Gəlir</div><div class="st-val" id="stIncome">0 ₼</div></div>
-<div class="st st-red"><div class="st-label">Ümumi Xərc</div><div class="st-val" id="stExpense">0 ₼</div></div>
-<div class="st st-blue"><div class="st-label">Xalis Mənfəət</div><div class="st-val" id="stProfit">0 ₼</div></div>
-<div class="st st-rose"><div class="st-label">Məhsul Sayı</div><div class="st-val" id="stProds">0</div></div>
-</div>
-<div class="card"><div class="card-hdr"><div class="card-title">Gəlir / Xərc Qrafiki</div></div><div class="chart-wrap"><canvas id="finChart"></canvas></div></div>
-<div class="card"><div class="card-hdr"><div class="card-title">Son Məhsullar</div></div><div id="recentProds" style="font-size:.82rem;color:var(--ink3)">Yüklənir...</div></div>
-</div>
+<div class="pg" id="pg-coll"><div class="cd"><div class="cd-h"><div class="cd-t">Kolleksiyalar</div><button class="btn bp2" onclick="oM('cM')">+ Yeni</button></div><div id="cT"></div></div></div>
 
-<!-- FINANCE -->
-<div class="page" id="page-finance">
-<div class="card"><div class="card-hdr"><div class="card-title">Maliyyə Əməliyyatları</div><button class="btn btn-p" onclick="openM('finModal')">+ Yeni Əməliyyat</button></div><div id="finTable"></div></div>
-</div>
+<div class="pg" id="pg-cms"><div class="cd"><div class="cd-h"><div class="cd-t">Sayt Dizaynı</div></div>
+<div class="fg"><div class="lb2">Hero Fon Şəkli</div><div class="ub"><input type="file" accept="image/*" onchange="uBg(event)"><p>Fon yüklə</p></div><img id="bgP" style="height:100px;width:100%;object-fit:cover;margin-top:.4rem;display:none;border-radius:4px"></div>
+<div class="tr"><button class="tb on" onclick="cmT('az',this)">AZ</button><button class="tb" onclick="cmT('ru',this)">RU</button><button class="tb" onclick="cmT('en',this)">EN</button></div>
+<div id="cmAZ" class="tc on"><div class="fg"><div class="lb2">Top Bar</div><input class="inp" id="cmT_az"></div><div class="g2"><div class="fg"><div class="lb2">Hero Alt Başlıq</div><input class="inp" id="cmS_az"></div><div class="fg"><div class="lb2">Hero Başlıq</div><input class="inp" id="cmH_az"></div></div><div class="fg"><div class="lb2">Hero Düymə</div><input class="inp" id="cmB_az"></div><div class="fg"><div class="lb2">Haqqımızda Başlıq</div><input class="inp" id="cmA_az"></div><div class="fg"><div class="lb2">Haqqımızda Mətn</div><textarea class="ta" id="cmX_az" style="height:100px"></textarea></div></div>
+<div id="cmRU" class="tc"><div class="fg"><div class="lb2">Top Bar (RU)</div><input class="inp" id="cmT_ru"></div><div class="g2"><div class="fg"><div class="lb2">Hero Alt (RU)</div><input class="inp" id="cmS_ru"></div><div class="fg"><div class="lb2">Hero Başlıq (RU)</div><input class="inp" id="cmH_ru"></div></div><div class="fg"><div class="lb2">Hero Düymə (RU)</div><input class="inp" id="cmB_ru"></div><div class="fg"><div class="lb2">Haqqımızda (RU)</div><input class="inp" id="cmA_ru"></div><div class="fg"><div class="lb2">Mətn (RU)</div><textarea class="ta" id="cmX_ru" style="height:100px"></textarea></div></div>
+<div id="cmEN" class="tc"><div class="fg"><div class="lb2">Top Bar (EN)</div><input class="inp" id="cmT_en"></div><div class="g2"><div class="fg"><div class="lb2">Hero Sub (EN)</div><input class="inp" id="cmS_en"></div><div class="fg"><div class="lb2">Hero Title (EN)</div><input class="inp" id="cmH_en"></div></div><div class="fg"><div class="lb2">Hero Button (EN)</div><input class="inp" id="cmB_en"></div><div class="fg"><div class="lb2">About Title (EN)</div><input class="inp" id="cmA_en"></div><div class="fg"><div class="lb2">About Text (EN)</div><textarea class="ta" id="cmX_en" style="height:100px"></textarea></div></div>
+<button class="btn bp2" onclick="sCMS()" style="margin-top:.4rem">Saxla</button></div></div>
 
-<!-- PRODUCTS -->
-<div class="page" id="page-products">
-<div class="card"><div class="card-hdr"><div class="card-title">Məhsullar</div><button class="btn btn-p" onclick="openPM()">+ Yeni Məhsul</button></div><div id="prodTable"></div></div>
-</div>
-
-<!-- COLLECTIONS -->
-<div class="page" id="page-collections">
-<div class="card"><div class="card-hdr"><div class="card-title">Kolleksiyalar</div><button class="btn btn-p" onclick="openM('collModal')">+ Yeni Kolleksiya</button></div><div id="collTable"></div></div>
-</div>
-
-<!-- CMS -->
-<div class="page" id="page-cms">
-<div class="card">
-<div class="card-hdr"><div class="card-title">Sayt Görünüşünü Fərdiləşdir</div></div>
-<div class="fg"><label class="label">Hero Arxa Fon Şəkli</label><div class="ubox"><input type="file" accept="image/*" onchange="uploadBg(event)"><p>Fon şəkli yüklə (tövsiyə: 1920x1080)</p></div><img id="bgPrev" style="height:120px;width:100%;object-fit:cover;margin-top:.5rem;display:none;border-radius:4px"></div>
-<div class="fg"><label class="label">Hero Düymə Linki Mətni</label>
-<div class="g2"><input class="input" id="cmsBtnAz" placeholder="Kəşf Et"><input class="input" id="cmsBtnRu" placeholder="Исследовать"></div>
-<input class="input" id="cmsBtnEn" placeholder="Explore" style="margin-top:.5rem">
-</div>
-<div class="tabs-row"><button class="tab-b on" onclick="cmsTab('az',this)">AZ</button><button class="tab-b" onclick="cmsTab('ru',this)">RU</button><button class="tab-b" onclick="cmsTab('en',this)">EN</button></div>
-<div id="cAZ" class="tc on">
-<div class="fg"><label class="label">Top Bar Mətni</label><input class="input" id="cmsTop_az"></div>
-<div class="g2"><div class="fg"><label class="label">Hero Alt Başlıq</label><input class="input" id="cmsSub_az"></div><div class="fg"><label class="label">Hero Böyük Başlıq</label><input class="input" id="cmsTitle_az"></div></div>
-<div class="fg"><label class="label">Nav Link 1 (Sol)</label><input class="input" id="cmsNav1_az"></div>
-<div class="fg"><label class="label">Nav Link 2 (Sol)</label><input class="input" id="cmsNav2_az"></div>
-<div class="fg"><label class="label">Haqqımızda Başlıq</label><input class="input" id="cmsAbtT_az"></div>
-<div class="fg"><label class="label">Haqqımızda Mətn</label><textarea class="textarea" id="cmsAbtX_az" style="height:120px"></textarea></div>
-</div>
-<div id="cRU" class="tc">
-<div class="fg"><label class="label">Top Bar (RU)</label><input class="input" id="cmsTop_ru"></div>
-<div class="g2"><div class="fg"><label class="label">Hero Alt Başlıq (RU)</label><input class="input" id="cmsSub_ru"></div><div class="fg"><label class="label">Hero Böyük Başlıq (RU)</label><input class="input" id="cmsTitle_ru"></div></div>
-<div class="fg"><label class="label">Nav Link 1 (RU)</label><input class="input" id="cmsNav1_ru"></div>
-<div class="fg"><label class="label">Nav Link 2 (RU)</label><input class="input" id="cmsNav2_ru"></div>
-<div class="fg"><label class="label">Haqqımızda Başlıq (RU)</label><input class="input" id="cmsAbtT_ru"></div>
-<div class="fg"><label class="label">Haqqımızda Mətn (RU)</label><textarea class="textarea" id="cmsAbtX_ru" style="height:120px"></textarea></div>
-</div>
-<div id="cEN" class="tc">
-<div class="fg"><label class="label">Top Bar (EN)</label><input class="input" id="cmsTop_en"></div>
-<div class="g2"><div class="fg"><label class="label">Hero Alt Başlıq (EN)</label><input class="input" id="cmsSub_en"></div><div class="fg"><label class="label">Hero Böyük Başlıq (EN)</label><input class="input" id="cmsTitle_en"></div></div>
-<div class="fg"><label class="label">Nav Link 1 (EN)</label><input class="input" id="cmsNav1_en"></div>
-<div class="fg"><label class="label">Nav Link 2 (EN)</label><input class="input" id="cmsNav2_en"></div>
-<div class="fg"><label class="label">About Title (EN)</label><input class="input" id="cmsAbtT_en"></div>
-<div class="fg"><label class="label">About Text (EN)</label><textarea class="textarea" id="cmsAbtX_en" style="height:120px"></textarea></div>
-</div>
-<button class="btn btn-p" onclick="saveCMS()" style="margin-top:.5rem">Saytı Yenilə</button>
-</div>
-</div>
-
-<!-- SETTINGS -->
-<div class="page" id="page-settings">
-<div class="card">
-<div class="card-hdr"><div class="card-title">Əlaqə & Sistem</div></div>
-<div class="g2">
-<div class="fg"><label class="label">Telefon</label><input class="input" id="setPhone"></div>
-<div class="fg"><label class="label">WhatsApp (rəqəmlə: 994551234567)</label><input class="input" id="setWa"></div>
-</div>
-<div class="g2">
-<div class="fg"><label class="label">Instagram linki</label><input class="input" id="setInsta"></div>
-<div class="fg"><label class="label">Admin Şifrəsi (yeniləmək istəsəniz)</label><input type="password" class="input" id="setPass"></div>
-</div>
-<button class="btn btn-p" onclick="saveSet()">Saxla</button>
-</div>
-</div>
+<div class="pg" id="pg-set"><div class="cd"><div class="cd-h"><div class="cd-t">Parametrlər</div></div><div class="g2"><div class="fg"><div class="lb2">Telefon</div><input class="inp" id="xPh"></div><div class="fg"><div class="lb2">WhatsApp</div><input class="inp" id="xWa" placeholder="994551234567"></div></div><div class="g2"><div class="fg"><div class="lb2">Instagram</div><input class="inp" id="xIg"></div><div class="fg"><div class="lb2">Yeni Şifrə</div><input type="password" class="inp" id="xPw"></div></div><button class="btn bp2" onclick="sSet()">Saxla</button></div></div>
 </div>
 
 <!-- MODALS -->
-<div class="modal-ov" id="finModal"><div class="modal" style="max-width:480px">
-<div class="m-hdr"><h3>Maliyyə Əməliyyatı</h3><button class="m-x" onclick="closeM('finModal')">×</button></div>
-<div class="m-body">
-<div class="g2"><div class="fg"><label class="label">Növ</label><select class="select" id="finType"><option value="income">Gəlir (+)</option><option value="expense">Xərc (−)</option></select></div><div class="fg"><label class="label">Məbləğ (₼)</label><input type="number" class="input" id="finAmt"></div></div>
-<div class="fg"><label class="label">Kateqoriya</label><input class="input" id="finCat" placeholder="Məs: Kirayə gəliri"></div>
-<div class="g2"><div class="fg"><label class="label">Açıqlama</label><input class="input" id="finDesc"></div><div class="fg"><label class="label">Tarix</label><input type="date" class="input" id="finDate"></div></div>
-</div>
-<div class="m-foot"><button class="btn btn-p" onclick="saveFin()">Qeyd Et</button></div>
-</div></div>
+<div class="mov" id="fM"><div class="mdl" style="max-width:450px"><div class="mh"><h3>Maliyyə</h3><button class="mx" onclick="cM('fM')">×</button></div><div class="mb"><div class="g2"><div class="fg"><div class="lb2">Növ</div><select class="sel" id="fTy"><option value="income">Gəlir</option><option value="expense">Xərc</option></select></div><div class="fg"><div class="lb2">Məbləğ (₼)</div><input type="number" class="inp" id="fAm"></div></div><div class="fg"><div class="lb2">Kateqoriya</div><input class="inp" id="fCa"></div><div class="g2"><div class="fg"><div class="lb2">Açıqlama</div><input class="inp" id="fDe"></div><div class="fg"><div class="lb2">Tarix</div><input type="date" class="inp" id="fDa"></div></div></div><div class="mf"><button class="btn bp2" onclick="sF()">Qeyd Et</button></div></div></div>
 
-<div class="modal-ov" id="prodModal"><div class="modal">
-<div class="m-hdr"><h3>Məhsul</h3><button class="m-x" onclick="closeM('prodModal')">×</button></div>
-<div class="m-body">
-<input type="hidden" id="pId">
-<div class="fg"><label class="label">Qalereya Şəkilləri</label><div class="ubox"><input type="file" multiple accept="image/*" onchange="upImgs(event)"><p>Şəkilləri seçin və ya bura sürükləyin</p></div><div class="prev-grid" id="pImgs"></div></div>
-<div class="g2"><div class="fg"><label class="label">Brend</label><input class="input" id="pBrand" value="AVERA"></div>
-<div class="fg"><label class="label">Etiketlər</label><input class="input" id="pTags" placeholder="new, best, sale, trend"><div style="display:flex;gap:4px;margin-top:4px;flex-wrap:wrap"><button type="button" class="btn-tag" onclick="addTag('new')">🆕 Yeni</button><button type="button" class="btn-tag" onclick="addTag('best')">🔥 Best</button><button type="button" class="btn-tag" onclick="addTag('sale')">💰 Endirim</button><button type="button" class="btn-tag" onclick="addTag('trend')">✨ Trend</button></div></div></div>
-<div class="tabs-row"><button class="tab-b on" onclick="pTab('az',this)">AZ</button><button class="tab-b" onclick="pTab('ru',this)">RU</button><button class="tab-b" onclick="pTab('en',this)">EN</button></div>
-<div id="pAZ" class="tc on"><div class="fg"><label class="label">Məhsulun Adı</label><input class="input" id="pName_az"></div><div class="fg"><label class="label">Təsvir</label><textarea class="textarea" id="pDesc_az"></textarea></div></div>
-<div id="pRU" class="tc"><div class="fg"><label class="label">Adı (RU)</label><input class="input" id="pName_ru"></div><div class="fg"><label class="label">Təsvir (RU)</label><textarea class="textarea" id="pDesc_ru"></textarea></div></div>
-<div id="pEN" class="tc"><div class="fg"><label class="label">Name (EN)</label><input class="input" id="pName_en"></div><div class="fg"><label class="label">Description (EN)</label><textarea class="textarea" id="pDesc_en"></textarea></div></div>
-<div class="g2"><div class="fg"><label class="label">Kirayə Qiyməti (₼)</label><input type="number" class="input" id="pRent"></div><div class="fg"><label class="label">Orijinal Qiymət / RRP (₼)</label><input type="number" class="input" id="pPrice"></div></div>
-<div class="g2"><div class="fg"><label class="label">Kolleksiya</label><select class="select" id="pColl"></select></div><div class="fg"><label class="label">Ölçülər (vergüllə)</label><input class="input" id="pSizes" placeholder="S, M, L, XL"></div></div>
-<div class="fg"><label class="label">Parça / Material</label><input class="input" id="pFabric" placeholder="İpək, Saten, Şifon..."></div>
-</div>
-<div class="m-foot"><button class="btn btn-o" onclick="closeM('prodModal')">Ləğv et</button><button class="btn btn-p" onclick="saveProd()">Yadda Saxla</button></div>
-</div></div>
+<div class="mov" id="pM"><div class="mdl"><div class="mh"><h3>Məhsul</h3><button class="mx" onclick="cM('pM')">×</button></div><div class="mb"><input type="hidden" id="pId"><div class="fg"><div class="lb2">Şəkillər</div><div class="ub"><input type="file" multiple accept="image/*" onchange="uIm(event)"><p>Şəkilləri seçin</p></div><div class="pvg" id="pIm"></div></div><div class="g2"><div class="fg"><div class="lb2">Brend</div><input class="inp" id="pBr" value="AVERA"></div><div class="fg"><div class="lb2">Etiketlər</div><input class="inp" id="pTg" placeholder="new, best, sale, trend"><div style="display:flex;gap:3px;margin-top:3px;flex-wrap:wrap"><button type="button" class="bt-tag" onclick="aT('new')">🆕Yeni</button><button type="button" class="bt-tag" onclick="aT('best')">🔥Best</button><button type="button" class="bt-tag" onclick="aT('sale')">💰Sale</button><button type="button" class="bt-tag" onclick="aT('trend')">✨Trend</button></div></div></div>
+<div class="tr"><button class="tb on" onclick="pTb('az',this)">AZ</button><button class="tb" onclick="pTb('ru',this)">RU</button><button class="tb" onclick="pTb('en',this)">EN</button></div>
+<div id="plAZ" class="tc on"><div class="fg"><div class="lb2">Ad</div><input class="inp" id="pN_az"></div><div class="fg"><div class="lb2">Təsvir</div><textarea class="ta" id="pD_az"></textarea></div></div>
+<div id="plRU" class="tc"><div class="fg"><div class="lb2">Ad (RU)</div><input class="inp" id="pN_ru"></div><div class="fg"><div class="lb2">Təsvir (RU)</div><textarea class="ta" id="pD_ru"></textarea></div></div>
+<div id="plEN" class="tc"><div class="fg"><div class="lb2">Name (EN)</div><input class="inp" id="pN_en"></div><div class="fg"><div class="lb2">Description</div><textarea class="ta" id="pD_en"></textarea></div></div>
+<div class="g2"><div class="fg"><div class="lb2">Kirayə (₼)</div><input type="number" class="inp" id="pRn"></div><div class="fg"><div class="lb2">RRP (₼)</div><input type="number" class="inp" id="pPr"></div></div>
+<div class="g2"><div class="fg"><div class="lb2">Kolleksiya</div><select class="sel" id="pCo"></select></div><div class="fg"><div class="lb2">Ölçülər</div><input class="inp" id="pSz" placeholder="S, M, L"></div></div>
+<div class="fg"><div class="lb2">Parça</div><input class="inp" id="pFb" placeholder="İpək, Saten..."></div>
+</div><div class="mf"><button class="btn bt-o" onclick="cM('pM')">Ləğv</button><button class="btn bp2" onclick="sP()">Saxla</button></div></div></div>
 
-<div class="modal-ov" id="collModal"><div class="modal" style="max-width:420px">
-<div class="m-hdr"><h3>Kolleksiya</h3><button class="m-x" onclick="closeM('collModal')">×</button></div>
-<div class="m-body">
-<input type="hidden" id="cId">
-<div class="fg"><label class="label">Ad (AZ)</label><input class="input" id="cName_az"></div>
-<div class="fg"><label class="label">Ad (RU)</label><input class="input" id="cName_ru"></div>
-<div class="fg"><label class="label">Ad (EN)</label><input class="input" id="cName_en"></div>
-</div>
-<div class="m-foot"><button class="btn btn-p" onclick="saveColl()">Saxla</button></div>
-</div></div>
-
+<div class="mov" id="cM2"><div class="mdl" style="max-width:400px"><div class="mh"><h3>Kolleksiya</h3><button class="mx" onclick="cM('cM2')">×</button></div><div class="mb"><input type="hidden" id="cId"><div class="fg"><div class="lb2">Ad (AZ)</div><input class="inp" id="cN_az"></div><div class="fg"><div class="lb2">Ad (RU)</div><input class="inp" id="cN_ru"></div><div class="fg"><div class="lb2">Ad (EN)</div><input class="inp" id="cN_en"></div></div><div class="mf"><button class="btn bp2" onclick="sC()">Saxla</button></div></div></div>
 <div id="toast"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-const supa=supabase.createClient('https://ijljnzqigtfonvqlkhkr.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlqbGpuenFpZ3Rmb252cWxraGtyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUxMjY5NzAsImV4cCI6MjA5MDcwMjk3MH0.KDnvL1F-Zwae5fyEzEyGNAT7QYT0L7KKy1g84LQTLDU');
+const Z=supabase.createClient('https://ijljnzqigtfonvqlkhkr.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlqbGpuenFpZ3Rmb252cWxraGtyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUxMjY5NzAsImV4cCI6MjA5MDcwMjk3MH0.KDnvL1F-Zwae5fyEzEyGNAT7QYT0L7KKy1g84LQTLDU');
 const CU='https://api.cloudinary.com/v1_1/dxigokm01/image/upload',CP='avera_preset';
-let db={p:[],c:[],f:[],imgs:[],heroBg:''};let chart=null;
+let db={p:[],c:[],f:[],im:[],hb:''};let ch=null;
 
 function msg(t){const x=document.getElementById('toast');x.textContent=t;x.className='show';setTimeout(()=>x.className='',3000)}
-function openM(i){document.getElementById(i).classList.add('on')}
-function closeM(i){document.getElementById(i).classList.remove('on')}
-function go(id,b){document.querySelectorAll('.page').forEach(e=>e.classList.remove('on'));document.getElementById('page-'+id).classList.add('on');document.querySelectorAll('.sb-item').forEach(e=>e.classList.remove('on'));b.classList.add('on');document.getElementById('pageTitle').textContent=b.textContent.trim()}
-function login(){const p=document.getElementById('loginPass').value;if(p===(localStorage.getItem('av_pass')||'avera2026')){document.getElementById('authScreen').classList.add('hide');init()}else{msg('Şifrə yanlışdır')}}
-document.getElementById('loginPass').addEventListener('keydown',e=>{if(e.key==='Enter')login()});
+function oM(i){document.getElementById(i).classList.add('on')}
+function cM(i){document.getElementById(i).classList.remove('on')}
+function go(id,b){document.querySelectorAll('.pg').forEach(e=>e.classList.remove('on'));document.getElementById('pg-'+id).classList.add('on');document.querySelectorAll('.sb-i').forEach(e=>e.classList.remove('on'));b.classList.add('on');document.getElementById('pt').textContent=b.textContent.trim()}
+function login(){if(document.getElementById('lp').value===(localStorage.getItem('av_p')||'avera2026')){document.getElementById('au').classList.add('h');init()}else msg('Şifrə yanlışdır')}
+document.getElementById('lp').addEventListener('keydown',e=>{if(e.key==='Enter')login()});
 
-async function init(){
-  tick();setInterval(tick,1000);
-  await Promise.all([fetchC(),fetchP(),fetchF(),fetchS()]);
-  buildChart();
-}
-function tick(){document.getElementById('clock').textContent=new Date().toLocaleTimeString('az-AZ')}
+async function init(){tk();setInterval(tk,1000);await Promise.all([fC(),fP(),fF(),fS()]);bCh()}
+function tk(){document.getElementById('ck').textContent=new Date().toLocaleTimeString('az-AZ')}
 
 // FINANCE
-async function fetchF(){
-  const{data}=await supa.from('finances').select('*').order('date',{ascending:false});db.f=data||[];
-  let inc=0,exp=0;
-  let rows='<table><thead><tr><th>Tarix</th><th>Növ</th><th>Məbləğ</th><th>Kateqoriya</th><th>Açıqlama</th><th></th></tr></thead><tbody>';
-  db.f.forEach(f=>{
-    if(f.type==='income')inc+=f.amount;else exp+=f.amount;
-    const bg=f.type==='income'?'b-green':'b-red';const lb=f.type==='income'?'GƏLİR':'XƏRC';
-    rows+=`<tr><td>${f.date||'—'}</td><td><span class="badge ${bg}">${lb}</span></td><td><strong>${f.amount} ₼</strong></td><td>${f.category||'—'}</td><td style="max-width:150px;overflow:hidden;text-overflow:ellipsis">${f.description||''}</td><td><button class="btn btn-sm btn-d" onclick="delF('${f.id}')">Sil</button></td></tr>`;
-  });
-  rows+='</tbody></table>';
-  document.getElementById('finTable').innerHTML=rows;
-  document.getElementById('stIncome').textContent=inc+' ₼';
-  document.getElementById('stExpense').textContent=exp+' ₼';
-  document.getElementById('stProfit').textContent=(inc-exp)+' ₼';
-  document.getElementById('stProfit').style.color=(inc-exp)>=0?'var(--green)':'var(--red)';
+async function fF(){
+  const{data}=await Z.from('finances').select('*').order('date',{ascending:false});db.f=data||[];
+  let inc=0,exp=0;let r='<table><thead><tr><th>Tarix</th><th>Növ</th><th>Məbləğ</th><th>Kateqoriya</th><th></th></tr></thead><tbody>';
+  db.f.forEach(f=>{if(f.type==='income')inc+=f.amount;else exp+=f.amount;r+=`<tr><td>${f.date||'—'}</td><td><span class="badge ${f.type==='income'?'bg':'br'}">${f.type==='income'?'GƏLİR':'XƏRC'}</span></td><td><strong>${f.amount} ₼</strong></td><td>${f.category||'—'}</td><td><button class="btn btn-s bt-d" onclick="dF('${f.id}')">Sil</button></td></tr>`});
+  r+='</tbody></table>';document.getElementById('fT').innerHTML=r;
+  document.getElementById('sI').textContent=inc+' ₼';document.getElementById('sE').textContent=exp+' ₼';
+  document.getElementById('sP').textContent=(inc-exp)+' ₼';document.getElementById('sP').style.color=(inc-exp)>=0?'var(--grn)':'var(--red)';
 }
-async function saveFin(){
-  const t=document.getElementById('finType').value,a=parseFloat(document.getElementById('finAmt').value);
-  if(!a){msg('Məbləğ yazın');return}
-  await supa.from('finances').insert([{type:t,amount:a,category:document.getElementById('finCat').value,description:document.getElementById('finDesc').value,date:document.getElementById('finDate').value||new Date().toISOString().split('T')[0]}]);
-  closeM('finModal');fetchF();updateChart();msg('Əməliyyat qeyd edildi');
-}
-async function delF(id){if(confirm('Silmək istəyirsiniz?')){await supa.from('finances').delete().eq('id',id);fetchF();updateChart()}}
+async function sF(){const a=parseFloat(document.getElementById('fAm').value);if(!a){msg('Məbləğ yazın');return}await Z.from('finances').insert([{type:document.getElementById('fTy').value,amount:a,category:document.getElementById('fCa').value,description:document.getElementById('fDe').value,date:document.getElementById('fDa').value||new Date().toISOString().split('T')[0]}]);cM('fM');fF();uCh();msg('Qeyd edildi')}
+async function dF(id){if(confirm('Sil?')){await Z.from('finances').delete().eq('id',id);fF();uCh()}}
 
-function buildChart(){
-  const ctx=document.getElementById('finChart').getContext('2d');
-  chart=new Chart(ctx,{type:'bar',data:{labels:[],datasets:[{label:'Gəlir',data:[],backgroundColor:'rgba(45,138,84,.6)',borderRadius:4},{label:'Xərc',data:[],backgroundColor:'rgba(192,64,64,.6)',borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:11,family:'DM Sans'},usePointStyle:true,padding:15}}},scales:{x:{grid:{display:false},ticks:{font:{size:10}}},y:{grid:{color:'rgba(0,0,0,.04)'},ticks:{font:{size:10}}}}}});
-  updateChart();
-}
-function updateChart(){
-  if(!chart)return;
-  const months={};
-  db.f.forEach(f=>{
-    const m=f.date?f.date.substring(0,7):'unknown';
-    if(!months[m])months[m]={inc:0,exp:0};
-    if(f.type==='income')months[m].inc+=f.amount;else months[m].exp+=f.amount;
-  });
-  const keys=Object.keys(months).sort().slice(-6);
-  const monthNames=['Yan','Fev','Mar','Apr','May','İyn','İyl','Avq','Sen','Okt','Noy','Dek'];
-  chart.data.labels=keys.map(k=>{const m=parseInt(k.split('-')[1]);return monthNames[m-1]||k});
-  chart.data.datasets[0].data=keys.map(k=>months[k].inc);
-  chart.data.datasets[1].data=keys.map(k=>months[k].exp);
-  chart.update();
-}
+function bCh(){const x=document.getElementById('ch').getContext('2d');ch=new Chart(x,{type:'bar',data:{labels:[],datasets:[{label:'Gəlir',data:[],backgroundColor:'rgba(45,138,84,.5)',borderRadius:3},{label:'Xərc',data:[],backgroundColor:'rgba(192,64,64,.5)',borderRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:10,family:'DM Sans'},usePointStyle:true,padding:12}}},scales:{x:{grid:{display:false},ticks:{font:{size:9}}},y:{grid:{color:'rgba(0,0,0,.03)'},ticks:{font:{size:9}}}}}});uCh()}
+function uCh(){if(!ch)return;const m={};db.f.forEach(f=>{const k=f.date?f.date.substring(0,7):'x';if(!m[k])m[k]={i:0,e:0};if(f.type==='income')m[k].i+=f.amount;else m[k].e+=f.amount});const ks=Object.keys(m).sort().slice(-6);const mn=['Yan','Fev','Mar','Apr','May','İyn','İyl','Avq','Sen','Okt','Noy','Dek'];ch.data.labels=ks.map(k=>{const v=parseInt(k.split('-')[1]);return mn[v-1]||k});ch.data.datasets[0].data=ks.map(k=>m[k].i);ch.data.datasets[1].data=ks.map(k=>m[k].e);ch.update()}
 
 // PRODUCTS
-async function fetchP(){
-  const{data}=await supa.from('products').select('*').order('created_at',{ascending:false});db.p=data||[];
-  document.getElementById('stProds').textContent=db.p.length;
-  const tagBadge=(t)=>{if(!t)return'';return t.split(',').map(x=>{x=x.trim().toLowerCase();if(x==='new')return'<span class="badge b-green">YENİ</span>';if(x==='best')return'<span class="badge b-gold">BEST</span>';if(x==='sale')return'<span class="badge b-red">ENDİRİM</span>';if(x==='trend')return'<span class="badge b-rose">TREND</span>';return`<span class="badge b-gray">${x}</span>`}).join(' ')};
-  const collName=(id)=>{const c=db.c.find(x=>x.id===id);return c?c.name.az:'—'};
-  let rows='<table><thead><tr><th></th><th>Ad</th><th>Kirayə</th><th>RRP</th><th>Kolleksiya</th><th>Etiketlər</th><th></th></tr></thead><tbody>';
-  db.p.forEach(p=>{rows+=`<tr><td><img src="${p.images?.[0]||''}" class="t-img"></td><td><strong>${p.name?.az||''}</strong><br><span style="font-size:.65rem;color:var(--ink4)">${p.brand||'AVERA'}</span></td><td>${p.rental_price||0} ₼</td><td style="color:var(--ink4)">${p.price} ₼</td><td><span class="badge b-blue">${collName(p.collection_id)}</span></td><td>${tagBadge(p.tags)}</td><td style="white-space:nowrap"><button class="btn btn-sm btn-o" onclick="editP('${p.id}')">Düzəlt</button> <button class="btn btn-sm btn-d" onclick="delP('${p.id}')">Sil</button></td></tr>`});
-  rows+='</tbody></table>';
-  document.getElementById('prodTable').innerHTML=rows;
-  // Recent for dashboard
-  document.getElementById('recentProds').innerHTML=db.p.slice(0,5).map(p=>`<div style="display:flex;align-items:center;gap:.8rem;padding:.5rem 0;border-bottom:1px solid var(--border)"><img src="${p.images?.[0]||''}" style="width:35px;height:45px;object-fit:cover;border-radius:3px;background:var(--bg)"><div><strong style="font-size:.8rem">${p.name?.az||''}</strong><br><span style="font-size:.68rem;color:var(--ink4)">${p.rental_price?p.rental_price+' ₼ kirayə':'₼'+p.price}</span></div></div>`).join('')||'<span style="color:var(--ink4)">Hələ məhsul yoxdur</span>';
+async function fP(){
+  const{data}=await Z.from('products').select('*').order('created_at',{ascending:false});db.p=data||[];
+  document.getElementById('sC').textContent=db.p.length;
+  const tb=t=>{if(!t)return'';return t.split(',').map(x=>{x=x.trim().toLowerCase();if(x==='new')return'<span class="badge bg">YENİ</span>';if(x==='best')return'<span class="badge bo">BEST</span>';if(x==='sale')return'<span class="badge br">ENDİRİM</span>';if(x==='trend')return'<span class="badge bp">TREND</span>';return`<span class="badge by">${x}</span>`}).join(' ')};
+  const cn=id=>{const c=db.c.find(x=>x.id===id);return c?c.name.az:'—'};
+  let r='<table><thead><tr><th></th><th>Ad</th><th>Kirayə</th><th>RRP</th><th>Kolleksiya</th><th>Etiket</th><th></th></tr></thead><tbody>';
+  db.p.forEach(p=>{r+=`<tr><td><img src="${p.images?.[0]||''}" class="ti"></td><td><strong>${p.name?.az||''}</strong></td><td>${p.rental_price||0} ₼</td><td style="color:var(--ink4)">${p.price} ₼</td><td><span class="badge bb">${cn(p.collection_id)}</span></td><td>${tb(p.tags)}</td><td style="white-space:nowrap"><button class="btn btn-s bt-o" onclick="eP('${p.id}')">Düzəlt</button> <button class="btn btn-s bt-d" onclick="dP('${p.id}')">Sil</button></td></tr>`});
+  r+='</tbody></table>';document.getElementById('pT').innerHTML=r;
+  document.getElementById('rP').innerHTML=db.p.slice(0,5).map(p=>`<div style="display:flex;align-items:center;gap:.6rem;padding:.4rem 0;border-bottom:1px solid var(--bd)"><img src="${p.images?.[0]||''}" style="width:30px;height:38px;object-fit:cover;border-radius:2px;background:var(--bg)"><div><strong style="font-size:.75rem">${p.name?.az||''}</strong><br><span style="font-size:.62rem;color:var(--ink4)">${p.rental_price?p.rental_price+' ₼':'₼'+p.price}</span></div></div>`).join('')||'<span style="color:var(--ink4);font-size:.8rem">Hələ məhsul yoxdur</span>';
 }
-function openPM(){document.getElementById('pId').value='';['pName_az','pName_ru','pName_en','pDesc_az','pDesc_ru','pDesc_en','pBrand','pTags','pRent','pPrice','pSizes','pFabric'].forEach(i=>{const el=document.getElementById(i);if(el)el.value=''});document.getElementById('pBrand').value='AVERA';db.imgs=[];renImgs();openM('prodModal')}
-function editP(id){const p=db.p.find(x=>x.id===id);if(!p)return;document.getElementById('pId').value=p.id;document.getElementById('pBrand').value=p.brand||'AVERA';document.getElementById('pTags').value=p.tags||'';document.getElementById('pName_az').value=p.name?.az||'';document.getElementById('pName_ru').value=p.name?.ru||'';document.getElementById('pName_en').value=p.name?.en||'';document.getElementById('pDesc_az').value=p.description?.az||'';document.getElementById('pDesc_ru').value=p.description?.ru||'';document.getElementById('pDesc_en').value=p.description?.en||'';document.getElementById('pRent').value=p.rental_price||'';document.getElementById('pPrice').value=p.price||'';document.getElementById('pColl').value=p.collection_id||'';document.getElementById('pSizes').value=p.sizes?.join(', ')||'';document.getElementById('pFabric').value=p.fabric||'';db.imgs=p.images||[];renImgs();openM('prodModal')}
-async function saveProd(){
-  const id=document.getElementById('pId').value,az=document.getElementById('pName_az').value,azd=document.getElementById('pDesc_az').value;
-  if(!az){msg('Ad lazımdır');return}
-  const p={brand:document.getElementById('pBrand').value,tags:document.getElementById('pTags').value,fabric:document.getElementById('pFabric').value,name:{az:az,ru:document.getElementById('pName_ru').value||az,en:document.getElementById('pName_en').value||az},description:{az:azd,ru:document.getElementById('pDesc_ru').value||azd,en:document.getElementById('pDesc_en').value||azd},price:parseFloat(document.getElementById('pPrice').value)||0,rental_price:parseFloat(document.getElementById('pRent').value)||0,collection_id:document.getElementById('pColl').value||null,sizes:document.getElementById('pSizes').value.split(',').map(x=>x.trim()).filter(Boolean),images:db.imgs,status:'active'};
-  if(id)await supa.from('products').update(p).eq('id',id);else await supa.from('products').insert([p]);
-  closeM('prodModal');fetchP();msg('Məhsul saxlanıldı');
-}
-async function delP(id){if(confirm('Silmək istəyirsiniz?')){await supa.from('products').delete().eq('id',id);fetchP()}}
-
-function addTag(tag){const el=document.getElementById('pTags');const cur=el.value.split(',').map(x=>x.trim()).filter(Boolean);if(!cur.includes(tag)){cur.push(tag);el.value=cur.join(', ')}}
+function oPM(){document.getElementById('pId').value='';['pN_az','pN_ru','pN_en','pD_az','pD_ru','pD_en','pBr','pTg','pRn','pPr','pSz','pFb'].forEach(i=>{const e=document.getElementById(i);if(e)e.value=''});document.getElementById('pBr').value='AVERA';db.im=[];rIm();oM('pM')}
+function eP(id){const p=db.p.find(x=>x.id===id);if(!p)return;document.getElementById('pId').value=p.id;document.getElementById('pBr').value=p.brand||'AVERA';document.getElementById('pTg').value=p.tags||'';document.getElementById('pN_az').value=p.name?.az||'';document.getElementById('pN_ru').value=p.name?.ru||'';document.getElementById('pN_en').value=p.name?.en||'';document.getElementById('pD_az').value=p.description?.az||'';document.getElementById('pD_ru').value=p.description?.ru||'';document.getElementById('pD_en').value=p.description?.en||'';document.getElementById('pRn').value=p.rental_price||'';document.getElementById('pPr').value=p.price||'';document.getElementById('pCo').value=p.collection_id||'';document.getElementById('pSz').value=p.sizes?.join(', ')||'';document.getElementById('pFb').value=p.fabric||'';db.im=p.images||[];rIm();oM('pM')}
+async function sP(){const id=document.getElementById('pId').value,az=document.getElementById('pN_az').value;if(!az){msg('Ad yazın');return}const azd=document.getElementById('pD_az').value;const p={brand:document.getElementById('pBr').value,tags:document.getElementById('pTg').value,fabric:document.getElementById('pFb').value,name:{az:az,ru:document.getElementById('pN_ru').value||az,en:document.getElementById('pN_en').value||az},description:{az:azd,ru:document.getElementById('pD_ru').value||azd,en:document.getElementById('pD_en').value||azd},price:parseFloat(document.getElementById('pPr').value)||0,rental_price:parseFloat(document.getElementById('pRn').value)||0,collection_id:document.getElementById('pCo').value||null,sizes:document.getElementById('pSz').value.split(',').map(x=>x.trim()).filter(Boolean),images:db.im,status:'active'};if(id)await Z.from('products').update(p).eq('id',id);else await Z.from('products').insert([p]);cM('pM');fP();msg('Saxlanıldı')}
+async function dP(id){if(confirm('Sil?')){await Z.from('products').delete().eq('id',id);fP()}}
+function aT(t){const e=document.getElementById('pTg');const c=e.value.split(',').map(x=>x.trim()).filter(Boolean);if(!c.includes(t)){c.push(t);e.value=c.join(', ')}}
 
 // COLLECTIONS
-async function fetchC(){
-  const{data}=await supa.from('collections').select('*').order('created_at',{ascending:false});db.c=data||[];
-  document.getElementById('pColl').innerHTML='<option value="">-- Kolleksiya seç --</option>'+db.c.map(c=>`<option value="${c.id}">${c.name.az}</option>`).join('');
-  let rows='<table><thead><tr><th>Kolleksiya Adı</th><th>Məhsul Sayı</th><th></th></tr></thead><tbody>';
-  db.c.forEach(c=>{const cnt=db.p.filter(p=>p.collection_id===c.id).length;rows+=`<tr><td><strong>${c.name.az}</strong> <span style="color:var(--ink4);font-size:.72rem">/ ${c.name.en||''}</span></td><td><span class="badge b-blue">${cnt}</span></td><td><button class="btn btn-sm btn-o" onclick="editC('${c.id}')">Düzəlt</button> <button class="btn btn-sm btn-d" onclick="delC('${c.id}')">Sil</button></td></tr>`});
-  rows+='</tbody></table>';
-  document.getElementById('collTable').innerHTML=rows;
+async function fC(){
+  const{data}=await Z.from('collections').select('*').order('created_at',{ascending:false});db.c=data||[];
+  document.getElementById('pCo').innerHTML='<option value="">—</option>'+db.c.map(c=>`<option value="${c.id}">${c.name.az}</option>`).join('');
+  let r='<table><thead><tr><th>Ad</th><th>Məhsul</th><th></th></tr></thead><tbody>';
+  db.c.forEach(c=>{const n=db.p.filter(p=>p.collection_id===c.id).length;r+=`<tr><td><strong>${c.name.az}</strong> <span style="color:var(--ink4);font-size:.68rem">/ ${c.name.en||''}</span></td><td><span class="badge bb">${n}</span></td><td><button class="btn btn-s bt-o" onclick="eC('${c.id}')">Düzəlt</button> <button class="btn btn-s bt-d" onclick="dC('${c.id}')">Sil</button></td></tr>`});
+  r+='</tbody></table>';document.getElementById('cT').innerHTML=r;
 }
-function editC(id){const c=db.c.find(x=>x.id===id);if(!c)return;document.getElementById('cId').value=c.id;document.getElementById('cName_az').value=c.name.az;document.getElementById('cName_ru').value=c.name.ru||'';document.getElementById('cName_en').value=c.name.en||'';openM('collModal')}
-async function saveColl(){
-  const id=document.getElementById('cId').value,az=document.getElementById('cName_az').value;
-  if(!az){msg('Ad lazımdır');return}
-  const p={name:{az:az,ru:document.getElementById('cName_ru').value||az,en:document.getElementById('cName_en').value||az},status:'active'};
-  if(id)await supa.from('collections').update(p).eq('id',id);else await supa.from('collections').insert([p]);
-  closeM('collModal');document.getElementById('cId').value='';['cName_az','cName_ru','cName_en'].forEach(i=>document.getElementById(i).value='');fetchC();msg('Kolleksiya saxlanıldı');
-}
-async function delC(id){if(confirm('Silmək istəyirsiniz?')){await supa.from('collections').delete().eq('id',id);fetchC()}}
+function eC(id){const c=db.c.find(x=>x.id===id);if(!c)return;document.getElementById('cId').value=c.id;document.getElementById('cN_az').value=c.name.az;document.getElementById('cN_ru').value=c.name.ru||'';document.getElementById('cN_en').value=c.name.en||'';oM('cM2')}
+async function sC(){const id=document.getElementById('cId').value,az=document.getElementById('cN_az').value;if(!az){msg('Ad yazın');return}const p={name:{az:az,ru:document.getElementById('cN_ru').value||az,en:document.getElementById('cN_en').value||az},status:'active'};if(id)await Z.from('collections').update(p).eq('id',id);else await Z.from('collections').insert([p]);cM('cM2');document.getElementById('cId').value='';['cN_az','cN_ru','cN_en'].forEach(i=>document.getElementById(i).value='');fC();msg('Saxlanıldı')}
+async function dC(id){if(confirm('Sil?')){await Z.from('collections').delete().eq('id',id);fC()}}
 
 // CMS
-async function fetchS(){
-  const{data}=await supa.from('app_settings').select('*').eq('id',1).single();if(!data)return;
-  document.getElementById('setPhone').value=data.phone||'';document.getElementById('setWa').value=data.whatsapp||'';document.getElementById('setInsta').value=data.instagram||'';
-  if(data.hero_bg){db.heroBg=data.hero_bg;document.getElementById('bgPrev').src=data.hero_bg;document.getElementById('bgPrev').style.display='block'}
-  ['az','ru','en'].forEach(l=>{
-    const el=id=>document.getElementById(id);
-    el(`cmsTop_${l}`).value=data.topbar_text?.[l]||'';el(`cmsSub_${l}`).value=data.hero_sub?.[l]||'';el(`cmsTitle_${l}`).value=data.hero_title?.[l]||'';
-    if(el(`cmsNav1_${l}`))el(`cmsNav1_${l}`).value=data.nav_link_1?.[l]||'';
-    if(el(`cmsNav2_${l}`))el(`cmsNav2_${l}`).value=data.nav_link_2?.[l]||'';
-    el(`cmsAbtT_${l}`).value=data.about_title?.[l]||'';el(`cmsAbtX_${l}`).value=data.about_text?.[l]||'';
-  });
-  if(data.hero_btn){const hb=data.hero_btn;document.getElementById('cmsBtnAz').value=hb.az||'';document.getElementById('cmsBtnRu').value=hb.ru||'';document.getElementById('cmsBtnEn').value=hb.en||''}
+async function fS(){
+  const{data}=await Z.from('app_settings').select('*').eq('id',1).single();if(!data)return;
+  document.getElementById('xPh').value=data.phone||'';document.getElementById('xWa').value=data.whatsapp||'';document.getElementById('xIg').value=data.instagram||'';
+  if(data.hero_bg){db.hb=data.hero_bg;document.getElementById('bgP').src=data.hero_bg;document.getElementById('bgP').style.display='block'}
+  ['az','ru','en'].forEach(l=>{const v=id=>document.getElementById(id);v(`cmT_${l}`).value=data.topbar_text?.[l]||'';v(`cmS_${l}`).value=data.hero_sub?.[l]||'';v(`cmH_${l}`).value=data.hero_title?.[l]||'';v(`cmB_${l}`).value=data.hero_btn?.[l]||'';v(`cmA_${l}`).value=data.about_title?.[l]||'';v(`cmX_${l}`).value=data.about_text?.[l]||''})
 }
-async function saveCMS(){
-  const g=id=>({az:document.getElementById(id+'_az').value,ru:document.getElementById(id+'_ru').value||document.getElementById(id+'_az').value,en:document.getElementById(id+'_en').value||document.getElementById(id+'_az').value});
-  const hb={az:document.getElementById('cmsBtnAz').value,ru:document.getElementById('cmsBtnRu').value||document.getElementById('cmsBtnAz').value,en:document.getElementById('cmsBtnEn').value||document.getElementById('cmsBtnAz').value};
-  await supa.from('app_settings').upsert({id:1,hero_bg:db.heroBg,topbar_text:g('cmsTop'),hero_sub:g('cmsSub'),hero_title:g('cmsTitle'),hero_btn:hb,nav_link_1:g('cmsNav1'),nav_link_2:g('cmsNav2'),about_title:g('cmsAbtT'),about_text:g('cmsAbtX')});
-  msg('Sayt dizaynı yeniləndi!');
-}
-async function saveSet(){
-  const p=document.getElementById('setPass').value;if(p)localStorage.setItem('av_pass',p);
-  await supa.from('app_settings').upsert({id:1,phone:document.getElementById('setPhone').value,instagram:document.getElementById('setInsta').value,whatsapp:document.getElementById('setWa').value.replace(/[^0-9]/g,'')});
-  msg('Parametrlər saxlanıldı');
-}
+async function sCMS(){const g=id=>({az:document.getElementById(id+'_az').value,ru:document.getElementById(id+'_ru').value||document.getElementById(id+'_az').value,en:document.getElementById(id+'_en').value||document.getElementById(id+'_az').value});await Z.from('app_settings').upsert({id:1,hero_bg:db.hb,topbar_text:g('cmT'),hero_sub:g('cmS'),hero_title:g('cmH'),hero_btn:g('cmB'),about_title:g('cmA'),about_text:g('cmX')});msg('Sayt yeniləndi!')}
+async function sSet(){const p=document.getElementById('xPw').value;if(p)localStorage.setItem('av_p',p);await Z.from('app_settings').upsert({id:1,phone:document.getElementById('xPh').value,instagram:document.getElementById('xIg').value,whatsapp:document.getElementById('xWa').value.replace(/[^0-9]/g,'')});msg('Saxlanıldı')}
 
 // UPLOADS
-async function uploadBg(e){const f=e.target.files[0];if(!f)return;msg('Fon yüklənir...');const fd=new FormData();fd.append('file',f);fd.append('upload_preset',CP);const r=await fetch(CU,{method:'POST',body:fd});const d=await r.json();if(d.secure_url){db.heroBg=d.secure_url;document.getElementById('bgPrev').src=d.secure_url;document.getElementById('bgPrev').style.display='block';msg('Fon hazırdır')}}
-async function upImgs(e){const f=Array.from(e.target.files);msg('Şəkillər yüklənir...');for(let x of f){const fd=new FormData();fd.append('file',x);fd.append('upload_preset',CP);const r=await fetch(CU,{method:'POST',body:fd});const d=await r.json();if(d.secure_url)db.imgs.push(d.secure_url)}renImgs();msg('Yükləndi')}
-function renImgs(){document.getElementById('pImgs').innerHTML=db.imgs.map((img,i)=>`<div class="prev-item"><img src="${img}"><button class="prev-rm" onclick="db.imgs.splice(${i},1);renImgs()">×</button></div>`).join('')}
+async function uBg(e){const f=e.target.files[0];if(!f)return;msg('Yüklənir...');const fd=new FormData();fd.append('file',f);fd.append('upload_preset',CP);const r=await fetch(CU,{method:'POST',body:fd});const d=await r.json();if(d.secure_url){db.hb=d.secure_url;document.getElementById('bgP').src=d.secure_url;document.getElementById('bgP').style.display='block';msg('Hazırdır')}}
+async function uIm(e){const f=Array.from(e.target.files);msg('Yüklənir...');for(let x of f){const fd=new FormData();fd.append('file',x);fd.append('upload_preset',CP);const r=await fetch(CU,{method:'POST',body:fd});const d=await r.json();if(d.secure_url)db.im.push(d.secure_url)}rIm();msg('Yükləndi')}
+function rIm(){document.getElementById('pIm').innerHTML=db.im.map((im,i)=>`<div class="pvi"><img src="${im}"><button class="pvr" onclick="db.im.splice(${i},1);rIm()">×</button></div>`).join('')}
 
-// TABS
-function cmsTab(l,b){document.querySelectorAll('#page-cms .tab-b').forEach(t=>t.classList.remove('on'));b.classList.add('on');document.querySelectorAll('#page-cms .tc').forEach(c=>c.classList.remove('on'));document.getElementById('c'+l.toUpperCase()).classList.add('on')}
-function pTab(l,b){document.querySelectorAll('#prodModal .tab-b').forEach(t=>t.classList.remove('on'));b.classList.add('on');document.querySelectorAll('#prodModal .tc').forEach(c=>c.classList.remove('on'));document.getElementById('p'+l.toUpperCase()).classList.add('on')}
+function cmT(l,b){document.querySelectorAll('#pg-cms .tb').forEach(t=>t.classList.remove('on'));b.classList.add('on');document.querySelectorAll('#pg-cms .tc').forEach(c=>c.classList.remove('on'));document.getElementById('cm'+l.toUpperCase()).classList.add('on')}
+function pTb(l,b){document.querySelectorAll('#pM .tb').forEach(t=>t.classList.remove('on'));b.classList.add('on');document.querySelectorAll('#pM .tc').forEach(c=>c.classList.remove('on'));document.getElementById('pl'+l.toUpperCase()).classList.add('on')}
 </script>
 </body>
 </html>
